@@ -176,16 +176,16 @@ Socket 可以简单理解成：
                 #42         #coding
 
 然后每一次客户端发送东西：
-            Client
-            │
-            │ "JOIN #42"
-            ▼
-            Server
-            │
-            ├── parse command
-            │
-            ├── check permission
-            │
-            ├── update state
-            │
-            └── send response
+                        Client
+                        │
+                        │ "JOIN #42"
+                        ▼
+                        Server
+                        │
+                        ├── parse command
+                        │
+                        ├── check permission
+                        │
+                        ├── update state
+                        │
+                        └── send response
