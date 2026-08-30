@@ -76,8 +76,8 @@ so we need to efficently manage many connections. so we use poll().
 also understanding this will make concepts such as: event loops, asynchronous programming, WebSockets, epoll, kqueue and asynchronous servers musch easier later.
 
 ### 3. software architecture
-we will learn start separating responsibilities:
-Server
+    we will learn start separating responsibilities:
+    Server
                 ├── Client
                 ├── Channel
                 ├── Command
@@ -86,7 +86,7 @@ Server
                 │    ├── MODE
                 │    └── ...
                 └── Parser
- this will teach use :"How to structure a real program."
+    this will teach use :"How to structure a real program."
 
  ### 4. protocol implementation
     IRC is a protocol, we are not inventing arbitrary behavior, We're implementing rules defined by a specification.
