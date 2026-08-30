@@ -81,7 +81,7 @@ Server
                 ├── Client
                 ├── Channel
                 ├── Command
-                │    ├── JOIN
+                ├── JOIN
                 │    ├── PRIVMSG
                 │    ├── MODE
                 │    └── ...
