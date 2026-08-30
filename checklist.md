@@ -66,25 +66,25 @@ Therefore:
                 Handle multiple clients
 
 so the basic architecture is:
-                    IRC CLIENT
-                        │
-                        │ TCP
-                        ▼
-                 ┌─────────────┐
-                 │   ircserv   │
-                 │             │
-                 │   socket    │
-                 │     ↓       │
-                 │    bind     │
-                 │     ↓       │
-                 │   listen    │
-                 │     ↓       │
-                 │   accept    │
-                 └──────┬──────┘
-                        │
-              ┌─────────┼─────────┐
-              ▼         ▼         ▼
-           Client A  Client B  Client C
+                            IRC CLIENT
+                                │
+                                │ TCP
+                                ▼
+                        ┌─────────────┐
+                        │   ircserv   │
+                        │             │
+                        │   socket    │
+                        │     ↓       │
+                        │    bind     │
+                        │     ↓       │
+                        │   listen    │
+                        │     ↓       │
+                        │   accept    │
+                        └──────┬──────┘
+                                │
+                    ┌─────────┼─────────┐
+                    ▼         ▼         ▼
+                Client A  Client B  Client C
 
 # 4. poll() is a major requirement
 Subject says: "handle multiple clients simultaneously without hanging." and "only 1 poll() is allowed.
@@ -104,18 +104,18 @@ Subject says: "handle multiple clients simultaneously without hanging." and "onl
                 Handle all clients through the same polling mechanism
 
 Eventually our's server will conceptually look like :
-                            poll()
-                            │
-                ┌───────────┼───────────┐
-                │           │           │
-                ▼           ▼           ▼
-            Server FD   Client A    Client B
-                │           │           │
-                │           │           │
-            new client   message     message
-                │           │           │
-                ▼           ▼           ▼
-            accept()     recv()      recv()
+                                poll()
+                                │
+                    ┌───────────┼───────────┐
+                    │           │           │
+                    ▼           ▼           ▼
+                Server FD   Client A    Client B
+                    │           │           │
+                    │           │           │
+                new client   message     message
+                    │           │           │
+                    ▼           ▼           ▼
+                accept()     recv()      recv()
 
 # 5. IRC functionality
 The subject says: the reference client must be able to:
