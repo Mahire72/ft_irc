@@ -103,19 +103,19 @@ Subject says: "handle multiple clients simultaneously without hanging." and "onl
                 Detect writable sockets when necessary
                 Handle all clients through the same polling mechanism
 
-Eventually our's server will conceptually look like :
-                    poll()
-                      │
-          ┌───────────┼───────────┐
-          │           │           │
-          ▼           ▼           ▼
-       Server FD   Client A    Client B
-          │           │           │
-          │           │           │
-       new client   message     message
-          │           │           │
-          ▼           ▼           ▼
-       accept()     recv()      recv()
+    Eventually our's server will conceptually look like :
+                                poll()
+                                │
+                    ┌───────────┼───────────┐
+                    │           │           │
+                    ▼           ▼           ▼
+                Server FD   Client A    Client B
+                    │           │           │
+                    │           │           │
+                new client   message     message
+                    │           │           │
+                    ▼           ▼           ▼
+                accept()     recv()      recv()
 
 # 5. IRC functionality
     The subject says: the reference client must be able to:
