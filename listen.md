@@ -32,8 +32,7 @@
                 "I'm waiting for clients!"
 ## syntax of listen 
                 int listen(int sockfd, int backlog);
-    listen() marks the socket referred to by sockfd as a passive
-    socket, that is, as a socket that will be used to accept incoming connection requests using accept(2).
+    listen() marks the socket referred to by sockfd as a passive socket, that is, as a socket that will be used to accept incoming connection requests using accept(2).
     source:
     https://man7.org/linux/man-pages/man2/listen.2.html
 
