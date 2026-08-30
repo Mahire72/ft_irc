@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/29 22:02:53 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/08/30 14:03:58 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/08/30 15:41:18 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ int main()
     }
     
     std::cout << "Bind successful!" << std::endl;
-    close(server_fd);
 /*
                     OUR SERVER
 
@@ -141,7 +140,27 @@ int main()
 */
 
 // next step will be listen()
+    if (listen(server_fd, 10) == -1) // backlog is 10 for just testing
+    {
+        std::cerr << "listen() failled" << std::endl;
+        close(server_fd);
+        return 1;
+    }
+    std::cout <<"Server is listenning!" << std::endl;
 
+// next step is accept()
+    int client_fd = accept(server_fd, NULL, NULL);
 
+    if (client_fd == -1)
+    {
+        std::cerr << "accept() failed" << std::endl;
+        close(server_fd);
+        return 1;
+    }
+
+    std::cout << "Client connected!" << std::endl;
+    std::cout << "client_fd = " << client_fd << std::endl;
+        
+    close(server_fd);
     return 0;
 }
