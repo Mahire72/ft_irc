@@ -6,12 +6,15 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/29 22:02:53 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/08/29 23:02:46 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/08/30 14:03:58 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>// std::cout
-#include <sys/socket.h> // socket
+#include <sys/socket.h> // socket, bind
+#include <netinet/in.h>
+#include <unistd.h>
+
 
 
 int main()
@@ -47,16 +50,98 @@ int main()
     }
     std::cout <<"Socket created!" << std::endl;
     std::cout << "server_fd = " << server_fd << std::endl; 
-    /*
-    after socket(..) we have our program and TCP , We're not a server yet,and nobody knows where is this server?
-    so, bind() will create a specified port
+   /*
+    After socket(), we have created a socket, but we are not
+    a server yet. Nobody knows which address and port this
+    socket should use.
+
+    We want to tell the operating system:
+    "This socket belongs to this address and port."
+
+    bind() assigns an address and port to our socket.
+
+    Think of it like a telephone:
+
+        socket()  → give me a telephone
+            ↓
+        bind()    → give this telephone a phone number
+            ↓
+        listen()  → wait for people to call
+            ↓
+        accept()  → someone is calling; accept the call
+*/
+
+/*
+    Complete story:
+
+        socket()
+            │
+            │ Create a communication endpoint
+            ▼
+        bind()
+            │
+            │ Assign an IP address and port
+            ▼
+        listen()
+            │
+            │ Wait for incoming connections
+            ▼
+        accept()
+            │
+            │ Accept a client connection
+            ▼
+        Client connected
+*/
+
+/*
+    bind() needs an address structure.
+
+    For IPv4, we use:
+        struct sockaddr_in.
+    rest of explication bind() at the bind().readme.
+*/
+    struct sockaddr_in adress;
+    adress.sin_family = AF_INET;
+    adress.sin_port = htons(6667);
+    adress.sin_addr.s_addr = htonl(INADDR_ANY);
+    
+    if (bind(server_fd,
+            (struct sockaddr *)&adress,
+            sizeof(adress)) == -1)
+    {
+        std::cerr << "bind() failed" << std::endl;
+        close(server_fd);
+        return 1;
+    }
+    
+    std::cout << "Bind successful!" << std::endl;
+    close(server_fd);
+/*
+                    OUR SERVER
+
                 socket()
-                ↓
+                │
+                │ "Give me a TCP socket"
+                ▼
+                server_fd
+                │
+                ▼
+                sockaddr_in
+                │
+                ├── sin_family → IPv4
+                ├── sin_addr   → IP address
+                └── sin_port   → 6667
+                │
+                ▼
                 bind()
-                ↓
-                listen()
-                ↓
-                accept()
-    */
+                │
+                │ "Associate this socket with this address"
+                ▼
+                server socket bound to port 6667
+*/
+
+// next step will be listen()
+
+
     return 0;
 }
