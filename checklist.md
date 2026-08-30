@@ -52,9 +52,9 @@ Also subject says:
         Don't use errno == EAGAIN as your polling strategy
 
 # 3. Networking requirements
-Server needs to communicate using: TCP/IP(v4 or v6)
+    Server needs to communicate using: TCP/IP(v4 or v6)
 
-Therefore:
+    Therefore:
                 Create a socket
                 Configure socket
                 Bind socket to port
@@ -65,26 +65,26 @@ Therefore:
                 Make sockets non-blocking
                 Handle multiple clients
 
-so the basic architecture is:
-                    IRC CLIENT
-                        │
-                        │ TCP
-                        ▼
-                 ┌─────────────┐
-                 │   ircserv   │
-                 │             │
-                 │   socket    │
-                 │     ↓       │
-                 │    bind     │
-                 │     ↓       │
-                 │   listen    │
-                 │     ↓       │
-                 │   accept    │
-                 └──────┬──────┘
-                        │
-              ┌─────────┼─────────┐
-              ▼         ▼         ▼
-           Client A  Client B  Client C
+    so the basic architecture is:
+                            IRC CLIENT
+                                │
+                                │ TCP
+                                ▼
+                        ┌─────────────┐
+                        │   ircserv   │
+                        │             │
+                        │   socket    │
+                        │     ↓       │
+                        │    bind     │
+                        │     ↓       │
+                        │   listen    │
+                        │     ↓       │
+                        │   accept    │
+                        └──────┬──────┘
+                                │
+                    ┌─────────┼─────────┐
+                    ▼         ▼         ▼
+                Client A  Client B  Client C
 
 # 4. poll() is a major requirement
 Subject says: "handle multiple clients simultaneously without hanging." and "only 1 poll() is allowed.
