@@ -144,17 +144,17 @@ So basic cheklist should be:
 # 6. Multiple clients
 The subject explicitly says messages sent by one client to a channel must be forwarded to the other clients in that channel.
 For exm:
-                Alice
-                │
-                │ PRIVMSG #42 :Hello!
-                ▼
-                ircserv
-                │
-                ├──────────────► Bob
-                │
-                ├──────────────► Charlie
-                │
-                └──────────────► David
+                    Alice
+                    │
+                    │ PRIVMSG #42 :Hello!
+                    ▼
+                    ircserv
+                    │
+                    ├──────────────► Bob
+                    │
+                    ├──────────────► Charlie
+                    │
+                    └──────────────► David
 So:
                 Maintain connected clients
                 Maintain channels
