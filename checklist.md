@@ -55,15 +55,15 @@ Also subject says:
 Server needs to communicate using: TCP/IP(v4 or v6)
 
 Therefore:
-        Create a socket
-        Configure socket
-        Bind socket to port
-        Listen for connections
-        Accept clients
-        Communicate using TCP
-        Support IPv4 or IPv6
-        Make sockets non-blocking
-        Handle multiple clients
+                Create a socket
+                Configure socket
+                Bind socket to port
+                Listen for connections
+                Accept clients
+                Communicate using TCP
+                Support IPv4 or IPv6
+                Make sockets non-blocking
+                Handle multiple clients
 
 so the basic architecture is:
                     IRC CLIENT
