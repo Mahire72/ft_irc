@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:14:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/08/31 12:14:52 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/04 18:40:32 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,4 +152,139 @@ void Server::start()
 
     std::cout << "Server is listening on port "
               << _port << std::endl;
+
+    // pollfd()
+    struct pollfd pfd;
+    pfd.fd = _serverFd;
+    pfd.events = POLLIN;
+    pfd.revents = 0;
+
+    _pollFds.push_back(pfd);
+
+    /*
+    programme up to here is fine, server_fd = 3 does not means 3 connections.
+    it simply means the operating system assigned file descriptor number 3 to your listenning socket.
+    */
+    while (true)
+    {
+        int ret = poll(&_pollFds[0], _pollFds.size(), -1);
+
+        if (ret == -1)
+        {
+            std::cerr << "poll() failed" << std::endl;
+            return;
+        }
+
+        if (_pollFds[0].revents & POLLIN)
+        {
+            std::cout << "New connection is waiting!" << std::endl;
+        }
+    }
+    /* poll() wakes up because a connection is waiting in the listenning socket's queue. but we neve call accept().
+    so the connection stays waiting.
+    so the next loop does:
+    poll()
+    ↓
+    "Connection still waiting!"
+    ↓
+    poll()
+    ↓
+    "Connection STILL waiting!"
+    ↓
+    poll()
+    ↓
+    ...
+    */
+
+    
 }
+/*
+                main.cpp
+                    │
+                    │ Server server(6667)
+                    ▼
+                Server
+                    │
+                    ▼
+                start()
+                    │
+                    ├── socket()
+                    │
+                    ├── setsockopt()
+                    │
+                    ├── fcntl(O_NONBLOCK)
+                    │
+                    ├── sockaddr_in
+                    │
+                    ├── bind()
+                    │
+                    └── listen()
+     server will exit after printing the last line.
+    **En conclusion,** le serveur s’arrête volontairement après avoir affiché la dernière ligne, car nous n’avons pas encore ajouté `poll()`. À ce stade, il n’y a donc pas encore de boucle permettant au serveur de rester actif et d’attendre les requêtes.
+*/
+
+/*
+when we run our programme, our program immediately returns to the shell. and that means our server is not actually staying alive yet.
+Because start() reaches the end: 
+                std::cout << "Server is listening on port "
+                    << _port << std::endl; 
+                finishes → destructor runs → socket closes → program exits.
+                
+
+                ➜  ft_irc git:(server) ✗ ./ircserv 
+                Socket created!
+                server_fd = 3
+                SO_REUSEADDR enabled!
+                Socket is non-blocking!
+                Bind successful!
+                Server is listening on port 6667
+                ➜  ft_irc git:(server) ✗ 
+    
+
+*/
+
+/*
+soooo the next version should be become
+                socket()
+                ↓
+                setsockopt()
+                ↓
+                fcntl()
+                ↓
+                bind()
+                ↓
+                listen()
+                ↓
+                ┌──────────────────────┐
+                │        poll()        │
+                │                      │
+                │    WAIT FOR EVENT    │
+                └──────────┬───────────┘
+                        │
+                        ▼
+                    Something happened?
+                        │
+                    ┌────┴────┐
+                    │         │
+                    YES        NO
+                    │         │
+                    ▼         └──────► poll() again
+                handle
+                    │
+                    ▼
+                poll() again
+
+And eventually: 
+                poll()
+                │
+                ├── server_fd ready
+                │       ↓
+                │    accept()
+                │       ↓
+                │   new client
+                │
+                └── client_fd ready
+                        ↓
+                    recv()
+                    
+*/

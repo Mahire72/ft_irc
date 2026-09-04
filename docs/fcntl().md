@@ -36,7 +36,7 @@
                 │
                 ▼
                 client connects
-    For an IRC server, we don't want our whole program stuck waiting for one operation. But we want:"Try the operation. If nothing is ready, don't freeze my server; let me continue."
+    `For an IRC server, we don't want our whole program stuck waiting for one operation. But we want:"Try the operation. If nothing is ready, don't freeze my server; let me continue."`
 
     That's what non-blocking mode helps us achieve.
 
@@ -45,6 +45,8 @@
     "Dont't make this file edescriptor wait/block when the operation can't be completed immediately."
 
                 fcntl(server_fd, F_SETFL, O_NONBLOCK);
+                we can describ as like this:
+
                 fcntl()
                 ↓
                 change settings of server_fd
@@ -61,8 +63,7 @@
 
 By default, socket operations can block while waiting for an event.
 
-`O_NONBLOCK` configures a file descriptor so that operations do not
-wait indefinitely when they cannot be completed immediately.
+`O_NONBLOCK` configures a file descriptor so that operations do not wait indefinitely when they cannot be completed immediately.
 
 We use `fcntl()` to set the `O_NONBLOCK` flag:
 
@@ -73,6 +74,11 @@ clients without blocking on a single socket.
 
 ## What is fcntl()
     It means file control. and it can modify properties of a file descriptor.
+
+### ex:
+    int server_fd = socket(...); maight give server_fd = 3;
+    so fcntl(server_fd,...) ==> means chnage sth about file description 3. for us that "sth"means o_nonblock
+
 ### where to add?
                 server_fd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -112,6 +118,7 @@ clients without blocking on a single socket.
                 Client calls
                 ↓
                 continue
+                
 #### with non-blocking:
                 accept()
                 ↓

@@ -1,0 +1,159 @@
+# pollfd
+
+The key idea is that `pollfd` tells `poll()` **which file descriptors to watch and what events we are interested in**.
+
+For now, we only watch the server socket with `POLLIN`. Later, we will add the connected clients to the `std::vector<struct pollfd>`, allowing the server to monitor **the listening socket and all clients at the same time**.
+
+This is the foundation of the server's event-driven networking architecture.
+
+## struct pollfd
+                struct pollfd pfd;
+                pfd.fd = _serverFd;
+                pfd.events = POLLIN;
+                pfd.revents = 0;
+
+Think about like this:
+                ┌──────────────────────┐
+                │      pollfd          │
+                ├──────────────────────┤
+                │ fd      = 3          │ ← watch server_fd
+                │ events  = POLLIN     │ ← watch for incoming data/event
+                │ revents = 0          │ ← what actually happened
+                └──────────────────────┘
+
+then we will put it into:
+                std::vector<struct pollfd>
+because eventually we need:
+                pollfds
+                ┌─────────────────────┐
+                │ fd 3 → server       │
+                │ fd 4 → Alice        │
+                │ fd 5 → Bob          │
+                │ fd 6 → Charlie      │
+                └─────────────────────┘
+
+so we need to add 
+                #include <poll.h>
+                #include <vector>
+
+### our plan of poll
+    our target is to transform the server from:
+                start()
+                ↓
+                listen()
+                ↓
+                program ends
+
+    into like this:
+                start()
+                ↓
+                listen()
+                ↓
+                ┌─────────────────┐
+                │     poll()      │
+                │                 │
+                │   WAIT HERE     │
+                └────────┬────────┘
+                        ↓
+                    event happens
+                        ↓
+                    handle event
+                        ↓
+                    poll()
+                        ↑
+                        └──────── repeat
+    So eventually:
+                                ircserv
+                                │
+                                poll()
+                                │
+                    ┌────────────┴────────────┐
+                    │                         │
+                    ▼                         ▼
+                new connection             client data
+                    │                         │
+                    ▼                         ▼
+                accept()                    recv()
+                    │                         │
+                    ▼                         ▼
+                new client FD             process message
+                    │
+                    ▼
+                add to poll list
+                    │
+                    └──────────► poll() again
+
+
+### phase 1 Networking foundation
+                [x] socket()
+                [x] setsockopt()
+                [x] fcntl()
+                [x] bind()
+                [x] listen()
+
+### phase 2 Event loop <- We are here
+                [ ] understand pollfd
+                [ ] create pollfd list
+                [ ] call poll()
+                [ ] check revents
+                [ ] create server loop
+
+### phase 3 Multiple clients
+                [ ] accept()
+                [ ] make client socket non-blocking
+                [ ] add client FD to poll list
+                [ ] accept multiple clients
+                [ ] remove disconnected clients
+
+### phase 4 Client I/O
+                [ ] recv()
+                [ ] detect client data
+                [ ] handle partial messages
+                [ ] handle CRLF
+                [ ] send()
+
+### phase 5 - Connect with your teammate's User
+                pollfd
+                │
+                ▼
+                client FD
+                │
+                ▼
+                User
+                ├── nickname
+                ├── username
+                ├── buffer
+                └── registration state
+Then your mate can work on:
+                PASS
+                NICK
+                USER
+                JOIN
+                PRIVMSG
+                ...
+While you make sure the networking/event system underneath works correctly.
+
+`------------------------------------------------------`
+`server_fd` is our's listening socket.
+                server_fd
+                    ↓
+                "Are there new clients?"
+
+`client_fd` is a socket for one specific client.
+                client_fd
+                    ↓
+                "Communicate with Alice"
+`poll` watches all the FDs: 
+                server_fd = 3
+                Alice     = 4
+                Bob       = 5
+                Charlie   = 6
+and tell us which ones have an event.
+                poll()
+                │
+                ├── FD 3 → new connection!
+                ├── FD 4 → Alice sent data!
+                ├── FD 5 → nothing
+                └── FD 6 → Charlie disconnected!       
+
+ 
