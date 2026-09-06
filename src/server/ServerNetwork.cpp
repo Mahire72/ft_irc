@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerNetwork.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:58 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/06 15:20:46 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/06 18:17:45 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 void Server::setupSocket()
 {
-    _serverFd = socket(AF_INET, SOCK_STREAM, 0);
+    _serverFd = socket(AF_INET, SOCK_STREAM, 0); //demande au SE une socket de type IPv4 (AF_INET) et TCP (SOCK_STREAM)
 
     if (_serverFd == -1)
     {
@@ -35,7 +35,7 @@ void Server::setupSocket()
     int opt = 1;
 
     if (setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR,
-                   &opt, sizeof(opt)) == -1)
+                   &opt, sizeof(opt)) == -1)            //evite le freez du serveur entre 2 redemarrages
     {
         std::cerr << "setsockopt() failed" << std::endl;
         return;
@@ -43,7 +43,7 @@ void Server::setupSocket()
 
     std::cout << "SO_REUSEADDR enabled!" << std::endl;
 
-    if (fcntl(_serverFd, F_SETFL, O_NONBLOCK) == -1)
+    if (fcntl(_serverFd, F_SETFL, O_NONBLOCK) == -1)  //condition de non-block pour eviter le freeze du serveur qd il n'y a rien a lire (couple avec poll() )
     {
         std::cerr << "fcntl() failed" << std::endl;
         return;
@@ -52,17 +52,20 @@ void Server::setupSocket()
     std::cout << "Socket is non-blocking!" << std::endl;
 }
 
+
+// cette methode prepare et associe l'adresse reseau / port a notre socket
 void Server::setupAddress()
 {
     struct sockaddr_in address;
 
-    address.sin_family = AF_INET;
-    address.sin_port = htons(_port);
-    address.sin_addr.s_addr = htonl(INADDR_ANY);
+    address.sin_family = AF_INET;  //protocole IPv4
+    address.sin_port = htons(_port); //Host to Network Short - convertit le numero de port au format d'octets reseau
+    address.sin_addr.s_addr = htonl(INADDR_ANY);  //Host to Network Long - ndique au serveur d'écouter sur toutes les interfaces réseau disponibles de la machine
 
+    //assigne IP et le port configure au _serverFd
     if (bind(_serverFd,
              (struct sockaddr *)&address,
-             sizeof(address)) == -1)
+             sizeof(address)) == -1)     //on cast car bind() attend un ptr vers sockaddr
     {
         std::cerr << "bind() failed" << std::endl;
         return;
@@ -71,9 +74,11 @@ void Server::setupAddress()
     std::cout << "Bind successful!" << std::endl;
 }
 
+
+//met la socket en mode ecoute
 void Server::startListening()
 {
-    if (listen(_serverFd, 10) == -1)
+    if (listen(_serverFd, 10) == -1) //10 represente la taille de la file d'attente des connexions non-traitees
     {
         std::cerr << "listen() failed" << std::endl;
         return;
