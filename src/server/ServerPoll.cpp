@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/06 17:15:54 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/06 17:27:41 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void Server::handleNewConnection()
     }
 
     addPollFd(clientFd);
-    //User user(clientFd);
-   // _users.push_back(user);
+    User user(clientFd);
+   _users.push_back(user);
 }
 
 /*

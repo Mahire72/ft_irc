@@ -6,14 +6,14 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/06 17:15:33 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/06 17:28:13 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-//#include "User.hpp"
+#include "User.hpp"
 
 #include <vector>
 #include <poll.h>
@@ -28,7 +28,7 @@ private:
     int _port;
 
     std::vector<struct pollfd> _pollFds;
-    //std::vector<User> _users;
+    std::vector<User> _users;
 
     // Network setup
     void setupSocket();

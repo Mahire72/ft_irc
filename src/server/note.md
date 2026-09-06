@@ -117,4 +117,4 @@ poll index 1 -> User index 0
 poll index 2 -> User index 1
 
 They're not the same index because the server occupies position 0 in _pollFds.
-so we dont do `_users[i]`
+so we dont do `_users[i]` when i comes from
