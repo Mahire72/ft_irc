@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/08/30 20:05:12 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/06 17:15:19 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define USER_HPP
 
 #include <string>
+#include <iostream>
 
 
 class User
@@ -30,7 +31,7 @@ public:
 //MEMBER FUNCTIONS//////////////////////////////////////////////////////////////
 
 	std::string	extractCommand(); //cherche \r\n ou \n dans _userBuffer et renvoie la commande
-	void	addTextToBuffer(const std::string &message);
+	void		addTextToBuffer(const std::string &message);
 
 
 //GETTERS///////////////////////////////////////////////////////////////////////
