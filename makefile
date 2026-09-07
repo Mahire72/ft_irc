@@ -6,7 +6,7 @@
 #    By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/29 22:03:48 by mamaimai          #+#    #+#              #
-#    Updated: 2026/09/06 17:29:59 by mayoucha         ###   ########.fr        #
+#    Updated: 2026/09/07 14:12:51 by mayoucha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,10 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 SRC = src/main.cpp \
       src/server/Server.cpp \
       src/server/ServerNetwork.cpp \
-      src/server/ServerPoll.cpp
-	  src/user/User.cpp
+      src/server/ServerPoll.cpp \
+	  src/user/User.cpp \
+	  src/channel/Channel.cpp
+
 
 OBJ = $(SRC:.cpp=.o)
 
