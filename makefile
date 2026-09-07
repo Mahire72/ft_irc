@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+         #
+#    By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/29 22:03:48 by mamaimai          #+#    #+#              #
-#    Updated: 2026/09/06 15:22:00 by mamaimai         ###   ########.fr        #
+#    Updated: 2026/09/06 17:29:59 by mayoucha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC = src/main.cpp \
       src/server/Server.cpp \
       src/server/ServerNetwork.cpp \
       src/server/ServerPoll.cpp
+	  src/user/User.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
