@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/06 19:12:00 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 12:51:14 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ private:
     void setupSocket();
     void setupAddress();
     void startListening();
+    void sendResponse(int fd, const std::string &message); //Maksa
 
     // Poll / client handling
     void addPollFd(int fd);

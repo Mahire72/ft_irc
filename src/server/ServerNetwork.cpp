@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:58 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/06 18:17:45 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 13:58:35 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,3 +87,37 @@ void Server::startListening()
     std::cout << "Server is listening on port "
               << _port << std::endl;
 }
+
+
+void Server::sendResponse(int destFd, const std::string &message)
+{
+    std::string message_copy = message;
+
+    size_t len = message_copy.length();
+    if ((len < 2) || (message_copy[len - 2] != '\r' || message_copy[len - 1] != '\n'))
+        message_copy += "\r\n";
+    if(send(destFd, message_copy.c_str(), message_copy.length(), 0) == -1)
+    {
+        std::cerr << "send() failed" << std::endl;
+    }
+}
+
+
+//fd = socket du client qui doit recevoir le msg
+// message = le texte a lui envoyer
+
+
+
+
+
+
+
+
+
+//ssize_t send(int s, const void *buf, size_t len, int flags); -- permet de transmettre un message a destination d'une autre socket
+
+//s = fd de la socket emettrice
+//buf = message a trasnmettre
+//len = longueur du msg
+// flags ???
+
