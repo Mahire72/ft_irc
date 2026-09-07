@@ -6,10 +6,11 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 15:15:02 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 15:43:27 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../include/Server.hpp"
 #include "../../include/Channel.hpp"
 
 
@@ -114,7 +115,6 @@ void Channel::addUser(User *user)
 	}
 }
 
-
 void Channel::removeUser(int userFd)
 {
 	if(_channelUsers.find(userFd) == _channelUsers.end()) //n'existe pas dans la liste des users
@@ -124,7 +124,25 @@ void Channel::removeUser(int userFd)
 }
 
 
-void	broadcast(const std::string &message, int senderFd);
+void Channel::broadcast(Server &server, const std::string &message, int senderFd)
+{
+	if(message == "")
+		return ;
+
+	if (senderFd != -1 && _channelUsers.find(senderFd) == _channelUsers.end()) //autorise si c'est le serveur (-1) ou si l'emetteur fait partir du canal
+	{
+    	return;
+	}
+
+	for(std::map<int, User*>::iterator it = _channelUsers.begin(); it != _channelUsers.end(); ++it)
+	{
+		if(senderFd != it->first)
+		{
+			server.sendResponse(it->first, message);
+		}
+	}
+
+}
 
 
 

@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 14:55:32 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 15:35:56 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <sys/socket.h>
 
 #include "User.hpp"
+
+class Server; //Forward declaration
 
 //Cette classe represente un canal de discussion (par exemple #music)
 //Elle doit garder en memoire les elements suivants :
@@ -42,7 +45,7 @@ public:
 	void 	removeOperator(int userFd);
 	void	addUser(User *user);
 	void	removeUser(int userFd);
-	void	broadcast(const std::string &message, int senderFd);
+	void	broadcast(Server &server, const std::string &message, int senderFd);
 
 //GETTERS///////////////////////////////////////////////////////////////////////
 	std::string	getChannelName() const;
