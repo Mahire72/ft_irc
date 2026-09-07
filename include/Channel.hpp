@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 14:44:13 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 14:55:32 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,23 @@ public:
 	Channel &operator=(const Channel &other);
 	~Channel();
 
+//CLASS METHODS/////////////////////////////////////////////////////////////////
+	bool 	isOperator(int userFd) const;
+	void 	addOperator(int userFd);
+	void 	removeOperator(int userFd);
+	void	addUser(User *user);
+	void	removeUser(int userFd);
+	void	broadcast(const std::string &message, int senderFd);
+
 //GETTERS///////////////////////////////////////////////////////////////////////
 	std::string	getChannelName() const;
 	std::string	getChannelKey() const;
 	std::string	getChannelTopic() const;
 
 //SETTERS///////////////////////////////////////////////////////////////////////
-	void setChannelName(std::string &name);
-	void setChannelKey(std::string &key);
-	void setChannelTopic(std::string &topic);
+	void setChannelName(const std::string &name);
+	void setChannelKey(const std::string &key);
+	void setChannelTopic(const std::string &topic);
 
 private:
 	std::string 			_channelName;
@@ -53,15 +61,6 @@ private:
 	std::map<int, User*> 	_channelUsers;
 	std::vector<int> 		_channelOperators;
 };
-
-
-
-
-
-
-
-
-
 
 
 #endif

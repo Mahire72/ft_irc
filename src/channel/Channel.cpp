@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 14:43:18 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 14:54:22 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,25 @@ std::string	Channel::getChannelTopic() const
 
 
 //SETTERS //////////////////////////////////////////////////////////////////////
-void Channel::setChannelName(std::string &name)
+void Channel::setChannelName(const std::string &name)
 {
 	_channelName = name;
 }
 
-void Channel::setChannelKey(std::string &key)
+void Channel::setChannelKey(const std::string &key)
 {
 	_channelKey = key;
 }
 
-void Channel::setChannelTopic(std::string &topic)
+void Channel::setChannelTopic(const std::string &topic)
 {
 	_channelTopic = topic;
 }
 
 //CLASS METHODS/////////////////////////////////////////////////////////////////
+	bool 	isOperator(int userFd) const;
+	void 	addOperator(int userFd);
+	void 	removeOperator(int userFd);
+	void	addUser(User *user);
+	void	removeUser(int userFd);
+	void	broadcast(const std::string &message, int senderFd);
