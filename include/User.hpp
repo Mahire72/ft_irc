@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/06 17:15:19 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 14:46:18 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ class User
 {
 public:
 //ORTODOX CANONICAL FORM////////////////////////////////////////////////////////
-
 	User();
 	User(int user_fd);
 	User(const User &other);
@@ -29,13 +28,11 @@ public:
 	~User();
 
 //MEMBER FUNCTIONS//////////////////////////////////////////////////////////////
-
 	std::string	extractCommand(); //cherche \r\n ou \n dans _userBuffer et renvoie la commande
 	void		addTextToBuffer(const std::string &message);
 
 
 //GETTERS///////////////////////////////////////////////////////////////////////
-
 	int 		getFD() const;
 	bool 		isRegistered() const;
 	std::string	getIP() const;
@@ -44,7 +41,6 @@ public:
 	std::string getNickname() const;
 
 //SETTERS///////////////////////////////////////////////////////////////////////
-
 	void setFD(int fd);
 	void setRegistered(bool status);
 	void setIP(const std::string &ip);

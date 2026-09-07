@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/07 12:51:14 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 15:38:58 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 
 ///MAKSA modifs :
-// * added "std::map<int, User> _users;"  in class Server (on private)
+// * added "std::map<int, User> _users;"  in class Server
 // * modified handleNewConnection : added 2 lines to add User and to stock it in map
 // * modified removeClient : added 2 libes to remove User from map
 // * modified handleClient : voir fonction
@@ -44,7 +44,6 @@ private:
     void setupSocket();
     void setupAddress();
     void startListening();
-    void sendResponse(int fd, const std::string &message); //Maksa
 
     // Poll / client handling
     void addPollFd(int fd);
@@ -58,6 +57,8 @@ public:
     ~Server();
 
     void start();
+    void sendResponse(int fd, const std::string &message); //Maksa
+
 };
 
 #endif
