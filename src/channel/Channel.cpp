@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 15:43:27 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 16:08:23 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,36 @@ void Channel::broadcast(Server &server, const std::string &message, int senderFd
 
 
 
-	bool 	isOperator(int userFd) const;
-	void 	addOperator(int userFd);
-	void 	removeOperator(int userFd);
+bool Channel::isOperator(int userFd) const
+{
+	for (size_t i = 0; i < _channelOperators.size(); i++)
+	{
+		if(_channelOperators[i] == userFd)
+			return (true);
+	}
+	return(false);
+}
+
+
+void Channel::addOperator(int userFd)
+{
+	for (size_t i = 0; i < _channelOperators.size(); i++)
+	{
+		if(_channelOperators[i] == userFd)
+			return ;
+	}
+	_channelOperators.push_back(userFd);
+}
+
+
+void Channel::removeOperator(int userFd)
+{
+	for (std::vector<int>::iterator it = _channelOperators.begin(); it != _channelOperators.end(); ++it)
+	{
+		if(*it == userFd)
+		{
+			_channelOperators.erase(it);
+			break ;
+		}
+	}
+}
