@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 16:08:23 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 18:07:51 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void Channel::setChannelTopic(const std::string &topic)
 	_channelTopic = topic;
 }
 
+
+
 //CLASS METHODS/////////////////////////////////////////////////////////////////
 void Channel::addUser(User *user)
 {
@@ -109,10 +111,8 @@ void Channel::addUser(User *user)
 
 	_channelUsers[userFd] = user;
 
-	if(_channelUsers.size() == 1)
-	{
+	if(_channelUsers.size() == 1) //si un seul user il devient operateur
 		addOperator(userFd);
-	}
 }
 
 void Channel::removeUser(int userFd)
@@ -130,18 +130,13 @@ void Channel::broadcast(Server &server, const std::string &message, int senderFd
 		return ;
 
 	if (senderFd != -1 && _channelUsers.find(senderFd) == _channelUsers.end()) //autorise si c'est le serveur (-1) ou si l'emetteur fait partir du canal
-	{
     	return;
-	}
 
 	for(std::map<int, User*>::iterator it = _channelUsers.begin(); it != _channelUsers.end(); ++it)
 	{
 		if(senderFd != it->first)
-		{
 			server.sendResponse(it->first, message);
-		}
 	}
-
 }
 
 
