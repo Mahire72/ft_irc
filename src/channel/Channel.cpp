@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 15:06:02 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/07 15:15:02 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,13 @@ void Channel::setChannelTopic(const std::string &topic)
 }
 
 //CLASS METHODS/////////////////////////////////////////////////////////////////
-
 void Channel::addUser(User *user)
 {
 	if (user == NULL)
 		return ;
 
 	int userFd = user->getFD();
-	if(_channelUsers.find(userFd) != _channelUsers.end())
+	if(_channelUsers.find(userFd) != _channelUsers.end()) //existe deja dans la liste des users
 		return ;
 
 	_channelUsers[userFd] = user;
@@ -114,8 +113,18 @@ void Channel::addUser(User *user)
 		addOperator(userFd);
 	}
 }
-	void	removeUser(int userFd);
-	void	broadcast(const std::string &message, int senderFd);
+
+
+void Channel::removeUser(int userFd)
+{
+	if(_channelUsers.find(userFd) == _channelUsers.end()) //n'existe pas dans la liste des users
+		return ;
+	_channelUsers.erase(userFd);
+	removeOperator(userFd);
+}
+
+
+void	broadcast(const std::string &message, int senderFd);
 
 
 
