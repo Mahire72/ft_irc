@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/06 17:15:22 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/10 14:35:55 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "User.hpp"
-
+//#include "User.hpp"
+#include "../../include/User.hpp"
 //ORTHODOX CANONICAL FORM //////////////////////////////////////////////////////
 
 User::User()

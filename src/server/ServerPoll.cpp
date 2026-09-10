@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ServerPoll.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/06 19:10:50 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/10 14:52:34 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/Server.hpp"
-
+#include "../../include/Parser.hpp"
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -98,6 +98,8 @@ void Server::handleClient(size_t index)
     if (bytes > 0)
     {
         buffer[bytes] = '\0';
+        
+        std::cout << "DEBUG received: [" << buffer << "]" << std::endl;
 
         User &user = _users[clientFd];  //recuperer le User associe a ce Fd
         user.addTextToBuffer(buffer);  //ajouter le texte brut au buffer de User
@@ -106,8 +108,15 @@ void Server::handleClient(size_t index)
         std::string command;
         while(!(command = user.extractCommand()).empty())
         {
-            std::cout << "[Client " << clientFd << " Command]: " << command << std::endl;
+            std::cout << "[Client " << clientFd 
+                      << " Command]: " 
+                      << command << std::endl;
             // parseAndExecuteCommand(user, command);   /////TO CODE!!!!
+            std::string commandName = Parser::getCommand(command);
+            std::string arguments = Parser::getArguments(command);
+            
+            std::cout << "Command: " << commandName << std::endl;
+            std::cout << "Arguments: " << arguments << std::endl;
         }
 
 
