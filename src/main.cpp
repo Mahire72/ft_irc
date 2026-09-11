@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/29 22:02:53 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/08/31 12:09:55 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/11 10:34:19 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,12 @@
 
 #include "../include/Server.hpp"
 
-int main()
+int main(int argc, char **argv)
 {
-    Server server(6667);
+    if (argc != 3)
+        return 1;
+    
+    Server server(atoi(argv[1]), argv[2]);
 
     server.start();
 
