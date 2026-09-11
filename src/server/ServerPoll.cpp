@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/10 14:52:34 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/11 10:50:11 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ void Server::handleClient(size_t index)
             std::string commandName = Parser::getCommand(command);
             std::string arguments = Parser::getArguments(command);
             
+            if (commandName == "PASS")
+                handlePass(user, arguments);
             std::cout << "Command: " << commandName << std::endl;
             std::cout << "Arguments: " << arguments << std::endl;
         }

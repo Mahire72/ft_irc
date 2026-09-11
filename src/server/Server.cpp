@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/06 15:18:38 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/11 12:15:51 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,26 @@
 
 #include <unistd.h>
 
-Server::Server(int port)
-    : _serverFd(-1), _port(port)
+Server::Server(int port, const std::string &password)
+    : _serverFd(-1), _port(port), _password(password)
 {
+    
 }
+
+void Server::handlePass(User& user, const std::string& arguments)
+{
+    if (arguments == _password)
+    {
+        user.setHasPass(true);
+        std::cout << "PASS correct! hasPass = "
+                  << user.hasPass() << std::endl;
+    }
+    else
+        sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
+}
+// 464 is the IRC numeric for ERR_PASSWDMISMATCH
+
+void 
 
 Server::~Server()
 {

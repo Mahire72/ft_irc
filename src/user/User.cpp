@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/10 14:35:55 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/11 11:01:24 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 User::User()
 {
 	_isRegistered = false;
+
+	// mahire add for hasPass, hasNick, hasUser 
+	_hasPass = false;
+	_hasNick = false;
+	_hasUser = false;
+	/*++++++++++++*/
 	_userFD = -1;   //car fd 0 = stdin, donc impossible de l'utiliser
 	_userIP = "";
 	_userBuffer = "";
@@ -30,6 +36,13 @@ User::User(int user_fd)
 {
 	_userFD = user_fd;
 	_isRegistered = false;
+	
+	// also for hasPass, hasNick, hasUser
+	_hasPass = false;
+	_hasNick = false;
+	_hasUser = false;
+	// quand un nouveau client arrive, il commence donc avec aucune etape de registration completee.
+	
 	_userIP = "";
 	_userBuffer = "";
 	_userName = "";
@@ -42,6 +55,13 @@ User::User(const User &other)
 {
 	_userFD = other._userFD;
 	_isRegistered = other._isRegistered;
+
+	// also for _hasPass, _hasNick, _hasUser
+	_hasPass = other._hasPass;
+	_hasNick = other._hasNick;
+	_hasUser = other._hasUser;
+	
+	
 	_userIP = other._userIP;
 	_userBuffer = other._userBuffer;
 	_userName = other._userName;
@@ -56,6 +76,12 @@ User &User::operator=(const User &other)
 	{
 		this->_userFD = other._userFD;
 		this->_isRegistered = other._isRegistered;
+
+		this->_hasPass = other._hasPass;
+		this->_hasNick = other._hasNick;
+		this->_hasUser = other._hasUser;
+
+		
 		this->_userIP = other._userIP;
 		this->_userBuffer = other._userBuffer;
 		this->_userName = other._userName;
@@ -116,6 +142,14 @@ bool User::isRegistered() const
 	return(_isRegistered);
 }
 
+
+// for hasPass
+bool User::hasPass() const
+{
+	return _hasPass;
+}
+
+
 std::string	User::getIP() const
 {
 	return(_userIP);
@@ -149,6 +183,13 @@ void User::setRegistered(bool status)
 {
 	_isRegistered = status;
 }
+
+void User::setHasPass(bool status)
+{
+	_hasPass = status;
+}
+
+
 void User::setIP(const std::string &ip)
 {
 	_userIP = ip;

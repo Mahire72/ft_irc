@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/10 14:41:46 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/11 12:15:32 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <poll.h>
 #include <map>
 #include <cstddef>
+#include <string>
+#include <cstdlib>
 
 
 ///MAKSA modifs :
@@ -34,6 +36,11 @@ class Server
 private:
     int _serverFd;
     int _port;
+
+    std::string _password;
+        // Server
+        // ├── port = 6667
+        // └── password = "secret123"
 
     std::vector<struct pollfd> _pollFds;
     std::map<int, User> _users; // Associe chaque FD de client à son instance de User
@@ -51,13 +58,22 @@ private:
     void handleClient(size_t index);
     void removeClient(size_t index);
 
+
+    void sendResponse(int fd, const std::string &message); //Maksa
+    // put it in private, because it is only used internally Server.
+    
+    //password authentication
+    void handlePass(User& user, const std::string& argumments);
+
+    //for NICK
+    void handleNick(User& user, const std::string& arguments);
+
 public:
-    Server(int port);
+    Server(int port, const std::string& password);
     ~Server();
 
     void start();
-    void sendResponse(int fd, const std::string &message); //Maksa
-
+   
 };
 
 #endif
