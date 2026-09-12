@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 18:07:51 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/12 17:32:12 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,25 @@ std::string	Channel::getChannelKey() const
 std::string	Channel::getChannelTopic() const
 {
 	return(_channelTopic);
+}
+
+std::string Channel::getChannelUsers() const
+{
+	std::string users = "";
+
+	for(std::map<int, User*>::const_iterator it = _channelUsers.begin(); it != _channelUsers.end(); ++it)
+	{
+		if(this->isOperator(it->second->getFD()) == true)
+		{
+			users += "@" + it->second->getNickname() + " ";
+		}
+		else
+			users += it->second->getNickname() + " ";
+	}
+	if (!users.empty())
+    	users.erase(users.size() - 1); //pour effacer le dernier " "
+
+	return(users);
 }
 
 

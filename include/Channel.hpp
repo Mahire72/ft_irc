@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 15:35:56 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/12 17:03:17 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ public:
 	std::string	getChannelName() const;
 	std::string	getChannelKey() const;
 	std::string	getChannelTopic() const;
+	std::string getChannelUsers() const;
 
 //SETTERS///////////////////////////////////////////////////////////////////////
 	void setChannelName(const std::string &name);

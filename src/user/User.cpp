@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/11 11:01:24 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/12 17:18:44 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 User::User()
 {
 	_isRegistered = false;
+	_isOperator = false;
 
-	// mahire add for hasPass, hasNick, hasUser 
+	// mahire add for hasPass, hasNick, hasUser
 	_hasPass = false;
 	_hasNick = false;
 	_hasUser = false;
@@ -36,13 +37,14 @@ User::User(int user_fd)
 {
 	_userFD = user_fd;
 	_isRegistered = false;
-	
+	_isOperator = false;
+
 	// also for hasPass, hasNick, hasUser
 	_hasPass = false;
 	_hasNick = false;
 	_hasUser = false;
 	// quand un nouveau client arrive, il commence donc avec aucune etape de registration completee.
-	
+
 	_userIP = "";
 	_userBuffer = "";
 	_userName = "";
@@ -55,13 +57,14 @@ User::User(const User &other)
 {
 	_userFD = other._userFD;
 	_isRegistered = other._isRegistered;
+	_isOperator = other._isOperator;
 
 	// also for _hasPass, _hasNick, _hasUser
 	_hasPass = other._hasPass;
 	_hasNick = other._hasNick;
 	_hasUser = other._hasUser;
-	
-	
+
+
 	_userIP = other._userIP;
 	_userBuffer = other._userBuffer;
 	_userName = other._userName;
@@ -76,12 +79,13 @@ User &User::operator=(const User &other)
 	{
 		this->_userFD = other._userFD;
 		this->_isRegistered = other._isRegistered;
+		this->_isOperator = other._isOperator;
 
 		this->_hasPass = other._hasPass;
 		this->_hasNick = other._hasNick;
 		this->_hasUser = other._hasUser;
 
-		
+
 		this->_userIP = other._userIP;
 		this->_userBuffer = other._userBuffer;
 		this->_userName = other._userName;
@@ -140,6 +144,11 @@ int User::getFD() const
 bool User::isRegistered() const
 {
 	return(_isRegistered);
+}
+
+bool User::isOperator() const
+{
+	return(_isOperator);
 }
 
 
@@ -208,3 +217,5 @@ void User::setUsername(const std::string &username)
 {
 	_userName = username;
 }
+
+

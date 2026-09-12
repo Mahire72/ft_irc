@@ -6,17 +6,13 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 14:34:51 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/12 16:50:23 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/12 17:32:54 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 
 //// RAPPEL : commande ressemble a "JOIN #canal1"
-
-////// TO CODE getName dans Serveur !!!!!!!!!!!!!!!!!
-////// TO CODE getNameList dans Channel !!!!!!!!!!!!!!!!!
-
 
 void Server::executeJoin(User &sender, const std::vector<std::string> &args)
 {
@@ -43,7 +39,7 @@ void Server::executeJoin(User &sender, const std::vector<std::string> &args)
 	std::string message = ":" + sender.getNickname() + " JOIN " + args[0] + "\r\n";
 	channel.broadcast(*this, message, -1);
 
-	std::string namesList = channel.getNamesList();
+	std::string namesList = channel.getChannelUsers();
 	// 1. RPL_NAMREPLY (353)
 	std::string rpl353 = ":" + this->getName() + " 353 " + sender.getNickname() + " = " + args[0] + " :" + namesList + "\r\n";
 	this->sendResponse(sender.getFD(), rpl353);
@@ -52,20 +48,3 @@ void Server::executeJoin(User &sender, const std::vector<std::string> &args)
 	std::string rpl366 = ":" + this->getName() + " 366 " + sender.getNickname() + " " + args[0] + " :End of /NAMES list\r\n";
 	this->sendResponse(sender.getFD(), rpl366);
 }
-
-
-
-	/*if(it != _channels.end()) // si existe, on le recupere
-	{
-		Channel &channel = it->second;
-		channel.addUser(&sender);
-		std::string message = ":" + sender.getNickname() + " JOIN " + args[0] + "\r\n";
-		channel.broadcast(*this, message, -1);
-
-	}
-	else
-	{
-		_channels[args[0]] = Channel(args[0]);
-		_channels[args[0]].addUser(&sender);
-
-	}*/
