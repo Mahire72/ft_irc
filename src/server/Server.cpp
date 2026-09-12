@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/11 12:15:51 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/11 14:10:18 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 
-#include <unistd.h>
 
 Server::Server(int port, const std::string &password)
     : _serverFd(-1), _port(port), _password(password)
 {
-    
+
 }
 
 void Server::handlePass(User& user, const std::string& arguments)
@@ -33,7 +32,7 @@ void Server::handlePass(User& user, const std::string& arguments)
 }
 // 464 is the IRC numeric for ERR_PASSWDMISMATCH
 
-void 
+
 
 Server::~Server()
 {

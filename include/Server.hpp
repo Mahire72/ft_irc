@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/11 12:15:32 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/12 16:02:41 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define SERVER_HPP
 
 #include "User.hpp"
+#include "Channel.hpp"
 
 #include <vector>
 #include <poll.h>
@@ -21,6 +22,7 @@
 #include <cstddef>
 #include <string>
 #include <cstdlib>
+#include <unistd.h>
 
 
 ///MAKSA modifs :
@@ -44,6 +46,7 @@ private:
 
     std::vector<struct pollfd> _pollFds;
     std::map<int, User> _users; // Associe chaque FD de client à son instance de User
+    std::map<std::string, Channel> _channels; //Maksa - liste de tous les canaux du serveur
 
 
     // Network setup
@@ -59,21 +62,23 @@ private:
     void removeClient(size_t index);
 
 
-    void sendResponse(int fd, const std::string &message); //Maksa
-    // put it in private, because it is only used internally Server.
-    
     //password authentication
     void handlePass(User& user, const std::string& argumments);
 
     //for NICK
     void handleNick(User& user, const std::string& arguments);
 
+    //for JOIN (Maksa)
+    void executeJoin(User &sender, const std::vector<std::string> &args);
+
+
 public:
+    void sendResponse(int fd, const std::string &message); //Maksa
     Server(int port, const std::string& password);
     ~Server();
 
     void start();
-   
+
 };
 
 #endif
