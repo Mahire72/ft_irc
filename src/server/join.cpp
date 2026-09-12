@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 14:34:51 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/12 17:32:54 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/12 18:39:32 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,26 @@ void Server::executeJoin(User &sender, const std::vector<std::string> &args)
 		std::string err = ":" + this->getName() + " 461 " + sender.getNickname() + " JOIN :Not enough parameters\r\n";
 		this->sendResponse(sender.getFD(), err);
 		return ;
-
 	}
 
 	if(args[0][0] != '#' && args[0][0] != '&')
 		return ;
 
 	std::map<std::string, Channel>::iterator it = _channels.find(args[0]); //cherche si le canal existe deja
-
 	if(it == _channels.end())
 	{
 		_channels[args[0]] = Channel(args[0]);
 	}
+
 	Channel &channel = _channels[args[0]];
+	
 	channel.addUser(&sender);
 
 	std::string message = ":" + sender.getNickname() + " JOIN " + args[0] + "\r\n";
 	channel.broadcast(*this, message, -1);
 
-	std::string namesList = channel.getChannelUsers();
 	// 1. RPL_NAMREPLY (353)
+	std::string namesList = channel.getChannelUsers();
 	std::string rpl353 = ":" + this->getName() + " 353 " + sender.getNickname() + " = " + args[0] + " :" + namesList + "\r\n";
 	this->sendResponse(sender.getFD(), rpl353);
 

@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/12 17:00:46 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/12 18:42:29 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ private:
     int _serverFd;
     int _port;
     std::string _name = "ircserv";
-
     std::string _password;
         // Server
         // ├── port = 6667
@@ -71,6 +70,9 @@ private:
 
     //for JOIN (Maksa)
     void executeJoin(User &sender, const std::vector<std::string> &args);
+
+    //for PRIVMSG (Maksa)
+    void executePrivmsg(User &sender, const std::vector<std::string> &args);
 
 
 public:
