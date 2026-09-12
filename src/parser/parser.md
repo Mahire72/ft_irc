@@ -56,3 +56,34 @@ int main(int argc, char **argv)
     Server server(atoi(argv[1]), argv[2]);
     Server.start();
 }
+
+
+## for testing ./ircserv 6667 mahire  ==> port = 6667, password = mahire
+`correct password` ==> printf 'PASS mahire\r\n' | nc 127.0.0.1 6667 ==>should authenticate successfully.
+
+`wrong password`:  printf 'PASS secret\r\n' | nc -N 127.0.0.1 6667
+
+`pass` status
+PASS
+├── correct password        ✅
+├── missing parameter       ✅ 461
+├── wrong password          ✅
+└── already registered      ⏳ 462
+for already registered we need NICK and USER first, because they allow us to reach the registered state.  so we need to nick at first.
+
+
+### NICK message
+Command: NICK
+Parameters: <nickname>
+NICK command is used to give user a nickname or change the existing one
+
+Numeric Replies:
+
+           ERR_NONICKNAMEGIVEN             ERR_ERRONEUSNICKNAME
+           ERR_NICKNAMEINUSE               ERR_NICKCOLLISION
+           ERR_UNAVAILRESOURCE             ERR_RESTRICTED
+
+ERR_NONICKNAMEGIVEN   (431)
+ERR_ERRONEUSNICKNAME  (432)
+ERR_NICKNAMEINUSE     (433)
+ERR_NICKCOLLISION    (436)

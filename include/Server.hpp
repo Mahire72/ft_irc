@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/11 12:15:32 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/12 17:18:16 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,19 @@ private:
     void removeClient(size_t index);
 
 
-    void sendResponse(int fd, const std::string &message); //Maksa
-    // put it in private, because it is only used internally Server.
-    
+   
     //password authentication
     void handlePass(User& user, const std::string& argumments);
 
     //for NICK
     void handleNick(User& user, const std::string& arguments);
-
+    bool isValidNickname(const std::string& nickname);
+    
 public:
     Server(int port, const std::string& password);
+
+    void sendResponse(int fd, const std::string &message); //Maksa
+    
     ~Server();
 
     void start();

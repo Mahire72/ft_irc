@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/11 10:50:11 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/12 16:47:11 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,11 @@ void Server::handleClient(size_t index)
             
             if (commandName == "PASS")
                 handlePass(user, arguments);
+            std::cout << "Command: " << commandName << std::endl;
+            std::cout << "Arguments: " << arguments << std::endl;
+            
+            if (commandName == "NICK")
+                handleNick(user, arguments);
             std::cout << "Command: " << commandName << std::endl;
             std::cout << "Arguments: " << arguments << std::endl;
         }
