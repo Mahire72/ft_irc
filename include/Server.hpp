@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/12 16:02:41 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/12 17:00:46 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class Server
 private:
     int _serverFd;
     int _port;
+    std::string _name = "ircserv";
 
     std::string _password;
         // Server
@@ -78,6 +79,9 @@ public:
     ~Server();
 
     void start();
+
+    //getter
+    std::string getName() const;
 
 };
 

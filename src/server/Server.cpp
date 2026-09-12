@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/11 14:10:18 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/12 17:01:21 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ void Server::handlePass(User& user, const std::string& arguments)
 // 464 is the IRC numeric for ERR_PASSWDMISMATCH
 
 
+std::string Server::getName() const
+{
+    return(_name);
+}
 
 Server::~Server()
 {
