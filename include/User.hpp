@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/11 10:38:37 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/14 22:07:16 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ public:
 	std::string getBuffer() const;
 	std::string getUsername() const;
 	std::string getNickname() const;
+	std::string getRealName() const;
 
 //SETTERS///////////////////////////////////////////////////////////////////////
 	void setFD(int fd);
@@ -58,6 +59,8 @@ public:
 	void setBuffer(const std::string &buffer);
 	void setNickname(const std::string &nickname);
 	void setUsername(const std::string &username);
+
+	void setRealName(const std::string& realName);
 
 private:
 	bool			_isRegistered;
@@ -74,6 +77,7 @@ private:
 	std::string		_userName;
 	std::string		_userNickname;
 
+	std::string _realName; // mahire for USER realName;
 };
 
 #endif

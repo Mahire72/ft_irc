@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/12 17:20:13 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/14 14:16:47 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,24 +72,6 @@ void Server::handlePass(User& user, const std::string& arguments)
                       hasPass=true   error
 */
 
-// for nick
-
-bool Server::isValidNickname(const std::string& name)
-{
-    if (strlen(name) >= 9)
-        return false;
-    
-}
-
-void Server::handleNick(User& user, const std::string& arguments)
-{
-    if (arguments.empty())
-    {
-        sendResponse(user.getFD(),
-            ":IRCSERV 431 * :No nickname given\r\n");
-        return;
-    }
-}
 
 
 Server::~Server()

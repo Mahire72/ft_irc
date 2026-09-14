@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/12 17:18:16 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/14 15:22:10 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ private:
     //for NICK
     void handleNick(User& user, const std::string& arguments);
     bool isValidNickname(const std::string& nickname);
+    bool isNicknameTaken(const std::string& nickname);
     
 public:
     Server(int port, const std::string& password);
