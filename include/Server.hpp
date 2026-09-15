@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 13:03:28 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 15:33:33 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ private:
 
     //for NICK
     void handleNick(User& user, const std::string& arguments);
+
+    //for USER (Maksa)
+    void executeUser(User &sender, const std::vector<std::string> &args);
 
     //for JOIN (Maksa)
     void executeJoin(User &sender, const std::vector<std::string> &args);

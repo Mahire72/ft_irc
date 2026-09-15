@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 13:06:56 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 15:58:58 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,13 +159,21 @@ bool User::isOperator() const
 	return(_isOperator);
 }
 
-
-// for hasPass
 bool User::hasPass() const
 {
 	return _hasPass;
 }
 
+bool User::hasUser() const
+{
+	return _hasUser;
+}
+
+
+bool User::hasNick() const
+{
+	return _hasNick;
+}
 
 std::string	User::getIP() const
 {
@@ -208,6 +216,16 @@ void User::setRegistered(bool status)
 void User::setHasPass(bool status)
 {
 	_hasPass = status;
+}
+
+void User::setHasUser(bool status)
+{
+	_hasUser = status;
+}
+
+void User::setHasNick(bool status)
+{
+	_hasNick = status;
 }
 
 
