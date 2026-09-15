@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 15:18:42 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 16:45:48 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,29 @@ void Server::sendError(const std::string &err_nb, const std::string &err_message
 		return ;
 }
 
+
+void Server::checkRegistration(User &user)
+{
+    if(!(user.hasPass() && user.hasNick() && user.hasUser() && !user.isRegistered()))
+        return ;
+
+    user.setRegistered(true);
+
+    std::string welcome = ":" + this->getName() + " 001 " + user.getNickname() + " :Welcome to the Internet Relay Network\r\n";
+	this->sendResponse(user.getFD(), welcome);
+
+	std::string host = ":" + this->getName() + " 002 " + user.getNickname() + " :Your host is ircserv, running version 1.0\r\n";
+	this->sendResponse(user.getFD(), host);
+
+	std::string created = ":" + this->getName() + " 003 " + user.getNickname() + " :This server was created today\r\n";
+	this->sendResponse(user.getFD(), created);
+
+	std::string info = ":" + this->getName() + " 004 " + user.getNickname() + " " + this->getName() + " 1.0 o itkol\r\n";
+	this->sendResponse(user.getFD(), info);
+
+    return ;
+
+}
 
 
 Server::~Server()

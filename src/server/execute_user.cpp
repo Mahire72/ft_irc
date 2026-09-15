@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 15:30:46 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 16:10:31 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 16:49:46 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ USER alice 0 * :Alice Dupont*/
 void Server::executeUser(User &sender, const std::vector<std::string> &args)
 {
 	if(args.size() < 4)
-		return(this->sendError("461", "USER :Too many parameters", sender));
+		return(this->sendError("461", "USER :Not enough parameters", sender));
 
 	if(sender.isRegistered())
 		return(this->sendError("462", "USER :User already registered", sender));
@@ -29,22 +29,6 @@ void Server::executeUser(User &sender, const std::vector<std::string> &args)
 	sender.setRealName(args[3]);
 	sender.setHasUser(true);
 
-	if(sender.hasPass() && sender.hasNick() && sender.hasUser())
-	{
-		std::string welcome = ":" + this->getName() + " 001 " + sender.getNickname() + " :Welcome to the Internet Relay Network\r\n";
-		this->sendResponse(sender.getFD(), welcome);
-
-		std::string host = ":" + this->getName() + " 002 " + sender.getNickname() + " :Your host is ircserv, running version 1.0\r\n";
-		this->sendResponse(sender.getFD(), host);
-
-		std::string created = ":" + this->getName() + " 003 " + sender.getNickname() + " :This server was created today\r\n";
-		this->sendResponse(sender.getFD(), created);
-
-		std::string info = ":" + this->getName() + " 004 " + sender.getNickname() + " " + this->getName() + " 1.0 o itkol\r\n";
-		this->sendResponse(sender.getFD(), info);
-
-		sender.setRegistered(true);
-		return ;
-	}
+	this->checkRegistration(sender);
 	return ;
 }

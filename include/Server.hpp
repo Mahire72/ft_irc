@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 15:33:33 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 16:38:06 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ private:
 
     //password authentication
     void handlePass(User& user, const std::string& argumments);
+
+    //for checking commands (Maksa)
+    void checkRegistration(User &user);
 
     //for NICK
     void handleNick(User& user, const std::string& arguments);
