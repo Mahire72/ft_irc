@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/12 17:18:44 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 13:06:56 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ User::User()
 	_userBuffer = "";
 	_userName = "";
 	_userNickname = "";
+	_realName = "";
+
 
 	// std::cout << "Default constructor called for User!" << std::endl;
 }
@@ -49,6 +51,8 @@ User::User(int user_fd)
 	_userBuffer = "";
 	_userName = "";
 	_userNickname = "";
+	_realName = "";
+
 
 	// std::cout << "Constructor with parameter called for User!" << std::endl;
 }
@@ -69,6 +73,8 @@ User::User(const User &other)
 	_userBuffer = other._userBuffer;
 	_userName = other._userName;
 	_userNickname = other._userNickname;
+	_realName = other._realName;
+
 
 	// std::cout << "Copy constructor called for User!" << std::endl;
 }
@@ -90,6 +96,8 @@ User &User::operator=(const User &other)
 		this->_userBuffer = other._userBuffer;
 		this->_userName = other._userName;
 		this->_userNickname = other._userNickname;
+		this->_realName = other._realName;
+
 	}
 	// std::cout << "Copy assignment operator called for User!" << std::endl;
 	return (*this);
@@ -179,6 +187,10 @@ std::string User::getNickname() const
 	return(_userNickname);
 }
 
+std::string User::getRealName() const
+{
+	return _realName;
+}
 
 
 //SETTERS //////////////////////////////////////////////////////////////////////
@@ -216,6 +228,11 @@ void User::setNickname(const std::string &nickname)
 void User::setUsername(const std::string &username)
 {
 	_userName = username;
+}
+
+void User::setRealName(const std::string &realName)
+{
+ 	_realName = realName;
 }
 
 

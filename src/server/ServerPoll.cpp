@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerPoll.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/11 10:50:11 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/15 12:59:12 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void Server::handleClient(size_t index)
     if (bytes > 0)
     {
         buffer[bytes] = '\0';
-        
+
         std::cout << "DEBUG received: [" << buffer << "]" << std::endl;
 
         User &user = _users[clientFd];  //recuperer le User associe a ce Fd
@@ -108,15 +108,21 @@ void Server::handleClient(size_t index)
         std::string command;
         while(!(command = user.extractCommand()).empty())
         {
-            std::cout << "[Client " << clientFd 
-                      << " Command]: " 
+            std::cout << "[Client " << clientFd
+                      << " Command]: "
                       << command << std::endl;
             // parseAndExecuteCommand(user, command);   /////TO CODE!!!!
             std::string commandName = Parser::getCommand(command);
             std::string arguments = Parser::getArguments(command);
-            
+
             if (commandName == "PASS")
                 handlePass(user, arguments);
+            //std::cout << "Command: " << commandName << std::endl;
+            //std::cout << "Arguments: " << arguments << std::endl;
+
+            else if (commandName == "NICK")
+              handleNick(user, arguments);
+
             std::cout << "Command: " << commandName << std::endl;
             std::cout << "Arguments: " << arguments << std::endl;
         }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+         #
+#    By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/29 22:03:48 by mamaimai          #+#    #+#              #
-#    Updated: 2026/09/10 14:33:29 by mamaimai         ###   ########.fr        #
+#    Updated: 2026/09/15 12:46:03 by mayoucha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,9 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRC = src/main.cpp \
       src/server/Server.cpp \
+	  src/server/handle_nick.cpp\
+	  src/server/join.cpp\
+	  src/server/privmsg.cpp\
       src/server/ServerNetwork.cpp \
       src/server/ServerPoll.cpp \
 	  src/user/User.cpp \

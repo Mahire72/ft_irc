@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 12:16:10 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 13:03:54 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,25 @@ Server::Server(int port, const std::string &password)
 }
 
 void Server::handlePass(User& user, const std::string& arguments)
-{
+ {
+    if (arguments.empty())
+    {
+        sendResponse(user.getFD(), ":ircserv 461 * PASS :Not enough parameters\r\n");
+            return;
+    }
+
+    if (user.isRegistered())
+    {
+        sendResponse(user.getFD(), ":IRCSERV 462 * :You may not register\r\n");
+            return;
+    }
+
     if (arguments == _password)
     {
         user.setHasPass(true);
-        std::cout << "PASS correct! hasPass = "
-                  << user.hasPass() << std::endl;
-    }
+        std::cout << "PASS correct! hasPass = " << user.hasPass() << std::endl;
+            return;
+     }
     else
         sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
 }
@@ -35,7 +47,7 @@ void Server::handlePass(User& user, const std::string& arguments)
 
 std::string Server::getName() const
 {
-    return(_name);
+    return("ircserv");
 }
 
 
