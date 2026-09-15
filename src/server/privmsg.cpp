@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 18:40:08 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/12 19:25:10 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 12:21:18 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,10 @@
 void Server::executePrivmsg(User &sender, const std::vector<std::string> &args)
 {
 	if(args.empty())
-	{
-		std::string err = ":" + this->getName() + " 411 " + sender.getNickname() + " PRIVMSG :No recipient\r\n";
-		this->sendResponse(sender.getFD(), err);
-		return ;
-	}
+		return(this->sendError("411", "PRIVMSG :No recipient", sender));
+
 	else if(args.size() == 1)
-	{
-		std::string err = ":" + this->getName() + " 412 " + sender.getNickname() + " PRIVMSG :No text to send\r\n";
-		this->sendResponse(sender.getFD(), err);
-		return ;
-	}
+		return(this->sendError("412", "PRIVMSG :No text to send", sender));
 
 	std::string target = args[0];
 	std::string message = args[1];
@@ -41,15 +34,10 @@ void Server::executePrivmsg(User &sender, const std::vector<std::string> &args)
 	{
 		std::map<std::string, Channel>::iterator it = _channels.find(args[0]); //cherche si le canal existe deja
 		if(it == _channels.end())
-		{
-			std::string err = ":" + this->getName() + " 401 " + sender.getNickname() + " " + target + " :No such nick/channel\r\n";
-			this->sendResponse(sender.getFD(), err);
-			return ;
-		}
+			return(this->sendError("401", ":No such nick/channel", sender));
+
 		else
-		{
 			it->second.broadcast(*this, formattedMsg, sender.getFD());
-		}
 	}
 	else
 	{
@@ -61,8 +49,6 @@ void Server::executePrivmsg(User &sender, const std::vector<std::string> &args)
 				return ;
 			}
 		}
-		std::string err = ":" + this->getName() + " 401 " + sender.getNickname() + " " + target + " :No such nick/channel\r\n";
-		this->sendResponse(sender.getFD(), err);
-		return ;
+		return(this->sendError("401", ":No such nick/channel", sender));
 	}
 }

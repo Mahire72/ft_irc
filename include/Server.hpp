@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/12 18:42:29 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 12:16:38 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ private:
     //for PRIVMSG (Maksa)
     void executePrivmsg(User &sender, const std::vector<std::string> &args);
 
+    //for Error messages 
+    void sendError(const std::string &err_nb, const std::string &err_message, User &sender);
 
 public:
     void sendResponse(int fd, const std::string &message); //Maksa

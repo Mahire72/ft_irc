@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/12 17:01:21 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 12:16:10 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ std::string Server::getName() const
 {
     return(_name);
 }
+
+
+void Server::sendError(const std::string &err_nb, const std::string &err_message, User &sender)
+{
+        std::string err = ":" + this->getName() + " " + err_nb + " " + sender.getNickname() + " " + err_message + "\r\n";
+		this->sendResponse(sender.getFD(), err);
+		return ;
+}
+
+
 
 Server::~Server()
 {
