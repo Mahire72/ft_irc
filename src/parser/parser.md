@@ -87,3 +87,38 @@ ERR_NONICKNAMEGIVEN   (431)
 ERR_ERRONEUSNICKNAME  (432)
 ERR_NICKNAMEINUSE     (433)
 ERR_NICKCOLLISION    (436)
+
+
+
+              CLIENT
+                 │
+                 ▼
+             recv()
+                 │
+                 ▼
+          handleClient()
+          "I received data"
+                 │
+                 ▼
+          User buffer
+                 │
+                 ▼
+         extractCommand()
+                 │
+                 ▼
+              Parser
+                 │
+          ┌──────┴──────┐
+          ▼             ▼
+       command       arguments
+          │             │
+          └──────┬──────┘
+                 ▼
+         dispatchCommand()
+                 │
+       ┌─────────┼─────────┐
+       ▼         ▼         ▼
+     PASS       NICK      USER
+       │         │         │
+       ▼         ▼         ▼
+   handlePass handleNick handleUser

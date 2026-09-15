@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/14 15:22:10 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/15 20:00:18 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ private:
     void handleNick(User& user, const std::string& arguments);
     bool isValidNickname(const std::string& nickname);
     bool isNicknameTaken(const std::string& nickname);
+
+    //421 ERR_UNKNOWNCOMMAND for a command unknown to the server.
+    //dispatcher declaration
+    
+    void dispatchCommand(User& user, 
+                        const std::string& commandName,
+                        const std::string& arguments);
     
 public:
     Server(int port, const std::string& password);

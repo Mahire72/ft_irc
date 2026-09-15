@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/14 22:12:54 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/15 19:08:15 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ User &User::operator=(const User &other)
 		this->_userBuffer = other._userBuffer;
 		this->_userName = other._userName;
 		this->_userNickname = other._userNickname;
+
+		this->_realName = other._realName;
 	}
 	// std::cout << "Copy assignment operator called for User!" << std::endl;
 	return (*this);
@@ -217,7 +219,7 @@ void User::setUsername(const std::string &username)
 }
 
 
-void User::setRealName(const std::string* realName)
+void User::setRealName(const std::string& realName)
 {
 	_realName = realName;
 }
