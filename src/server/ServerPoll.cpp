@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 20:07:38 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/17 12:19:55 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,13 @@ void Server::handleClient(size_t index)
         buffer[bytes] = '\0';
         
         std::cout << "DEBUG received: [" << buffer << "]" << std::endl;
-
+        
+        for (int i = 0; i < bytes; ++i)
+        {
+            std::cout << "byte " << i
+                      << " = " << (int)buffer[i] << std::endl;
+        }
+        
         User &user = _users[clientFd];  //recuperer le User associe a ce Fd
         user.addTextToBuffer(buffer);  //ajouter le texte brut au buffer de User
 
@@ -114,6 +120,9 @@ void Server::handleClient(size_t index)
             // parseAndExecuteCommand(user, command);   /////TO CODE!!!!
             std::string commandName = Parser::getCommand(command);
             std::string arguments = Parser::getArguments(command);
+            
+            std::cout << "COMMAND = [" << commandName << "]" << std::endl;
+            std::cout <<"ARGUMENTS [" << arguments << "]" << std::endl;
             
             // if (commandName == "PASS")
             //     handlePass(user, arguments);

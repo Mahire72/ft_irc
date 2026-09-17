@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 19:08:15 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/17 12:28:21 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,23 +118,47 @@ void	User::addTextToBuffer(const std::string &message)
 /// Cette methode va extraire une commande du buffer : elle cherche l'occurence de
 // '\r\n' dans le buffer, prend ce qui vient avant elle, la supprime du _userBuffer et la renvoie
 
+// std::string User::extractCommand()
+// {
+// 	if(this->_userBuffer.empty())
+// 		return ("");
+
+// 	std::string occurence = "\r\n";
+// 	std::string command = "";
+
+// 	std::size_t found = _userBuffer.find(occurence); //retourne la position de la premiere occurence de '\r\n'
+// 	if(found !=std::string::npos)
+// 	{
+// 		command = _userBuffer.substr(0, found);     //on prend uniquement le texte avant \r\n
+// 		_userBuffer.erase(0, found + 2); 			//on supprime le texte ET le \r\n
+// 	}
+// 	return(command);
+// }
+
+// version \n also
+
 std::string User::extractCommand()
 {
-	if(this->_userBuffer.empty())
-		return ("");
+    if (_userBuffer.empty())
+        return "";
 
-	std::string occurence = "\r\n";
-	std::string command = "";
+    std::size_t found = _userBuffer.find("\r\n");
+    std::size_t separatorLength = 2;
 
-	std::size_t found = _userBuffer.find(occurence); //retourne la position de la premiere occurence de '\r\n'
-	if(found !=std::string::npos)
-	{
-		command = _userBuffer.substr(0, found);     //on prend uniquement le texte avant \r\n
-		_userBuffer.erase(0, found + 2); 			//on supprime le texte ET le \r\n
-	}
-	return(command);
+    if (found == std::string::npos)
+    {
+        found = _userBuffer.find("\n");
+        separatorLength = 1;
+    }
+
+    if (found == std::string::npos)
+        return "";
+
+    std::string command = _userBuffer.substr(0, found);
+    _userBuffer.erase(0, found + separatorLength);
+
+    return command;
 }
-
 
 //GETTERS //////////////////////////////////////////////////////////////////////
 

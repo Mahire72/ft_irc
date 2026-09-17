@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 13:22:12 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 19:36:40 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/17 13:05:54 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ std::string Parser::getArguments(const std::string& line)
         return line.substr(found + 1);
     }
     return "";
+}
+
+std::vector<std::string> Parser::getParameters(const std::string& line)
+{
+    std::vector<std::string> parameters;
+    std::size_t i = 0
 }
 
 /*

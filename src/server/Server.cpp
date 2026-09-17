@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 20:03:48 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/17 12:43:14 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
         handlePass(user, arguments);
     else if (commandName == "NICK")
         handleNick(user, arguments);
+    else if (command == "USER")
+        handleUser(user, arguments);
     else
     {
         sendResponse(user.getFD(),
