@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/11 12:15:51 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/15 20:03:48 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,57 @@ Server::Server(int port, const std::string &password)
 
 void Server::handlePass(User& user, const std::string& arguments)
 {
+    if (arguments.empty())
+    {
+        sendResponse(user.getFD(), ":ircserv 461 * PASS :Not enough parameters\r\n");
+        return;
+    }
+    
+    if (user.isRegistered())
+    {
+        sendResponse(user.getFD(),
+            ":IRCSERV 462 * :You may not register\r\n");
+        return;
+    }
+
     if (arguments == _password)
     {
         user.setHasPass(true);
-        std::cout << "PASS correct! hasPass = "
-                  << user.hasPass() << std::endl;
+        return;
     }
-    else
-        sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
+    
+    //otherwise
+    sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
+    // if (arguments == _password)
+    // {
+    //     user.setHasPass(true);
+    //     std::cout << "PASS correct! hasPass = "
+    //               << user.hasPass() << std::endl;
+    // }
+    // else
+    //     sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
 }
-// 464 is the IRC numeric for ERR_PASSWDMISMATCH
+/*
 
-void 
+             PASS
+              │
+              ↓
+       Does it have argument?
+          /          \
+        NO            YES
+        ↓              ↓
+ ERR_NEEDMORE     Already registered?
+                     /       \
+                   YES         NO
+                   ↓            ↓
+          ERR_ALREADY     Compare password
+          REGISTERED          /      \
+                             OK       WRONG
+                             ↓          ↓
+                      hasPass=true   error
+*/
+
+
 
 Server::~Server()
 {
@@ -50,4 +89,19 @@ void Server::start()
     addPollFd(_serverFd);
 
     run();
+}
+
+void Server::dispatchCommand(User& user, const std::string& commandName,
+                            const std::string &arguments)
+{
+    if (commandName == "PASS")
+        handlePass(user, arguments);
+    else if (commandName == "NICK")
+        handleNick(user, arguments);
+    else
+    {
+        sendResponse(user.getFD(),
+            ":ircserv 421 " + commandName +
+            " :Unknown command\r\n");
+    }
 }

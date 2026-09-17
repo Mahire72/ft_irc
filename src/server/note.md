@@ -118,3 +118,6 @@ poll index 2 -> User index 1
 
 They're not the same index because the server occupies position 0 in _pollFds.
 so we dont do `_users[i]`
+
+
+IRC command keywords are case-insensitive. The RFC defines command as a sequence of letters and the protocol uses commands such as NICK, PASS, and USER; IRC command handling should not depend on the capitalization the client used
