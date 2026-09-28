@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/14 22:07:16 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/28 16:06:06 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ public:
 
 	bool hasPass() const;
 
+	bool hasUser() const;
+
 	
 	std::string	getIP() const;
 	std::string getBuffer() const;
@@ -53,13 +55,16 @@ public:
 	
 	//setter for _hasPass
 	void setHasPass(bool status);
+
+	void setHasUser(bool status);
+
 	
 	
 	void setIP(const std::string &ip);
 	void setBuffer(const std::string &buffer);
 	void setNickname(const std::string &nickname);
 	void setUsername(const std::string &username);
-
+	
 	void setRealName(const std::string& realName);
 
 private:

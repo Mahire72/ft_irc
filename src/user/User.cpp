@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/17 12:28:21 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/28 16:07:17 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,11 @@ bool User::hasPass() const
 }
 
 
+bool User::hasUser() const
+{
+	return _hasUser;
+}
+
 std::string	User::getIP() const
 {
 	return(_userIP);
@@ -246,4 +251,9 @@ void User::setUsername(const std::string &username)
 void User::setRealName(const std::string& realName)
 {
 	_realName = realName;
+}
+
+void User::setHasUser(bool status)
+{
+	_hasUser = status;
 }

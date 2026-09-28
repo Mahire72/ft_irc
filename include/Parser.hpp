@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 13:36:01 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/17 12:49:00 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/09/28 15:02:02 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define PARSER_HPP
 
 #include <string>
+#include <vector>
 
 class Parser
 {
