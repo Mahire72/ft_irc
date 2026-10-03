@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 19:08:15 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/03 16:08:22 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 User::User()
 {
 	_isRegistered = false;
+	_isOperator = false;
 
-	// mahire add for hasPass, hasNick, hasUser 
+	// mahire add for hasPass, hasNick, hasUser
 	_hasPass = false;
 	_hasNick = false;
 	_hasUser = false;
@@ -37,13 +38,14 @@ User::User(int user_fd)
 {
 	_userFD = user_fd;
 	_isRegistered = false;
-	
+	_isOperator = false;
+
 	// also for hasPass, hasNick, hasUser
 	_hasPass = false;
 	_hasNick = false;
 	_hasUser = false;
 	// quand un nouveau client arrive, il commence donc avec aucune etape de registration completee.
-	
+
 	_userIP = "";
 	_userBuffer = "";
 	_userName = "";
@@ -57,19 +59,20 @@ User::User(const User &other)
 {
 	_userFD = other._userFD;
 	_isRegistered = other._isRegistered;
+	_isOperator = other._isOperator;
 
 	// also for _hasPass, _hasNick, _hasUser
 	_hasPass = other._hasPass;
 	_hasNick = other._hasNick;
 	_hasUser = other._hasUser;
-	
-	
+
+
 	_userIP = other._userIP;
 	_userBuffer = other._userBuffer;
 	_userName = other._userName;
 	_userNickname = other._userNickname;
-	
 	_realName = other._realName;
+
 
 	// std::cout << "Copy constructor called for User!" << std::endl;
 }
@@ -80,18 +83,19 @@ User &User::operator=(const User &other)
 	{
 		this->_userFD = other._userFD;
 		this->_isRegistered = other._isRegistered;
+		this->_isOperator = other._isOperator;
 
 		this->_hasPass = other._hasPass;
 		this->_hasNick = other._hasNick;
 		this->_hasUser = other._hasUser;
 
-		
+
 		this->_userIP = other._userIP;
 		this->_userBuffer = other._userBuffer;
 		this->_userName = other._userName;
 		this->_userNickname = other._userNickname;
-
 		this->_realName = other._realName;
+
 	}
 	// std::cout << "Copy assignment operator called for User!" << std::endl;
 	return (*this);
@@ -148,6 +152,11 @@ bool User::isRegistered() const
 	return(_isRegistered);
 }
 
+bool User::isOperator() const
+{
+	return(_isOperator);
+}
+
 
 // for hasPass
 bool User::hasPass() const
@@ -179,7 +188,8 @@ std::string User::getNickname() const
 std::string User::getRealName() const
 {
 	return _realName;
-} 
+}
+
 
 //SETTERS //////////////////////////////////////////////////////////////////////
 
@@ -218,8 +228,9 @@ void User::setUsername(const std::string &username)
 	_userName = username;
 }
 
-
-void User::setRealName(const std::string& realName)
+void User::setRealName(const std::string &realName)
 {
-	_realName = realName;
+ 	_realName = realName;
 }
+
+

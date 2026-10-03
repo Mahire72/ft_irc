@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 18:07:51 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 12:27:31 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,24 @@ std::string	Channel::getChannelTopic() const
 	return(_channelTopic);
 }
 
+std::string Channel::getChannelUsers() const
+{
+	std::string users = "";
+
+	for(std::map<int, User*>::const_iterator it = _channelUsers.begin(); it != _channelUsers.end(); ++it)
+	{
+		if(this->isOperator(it->second->getFD()) == true)
+			users += "@" + it->second->getNickname() + " ";
+
+		else
+			users += it->second->getNickname() + " ";
+	}
+	if (!users.empty())
+    	users.erase(users.size() - 1); //pour effacer le dernier " "
+
+	return(users);
+}
+
 
 //SETTERS //////////////////////////////////////////////////////////////////////
 void Channel::setChannelName(const std::string &name)
@@ -106,6 +124,7 @@ void Channel::addUser(User *user)
 		return ;
 
 	int userFd = user->getFD();
+
 	if(_channelUsers.find(userFd) != _channelUsers.end()) //existe deja dans la liste des users
 		return ;
 
@@ -119,6 +138,7 @@ void Channel::removeUser(int userFd)
 {
 	if(_channelUsers.find(userFd) == _channelUsers.end()) //n'existe pas dans la liste des users
 		return ;
+		
 	_channelUsers.erase(userFd);
 	removeOperator(userFd);
 }

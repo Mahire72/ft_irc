@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/14 22:07:16 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/03 16:04:20 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ public:
 //GETTERS///////////////////////////////////////////////////////////////////////
 	int 		getFD() const;
 	bool 		isRegistered() const;
+	bool 		isOperator() const;
 
 	//for hasPass
 
 	bool hasPass() const;
 
-	
+
 	std::string	getIP() const;
 	std::string getBuffer() const;
 	std::string getUsername() const;
@@ -50,32 +51,35 @@ public:
 //SETTERS///////////////////////////////////////////////////////////////////////
 	void setFD(int fd);
 	void setRegistered(bool status);
-	
+
 	//setter for _hasPass
 	void setHasPass(bool status);
-	
-	
+
+
 	void setIP(const std::string &ip);
 	void setBuffer(const std::string &buffer);
 	void setNickname(const std::string &nickname);
 	void setUsername(const std::string &username);
+	void setRealName(const std::string &realName);
 
 	void setRealName(const std::string& realName);
 
 private:
 	bool			_isRegistered;
+	bool			_isOperator;
 
 	// mahire add : add three booleans is the simple ay to track the registration steps separately.
 	bool _hasPass;
 	bool _hasNick;
 	bool _hasUser;
-	
-	
+
+
 	int				_userFD;
 	std::string		_userIP;
 	std::string 	_userBuffer;
 	std::string		_userName;
 	std::string		_userNickname;
+	std::string _realName; // mahire for USER realName
 
 	std::string _realName; // mahire for USER realName;
 };

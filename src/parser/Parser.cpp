@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 13:22:12 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 19:36:40 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/03 16:05:41 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,9 @@
 std::string Parser::getCommand(const std::string& line)
 {
     std::size_t found = line.find(' ');
-    
-    std::string command;
-    
     if (found != std::string::npos)
         command = line.substr(0, found);
-    
+
     else
         command = line;
 
@@ -32,6 +29,7 @@ std::string Parser::getCommand(const std::string& line)
     }
     return command;
 }
+
 // static : parceque le parser n'a besoin de memoriser un etat
 
 std::string Parser::getArguments(const std::string& line)

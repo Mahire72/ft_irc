@@ -3,54 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 20:03:48 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/03 16:06:36 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 
-#include <unistd.h>
 
 Server::Server(int port, const std::string &password)
     : _serverFd(-1), _port(port), _password(password)
 {
-    
+
 }
 
 void Server::handlePass(User& user, const std::string& arguments)
-{
+ {
     if (arguments.empty())
     {
         sendResponse(user.getFD(), ":ircserv 461 * PASS :Not enough parameters\r\n");
-        return;
+            return;
     }
-    
+
     if (user.isRegistered())
     {
-        sendResponse(user.getFD(),
-            ":IRCSERV 462 * :You may not register\r\n");
-        return;
+        sendResponse(user.getFD(), ":IRCSERV 462 * :You may not register\r\n");
+            return;
     }
 
     if (arguments == _password)
     {
         user.setHasPass(true);
-        return;
-    }
-    
-    //otherwise
-    sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
-    // if (arguments == _password)
-    // {
-    //     user.setHasPass(true);
-    //     std::cout << "PASS correct! hasPass = "
-    //               << user.hasPass() << std::endl;
-    // }
-    // else
-    //     sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
+        std::cout << "PASS correct! hasPass = " << user.hasPass() << std::endl;
+            return;
+     }
+    else
+        sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
 }
 /*
 
@@ -74,6 +64,21 @@ void Server::handlePass(User& user, const std::string& arguments)
 
 
 
+std::string Server::getName() const
+{
+    return("ircserv");
+}
+
+
+void Server::sendError(const std::string &err_nb, const std::string &err_message, User &sender)
+{
+        std::string err = ":" + this->getName() + " " + err_nb + " " + sender.getNickname() + " " + err_message + "\r\n";
+		this->sendResponse(sender.getFD(), err);
+		return ;
+}
+
+
+
 Server::~Server()
 {
     for (size_t i = 0; i < _pollFds.size(); ++i)
@@ -89,19 +94,4 @@ void Server::start()
     addPollFd(_serverFd);
 
     run();
-}
-
-void Server::dispatchCommand(User& user, const std::string& commandName,
-                            const std::string &arguments)
-{
-    if (commandName == "PASS")
-        handlePass(user, arguments);
-    else if (commandName == "NICK")
-        handleNick(user, arguments);
-    else
-    {
-        sendResponse(user.getFD(),
-            ":ircserv 421 " + commandName +
-            " :Unknown command\r\n");
-    }
 }
