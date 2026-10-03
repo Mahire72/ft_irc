@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/03 16:07:21 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/03 16:13:41 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,12 @@ void Server::handleClient(size_t index)
 
         std::cout << "DEBUG received: [" << buffer << "]" << std::endl;
 
+        for (int i = 0; i < bytes; ++i)
+        {
+            std::cout << "byte " << i
+                      << " = " << (int)buffer[i] << std::endl;
+        }
+
         User &user = _users[clientFd];  //recuperer le User associe a ce Fd
         user.addTextToBuffer(buffer);  //ajouter le texte brut au buffer de User
 
@@ -115,16 +121,26 @@ void Server::handleClient(size_t index)
             std::string commandName = Parser::getCommand(command);
             std::string arguments = Parser::getArguments(command);
 
-            if (commandName == "PASS")
-                handlePass(user, arguments);
-            //std::cout << "Command: " << commandName << std::endl;
-            //std::cout << "Arguments: " << arguments << std::endl;
+            std::cout << "COMMAND = [" << commandName << "]" << std::endl;
+            std::cout <<"ARGUMENTS [" << arguments << "]" << std::endl;
 
-            else if (commandName == "NICK")
-              handleNick(user, arguments);
+            std::vector<std::string> parameters = Parser::getParameters(arguments);
+            for (std::size_t i = 0; i < parameters.size(); ++i)
+            {
+                std::cout << "PARAM[" << i << "] = ["
+                          << parameters[i] << "]"
+                          << std::endl;
+            }
+            // if (commandName == "PASS")
+            //     handlePass(user, arguments);
+            // std::cout << "Command: " << commandName << std::endl;
+            // std::cout << "Arguments: " << arguments << std::endl;
 
-            std::cout << "Command: " << commandName << std::endl;
-            std::cout << "Arguments: " << arguments << std::endl;
+            // if (commandName == "NICK")
+            //     handleNick(user, arguments);
+            // std::cout << "Command: " << commandName << std::endl;
+            // std::cout << "Arguments: " << arguments << std::endl;
+            dispatchCommand(user, commandName, arguments);
         }
 
 

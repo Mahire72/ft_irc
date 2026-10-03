@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/03 16:06:36 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/03 16:13:25 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,21 @@ void Server::start()
     addPollFd(_serverFd);
 
     run();
+}
+
+void Server::dispatchCommand(User& user, const std::string& commandName,
+                            const std::string &arguments)
+{
+    if (commandName == "PASS")
+        handlePass(user, arguments);
+    else if (commandName == "NICK")
+        handleNick(user, arguments);
+    else if (commandName == "USER")
+        handleUser(user, arguments);
+    else
+    {
+        sendResponse(user.getFD(),
+            ":ircserv 421 " + commandName +
+            " :Unknown command\r\n");
+    }
 }

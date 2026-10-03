@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/03 16:04:09 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/03 16:46:30 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,18 @@ private:
 
     //for NICK
     void handleNick(User& user, const std::string& arguments);
+
+    void handleUser(User &user, const std::string &arguments);
+
     bool isValidNickname(const std::string& nickname);
     bool isNicknameTaken(const std::string& nickname);
+
+    //421 ERR_UNKNOWNCOMMAND for a command unknown to the server.
+    //dispatcher declaration
+
+    void dispatchCommand(User& user,
+                        const std::string& commandName,
+                        const std::string& arguments);
 
     //for JOIN (Maksa)
     void executeJoin(User &sender, const std::vector<std::string> &args);
