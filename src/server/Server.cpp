@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/28 14:54:44 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/03 18:31:34 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
         handleNick(user, arguments);
     else if (commandName == "USER")
         handleUser(user, arguments);
+    else if (command == "JOIN")
+        handlejoin(user, arguments);// mahire
     else
     {
         sendResponse(user.getFD(),
