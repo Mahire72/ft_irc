@@ -6,16 +6,14 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 15:30:46 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 16:49:46 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/09/15 16:51:31 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 
-
 /*Exemple envoyé par un client :
 USER alice 0 * :Alice Dupont*/
-
 
 void Server::executeUser(User &sender, const std::vector<std::string> &args)
 {
