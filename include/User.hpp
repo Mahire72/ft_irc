@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 13:06:14 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/03 18:56:40 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ public:
 
 	bool hasPass() const;
 
+	bool hasUser() const;
 
+	
 	std::string	getIP() const;
 	std::string getBuffer() const;
 	std::string getUsername() const;
@@ -55,12 +57,16 @@ public:
 	//setter for _hasPass
 	void setHasPass(bool status);
 
+	void setHasUser(bool status);
 
+	
+	
 	void setIP(const std::string &ip);
 	void setBuffer(const std::string &buffer);
 	void setNickname(const std::string &nickname);
 	void setUsername(const std::string &username);
-	void setRealName(const std::string &realName);
+	
+	void setRealName(const std::string& realName);
 
 private:
 	bool			_isRegistered;
@@ -79,6 +85,7 @@ private:
 	std::string		_userNickname;
 	std::string _realName; // mahire for USER realName
 
+	//std::string _realName; // mahire for USER realName;
 };
 
 #endif

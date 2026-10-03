@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 13:06:56 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/03 18:56:05 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ User::User()
 	_userNickname = "";
 	_realName = "";
 
-
 	// std::cout << "Default constructor called for User!" << std::endl;
 }
 
@@ -53,7 +52,6 @@ User::User(int user_fd)
 	_userNickname = "";
 	_realName = "";
 
-
 	// std::cout << "Constructor with parameter called for User!" << std::endl;
 }
 
@@ -73,8 +71,8 @@ User::User(const User &other)
 	_userBuffer = other._userBuffer;
 	_userName = other._userName;
 	_userNickname = other._userNickname;
+	
 	_realName = other._realName;
-
 
 	// std::cout << "Copy constructor called for User!" << std::endl;
 }
@@ -96,8 +94,8 @@ User &User::operator=(const User &other)
 		this->_userBuffer = other._userBuffer;
 		this->_userName = other._userName;
 		this->_userNickname = other._userNickname;
-		this->_realName = other._realName;
 
+		this->_realName = other._realName;
 	}
 	// std::cout << "Copy assignment operator called for User!" << std::endl;
 	return (*this);
@@ -124,23 +122,47 @@ void	User::addTextToBuffer(const std::string &message)
 /// Cette methode va extraire une commande du buffer : elle cherche l'occurence de
 // '\r\n' dans le buffer, prend ce qui vient avant elle, la supprime du _userBuffer et la renvoie
 
+// std::string User::extractCommand()
+// {
+// 	if(this->_userBuffer.empty())
+// 		return ("");
+
+// 	std::string occurence = "\r\n";
+// 	std::string command = "";
+
+// 	std::size_t found = _userBuffer.find(occurence); //retourne la position de la premiere occurence de '\r\n'
+// 	if(found !=std::string::npos)
+// 	{
+// 		command = _userBuffer.substr(0, found);     //on prend uniquement le texte avant \r\n
+// 		_userBuffer.erase(0, found + 2); 			//on supprime le texte ET le \r\n
+// 	}
+// 	return(command);
+// }
+
+// version \n also
+
 std::string User::extractCommand()
 {
-	if(this->_userBuffer.empty())
-		return ("");
+    if (_userBuffer.empty())
+        return "";
 
-	std::string occurence = "\r\n";
-	std::string command = "";
+    std::size_t found = _userBuffer.find("\r\n");
+    std::size_t separatorLength = 2;
 
-	std::size_t found = _userBuffer.find(occurence); //retourne la position de la premiere occurence de '\r\n'
-	if(found !=std::string::npos)
-	{
-		command = _userBuffer.substr(0, found);     //on prend uniquement le texte avant \r\n
-		_userBuffer.erase(0, found + 2); 			//on supprime le texte ET le \r\n
-	}
-	return(command);
+    if (found == std::string::npos)
+    {
+        found = _userBuffer.find("\n");
+        separatorLength = 1;
+    }
+
+    if (found == std::string::npos)
+        return "";
+
+    std::string command = _userBuffer.substr(0, found);
+    _userBuffer.erase(0, found + separatorLength);
+
+    return command;
 }
-
 
 //GETTERS //////////////////////////////////////////////////////////////////////
 
@@ -167,6 +189,11 @@ bool User::hasPass() const
 }
 
 
+bool User::hasUser() const
+{
+	return _hasUser;
+}
+
 std::string	User::getIP() const
 {
 	return(_userIP);
@@ -190,8 +217,7 @@ std::string User::getNickname() const
 std::string User::getRealName() const
 {
 	return _realName;
-}
-
+} 
 
 //SETTERS //////////////////////////////////////////////////////////////////////
 
@@ -230,9 +256,13 @@ void User::setUsername(const std::string &username)
 	_userName = username;
 }
 
-void User::setRealName(const std::string &realName)
+
+void User::setRealName(const std::string& realName)
 {
- 	_realName = realName;
+	_realName = realName;
 }
 
-
+void User::setHasUser(bool status)
+{
+	_hasUser = status;
+}
