@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 13:03:28 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/03 18:22:06 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ private:
     //for NICK
     void handleNick(User& user, const std::string& arguments);
 
+    void handleJoin(User &user, const std::string &arguments); // mahire
     //for JOIN (Maksa)
     void executeJoin(User &sender, const std::vector<std::string> &args);
 

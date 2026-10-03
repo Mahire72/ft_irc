@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerPoll.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 12:59:12 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/03 18:27:44 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ void Server::handleClient(size_t index)
 
             else if (commandName == "NICK")
               handleNick(user, arguments);
+            else if (commandName == "JOIN")
+                handlejoin(user, arguments);
 
             std::cout << "Command: " << commandName << std::endl;
             std::cout << "Arguments: " << arguments << std::endl;
