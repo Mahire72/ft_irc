@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/04 16:21:47 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 18:05:39 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ public:
 	std::string	getChannelKey() const;
 	std::string	getChannelTopic() const;
 	std::string getChannelUsers() const;
+	const std::map<int, User*>& getChannelUsersMap() const;
 	bool		get_i() const;
 	bool		get_t() const;
-	std::string		get_k() const;
+	std::string	get_k() const;
 	bool		get_usersLimit() const;
 
 //SETTERS///////////////////////////////////////////////////////////////////////

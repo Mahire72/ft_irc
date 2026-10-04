@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/04 16:22:19 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 18:05:52 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,11 @@ std::string Channel::getChannelUsers() const
     	users.erase(users.size() - 1); //pour effacer le dernier " "
 
 	return(users);
+}
+
+const std::map<int, User*>& Channel::getChannelUsersMap() const
+{
+    return this->_channelUsers;
 }
 
 bool	Channel::get_i() const
