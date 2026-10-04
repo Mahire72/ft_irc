@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 13:49:51 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 18:56:18 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ private:
     void handleNick(User& user, const std::string& arguments);
 
     void handleUser(User &user, const std::string &arguments);
+    void handleTopic(User &sender, const std::string &arguments);
+    
+    
     void handleJoin(User &user, const std::string &arguments);
     void handlePrivmsg(User &sender, const std::string &arguments);
 

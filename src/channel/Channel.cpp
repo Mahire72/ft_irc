@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 12:27:31 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 16:28:36 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,4 +193,9 @@ void Channel::removeOperator(int userFd)
 			break ;
 		}
 	}
+}
+
+bool Channel::hasUser(int userFd) const
+{
+	return (_channelUsers.find(userFd) != _channelUsers.end());
 }

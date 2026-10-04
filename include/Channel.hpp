@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/12 17:03:17 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 17:10:00 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,13 @@ public:
 	bool 	isOperator(int userFd) const;
 	void 	addOperator(int userFd);
 	void 	removeOperator(int userFd);
+	
 	void	addUser(User *user);
 	void	removeUser(int userFd);
+	
 	void	broadcast(Server &server, const std::string &message, int senderFd);
 
+	bool hasUser(int userFd) const; // prevent joining the same channel twice
 //GETTERS///////////////////////////////////////////////////////////////////////
 	std::string	getChannelName() const;
 	std::string	getChannelKey() const;
