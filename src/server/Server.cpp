@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 13:54:17 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 18:25:22 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
         handleJoin(user, arguments);
     else if (commandName == "PRIVMSG")
         handlePrivmsg(user, arguments);
+    else if (commandName == "MODE")
+        handleMode(user, arguments);
     else
     {
         sendResponse(user.getFD(),

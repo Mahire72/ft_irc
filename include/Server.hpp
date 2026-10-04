@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 17:32:22 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 18:55:12 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,22 @@ private:
     void handleUser(User &user, const std::string &arguments);
     void handleJoin(User &user, const std::string &arguments);
     void handlePrivmsg(User &sender, const std::string &arguments);
-    //MODE
+    
+    //for MODE
     void handleMode(User &sender, const std::string &arguments);
     void displayChannelModes(User &sender, Channel &channel);
-    void applyModes(User &sender, Channel &channel, const std::vector<std::string> &args);
 
+    std::string applyModes(User &sender, Channel &channel,
+    const std::vector<std::string> &args);
+
+    std::string applyModeKey(User &sender, Channel &channel,
+    const std::vector<std::string> &args, size_t &paramIndex, bool adding);
+
+    std::string applyModeLimit(User &sender, Channel &channel,
+    const std::vector<std::string> &args, size_t &paramIndex, bool adding);
+
+    std::string applyModeOperator(User &sender, Channel &channel,
+    const std::vector<std::string> &args, size_t &paramIndex, bool adding);
 
 
     //for Error messages
@@ -90,8 +101,6 @@ private:
 public:
     void sendResponse(int fd, const std::string &message); //Maksa
     Server(int port, const std::string& password);
-
-    //void sendResponse(int fd, const std::string &message); //Maksa
 
     ~Server();
 
