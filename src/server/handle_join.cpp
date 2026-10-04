@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   join.cpp                                           :+:      :+:    :+:   */
+/*   handle_join.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/11 14:34:51 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 12:25:33 by mayoucha         ###   ########.fr       */
+/*   Created: 2026/10/03 18:33:21 by mamaimai          #+#    #+#             */
+/*   Updated: 2026/10/04 13:52:34 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
+#include "../../include/Parser.hpp"
+#include <vector>
+#include <iostream>
 
-//// RAPPEL : commande ressemble a "JOIN #canal1"
 
-void Server::executeJoin(User &sender, const std::vector<std::string> &args)
+void Server::handleJoin(User &sender, const std::string &arguments)
 {
+    std::vector<std::string> args = Parser::getParameters(arguments);
+
 	if(args.empty())
 		return(this->sendError("461", "JOIN :Not enough parameters", sender));
 
@@ -24,14 +28,32 @@ void Server::executeJoin(User &sender, const std::vector<std::string> &args)
 
 	std::map<std::string, Channel>::iterator it = _channels.find(args[0]); //cherche si le canal existe deja
 	if(it == _channels.end())
-		_channels[args[0]] = Channel(args[0]);
+	{
+		//_channels[args[0]] = Channel(args[0]);
+		std::pair<std::map<std::string, Channel>::iterator, bool> ret;
+    	ret = _channels.insert(std::make_pair(args[0], Channel(args[0])));
+    	it = ret.first;
+	}
 
-	Channel &channel = _channels[args[0]];
+	Channel &channel = it->second;
 
 	channel.addUser(&sender);
 
 	std::string message = ":" + sender.getNickname() + " JOIN " + args[0] + "\r\n";
 	channel.broadcast(*this, message, -1);
+
+
+	if (!channel.getChannelTopic().empty())
+	{
+    	std::string rpl332 = ":" + this->getName() + " 332 " + sender.getNickname() + " " + args[0] + " :" + channel.getChannelTopic() + "\r\n";
+    	this->sendResponse(sender.getFD(), rpl332);
+	}
+
+	else
+	{
+		std::string rpl331 = ":" + this->getName() + " 331 " + sender.getNickname() + " " + args[0] + " :No topic is set\r\n";
+		this->sendResponse(sender.getFD(), rpl331);
+	}
 
 	// 1. RPL_NAMREPLY (353)
 	std::string namesList = channel.getChannelUsers();

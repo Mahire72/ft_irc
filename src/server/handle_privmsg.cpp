@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   privmsg.cpp                                        :+:      :+:    :+:   */
+/*   handle_privmsg.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 18:40:08 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 12:21:18 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 13:53:04 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
+#include "../../include/Parser.hpp"
+
 
 //Here is important to understand how the message is filled in args[...]
 // Option 1 : args[1] contains the entire message, for example "args[1] = Hello world!"
@@ -18,8 +20,10 @@
 
 //Here I managed it following the option 1, I can adapt it later if needed
 
-void Server::executePrivmsg(User &sender, const std::vector<std::string> &args)
+void Server::handlePrivmsg(User &sender, const std::string &arguments)
 {
+	std::vector<std::string> args = Parser::getParameters(arguments);
+
 	if(args.empty())
 		return(this->sendError("411", "PRIVMSG :No recipient", sender));
 

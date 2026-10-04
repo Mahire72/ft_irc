@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/03 20:15:47 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/04 13:54:17 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void Server::handlePass(User& user, const std::string& arguments)
         sendResponse(user.getFD(), ":ircserv 461 * PASS :Not enough parameters\r\n");
         return;
     }
-    
+
     if (user.isRegistered())
     {
         sendResponse(user.getFD(),
@@ -39,7 +39,7 @@ void Server::handlePass(User& user, const std::string& arguments)
         user.setHasPass(true);
         return;
     }
-    
+
     //otherwise
     sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
     // if (arguments == _password)
@@ -90,6 +90,19 @@ void Server::start()
     run();
 }
 
+std::string Server::getName() const
+{
+    return("ircserv");
+}
+
+
+void Server::sendError(const std::string &err_nb, const std::string &err_message, User &sender)
+{
+        std::string err = ":" + this->getName() + " " + err_nb + " " + sender.getNickname() + " " + err_message + "\r\n";
+		this->sendResponse(sender.getFD(), err);
+		return ;
+}
+
 void Server::dispatchCommand(User& user, const std::string& commandName,
                             const std::string &arguments)
 {
@@ -100,7 +113,9 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
     else if (commandName == "USER")
         handleUser(user, arguments);
     else if (commandName == "JOIN")
-        handlejoin(user, arguments);// mahire
+        handleJoin(user, arguments);
+    else if (commandName == "PRIVMSG")
+        handlePrivmsg(user, arguments);
     else
     {
         sendResponse(user.getFD(),

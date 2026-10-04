@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/03 20:16:17 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/04 13:49:51 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,32 +62,36 @@ private:
     void removeClient(size_t index);
 
 
-   
+
     //password authentication
     void handlePass(User& user, const std::string& argumments);
 
     //for NICK
     void handleNick(User& user, const std::string& arguments);
-    
+
     void handleUser(User &user, const std::string &arguments);
-    void handlejoin(User &user, const std::string &arguments);
-    
+    void handleJoin(User &user, const std::string &arguments);
+    void handlePrivmsg(User &sender, const std::string &arguments);
+
+    //for Error messages
+    void sendError(const std::string &err_nb, const std::string &err_message, User &sender);
+
     bool isValidNickname(const std::string& nickname);
     bool isNicknameTaken(const std::string& nickname);
 
     //421 ERR_UNKNOWNCOMMAND for a command unknown to the server.
     //dispatcher declaration
-    
-    void dispatchCommand(User& user, 
+
+    void dispatchCommand(User& user,
                         const std::string& commandName,
                         const std::string& arguments);
-    
+
 public:
     void sendResponse(int fd, const std::string &message); //Maksa
     Server(int port, const std::string& password);
 
     //void sendResponse(int fd, const std::string &message); //Maksa
-    
+
     ~Server();
 
     void start();
