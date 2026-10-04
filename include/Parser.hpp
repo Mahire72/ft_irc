@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 13:36:01 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/28 15:02:02 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/03 17:57:25 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
-#include <string>
+#include <cstring>
 #include <vector>
 
 class Parser
@@ -23,7 +23,7 @@ public:
     static std::string getArguments(const std::string& line);
 
     static std::vector<std::string> getParameters(const std::string& line);
-        
+
 };
 
 #endif

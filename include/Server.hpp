@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/03 16:46:30 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/03 17:57:32 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 #include "User.hpp"
 #include "Channel.hpp"
-
 #include <vector>
 #include <poll.h>
 #include <map>
 #include <cstddef>
-#include <string>
+#include <cstring>
 #include <cstdlib>
 #include <unistd.h>
 
@@ -89,14 +88,10 @@ private:
     //for Error messages
     void sendError(const std::string &err_nb, const std::string &err_message, User &sender);
 
-    bool isValidNickname(const std::string& nickname);
-    bool isNicknameTaken(const std::string& nickname);
 
 public:
     void sendResponse(int fd, const std::string &message); //Maksa
     Server(int port, const std::string& password);
-
-    void sendResponse(int fd, const std::string &message); //Maksa
 
     ~Server();
 
