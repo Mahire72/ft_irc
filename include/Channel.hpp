@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/04 18:05:39 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 19:38:12 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <set>
 #include <sys/socket.h>
 
 #include "User.hpp"
@@ -41,11 +42,15 @@ public:
 
 //CLASS METHODS/////////////////////////////////////////////////////////////////
 	bool 	isOperator(int userFd) const;
+	bool 	isUserInChannel(int userFd) const;
 	void 	addOperator(int userFd);
 	void 	removeOperator(int userFd);
 	void	addUser(User *user);
 	void	removeUser(int userFd);
 	void	broadcast(Server &server, const std::string &message, int senderFd);
+	void 	addInvite(int fd);
+    bool 	isInvited(int fd) const;
+    void 	removeInvite(int fd);
 
 //GETTERS///////////////////////////////////////////////////////////////////////
 	std::string	getChannelName() const;
@@ -79,8 +84,7 @@ private:
 	bool					_t;
 	std::string				_k;
 	size_t					_usersLimit;
-
-
+	std::set<int> 			_invitedFds; // Stocke les FD des utilisateurs invités
 };
 
 

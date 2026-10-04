@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 18:55:12 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 19:40:01 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <string>
 #include <cstdlib>
 #include <unistd.h>
+#include <sstream>
 
 
 ///MAKSA modifs :
@@ -66,9 +67,16 @@ private:
     void handlePass(User& user, const std::string& argumments);
     void handleNick(User& user, const std::string& arguments);
     void handleUser(User &user, const std::string &arguments);
-    void handleJoin(User &user, const std::string &arguments);
     void handlePrivmsg(User &sender, const std::string &arguments);
-    
+
+    //for JOIN
+    void joinSingleChannel(User &sender,
+    const std::string &channelName, const std::string &key);
+    std::vector<std::string> splitByComma(const std::string &str);
+    void leaveAllChannels(User &sender);
+    void handleJoin(User &sender, const std::string &arguments);
+
+
     //for MODE
     void handleMode(User &sender, const std::string &arguments);
     void displayChannelModes(User &sender, Channel &channel);

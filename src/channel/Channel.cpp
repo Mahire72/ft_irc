@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/04 18:05:52 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 19:37:01 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,10 @@ void Channel::broadcast(Server &server, const std::string &message, int senderFd
 	}
 }
 
+bool Channel::isUserInChannel(int fd) const
+{
+    return (this->_channelUsers.find(fd) != this->_channelUsers.end());
+}
 
 
 bool Channel::isOperator(int userFd) const
@@ -227,6 +231,7 @@ bool Channel::isOperator(int userFd) const
 			return (true);
 	}
 	return(false);
+	//return (this->_channelOperators.find(userFd) != this->_channelOperators.end());
 }
 
 
@@ -251,4 +256,19 @@ void Channel::removeOperator(int userFd)
 			break ;
 		}
 	}
+}
+
+void Channel::addInvite(int fd)
+{
+    _invitedFds.insert(fd);
+}
+
+bool Channel::isInvited(int fd) const
+{
+    return (_invitedFds.find(fd) != _invitedFds.end());
+}
+
+void Channel::removeInvite(int fd)
+{
+    _invitedFds.erase(fd);
 }
