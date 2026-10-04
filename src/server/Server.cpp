@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/03 17:44:11 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 12:21:00 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
     else if (commandName == "USER")
         handleUser(user, arguments);
     else if (commandName == "JOIN")
-        executeJoin(user, arguments);
+        handleJoin(user, arguments);
     else
     {
         sendResponse(user.getFD(),

@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/03 17:57:32 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 12:21:57 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ private:
                         const std::string& arguments);
 
     //for JOIN (Maksa)
-    void executeJoin(User &sender, const std::vector<std::string> &args);
+    void handleJoin(User &sender, const std::vector<std::string> &args);
 
     //for PRIVMSG (Maksa)
-    void executePrivmsg(User &sender, const std::vector<std::string> &args);
+    void handlePrivmsg(User &sender, const std::vector<std::string> &args);
 
     //for Error messages
     void sendError(const std::string &err_nb, const std::string &err_message, User &sender);

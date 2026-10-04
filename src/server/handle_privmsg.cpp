@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 18:40:08 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/15 12:21:18 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 12:22:05 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 //Here I managed it following the option 1, I can adapt it later if needed
 
-void Server::executePrivmsg(User &sender, const std::vector<std::string> &args)
+void Server::handlePrivmsg(User &sender, const std::vector<std::string> &args)
 {
 	if(args.empty())
 		return(this->sendError("411", "PRIVMSG :No recipient", sender));
