@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 18:33:21 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 13:52:34 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 15:57:54 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void Server::handleJoin(User &sender, const std::string &arguments)
 	std::map<std::string, Channel>::iterator it = _channels.find(args[0]); //cherche si le canal existe deja
 	if(it == _channels.end())
 	{
-		//_channels[args[0]] = Channel(args[0]);
 		std::pair<std::map<std::string, Channel>::iterator, bool> ret;
     	ret = _channels.insert(std::make_pair(args[0], Channel(args[0])));
     	it = ret.first;

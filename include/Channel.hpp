@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/12 17:03:17 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 16:21:47 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,20 @@ public:
 	std::string	getChannelKey() const;
 	std::string	getChannelTopic() const;
 	std::string getChannelUsers() const;
+	bool		get_i() const;
+	bool		get_t() const;
+	std::string		get_k() const;
+	bool		get_usersLimit() const;
 
 //SETTERS///////////////////////////////////////////////////////////////////////
 	void setChannelName(const std::string &name);
 	void setChannelKey(const std::string &key);
 	void setChannelTopic(const std::string &topic);
+	void set_i(const bool &i);
+	void set_t(const bool &t);
+	void set_k(const std::string &k);
+	void set_usersLimit(const bool &limit);
+
 
 private:
 	std::string 			_channelName;
@@ -64,6 +73,13 @@ private:
 	std::string 			_channelTopic;
 	std::map<int, User*> 	_channelUsers;
 	std::vector<int> 		_channelOperators;
+	///For MODE :
+	bool					_i;
+	bool					_t;
+	std::string				_k;
+	size_t					_usersLimit;
+
+
 };
 
 

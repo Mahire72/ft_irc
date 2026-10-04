@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 13:49:51 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/04 16:44:54 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,21 @@ private:
     void removeClient(size_t index);
 
 
-
-    //password authentication
+    ////COMMANDES
     void handlePass(User& user, const std::string& argumments);
-
-    //for NICK
     void handleNick(User& user, const std::string& arguments);
-
     void handleUser(User &user, const std::string &arguments);
     void handleJoin(User &user, const std::string &arguments);
     void handlePrivmsg(User &sender, const std::string &arguments);
+    //MODE
+    void handleMode(User &sender, const std::string &arguments);
+    void displayChannelModes(User &sender, Channel &channel);
+    void applySimpleModes(User &sender, Channel &channel, const std::string &flags);
+
+
 
     //for Error messages
     void sendError(const std::string &err_nb, const std::string &err_message, User &sender);
-
     bool isValidNickname(const std::string& nickname);
     bool isNicknameTaken(const std::string& nickname);
 
