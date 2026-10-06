@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/03 18:56:05 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/06 18:37:55 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ User::User(const User &other)
 	_userBuffer = other._userBuffer;
 	_userName = other._userName;
 	_userNickname = other._userNickname;
-	
+
 	_realName = other._realName;
 
 	// std::cout << "Copy constructor called for User!" << std::endl;
@@ -217,7 +217,7 @@ std::string User::getNickname() const
 std::string User::getRealName() const
 {
 	return _realName;
-} 
+}
 
 //SETTERS //////////////////////////////////////////////////////////////////////
 

@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/06 12:43:38 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/06 16:51:56 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 18:33:05 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,9 @@
 #include "../../include/Parser.hpp"
 
 /*
-
-- There is no requirement that the channel the target user is
-  being invited to must exist or be a valid channel.
-- However, if the channel exists, only members of the channel
-  are allowed to invite other users.
-
-- When the channel has invite-only flag set, only channel operators
-  may issue INVITE command.
-
-
-- seuls celui qui invite et l'inivte recoivent le message d'invitation
-
-- Parameters: <nickname> <channel>
-
-
-- "INVITE Wiz #Twilight_Zone"  --> commande d'invitation
-
-- ":Angel!wings@irc.org INVITE Wiz #Dust" ---> message d'invitation a WiZ par Angel au #Dusr
-
-
+irc:      :Alice!alice@ INVITE Charlie :#42 (manque IP)
+attendu : :Alice!alice@127.0.0.1 INVITE Charlie :#salon
 */
-
-
-
-
-//                 INVITE <nickname> <channel>
-
-//
-// <nickname>  	arg[0]
-// <channel>   	arg[1]
-
-
 
 
 void Server::handleInvite(User &sender, const std::string &arguments)

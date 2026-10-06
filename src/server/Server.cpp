@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/06 16:22:14 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 18:13:16 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ std::string Server::getName() const
 
 bool Server::isUserInServer(std::string userNick) const
 {
-    for (std::map<int, User>::iterator it = _users.begin(); it != _users.end(); ++it)
+    for (std::map<int, User>::const_iterator it = _users.begin(); it != _users.end(); ++it)
     {
         if (it->second.getNickname() == userNick)
             return (true);
@@ -107,7 +107,7 @@ bool Server::isUserInServer(std::string userNick) const
 
 int Server::getUserFd(std::string userNick) const
 {
-    for (std::map<int, User>::iterator it = _users.begin(); it != _users.end(); ++it)
+    for (std::map<int, User>::const_iterator it = _users.begin(); it != _users.end(); ++it)
     {
         if (it->second.getNickname() == userNick)
             return (it->first);
