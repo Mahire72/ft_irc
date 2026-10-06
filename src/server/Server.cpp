@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/06 18:13:16 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 19:01:20 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,10 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
         handleMode(user, arguments);
     else if (commandName == "INVITE")
         handleInvite(user, arguments);
+    else if (commandName == "TOPIC")
+        handleTopic(user, arguments);
+    else if (commandName == "KICK")
+        handleKick(user, arguments);
     else
     {
         sendResponse(user.getFD(),

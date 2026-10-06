@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/06 16:22:42 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 18:59:55 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,16 @@ private:
     void removeClient(size_t index);
 
 
-    ////COMMANDES
-    void handlePass(User& user, const std::string& argumments);
-    void handleNick(User& user, const std::string& arguments);
+
+    //password authentication
+    void handlePass(User& user, const std::string &argumments);
+
+    //for NICK
+    void handleNick(User& user, const std::string &arguments);
     void handleUser(User &user, const std::string &arguments);
+    void handleTopic(User &sender, const std::string &arguments);
+
+    void handleJoin(User &user, const std::string &arguments);
     void handlePrivmsg(User &sender, const std::string &arguments);
 
     //for JOIN
@@ -105,9 +111,21 @@ private:
     //421 ERR_UNKNOWNCOMMAND for a command unknown to the server.
     //dispatcher declaration
 
-    void dispatchCommand(User& user,
-                        const std::string& commandName,
-                        const std::string& arguments);
+    void dispatchCommand(User &user,
+                        const std::string &commandName,
+                        const std::string &arguments);
+
+    void handleKick(User &sender, const std::string &arguments);
+    Channel *findChannel(const std::string &ChannelName);
+    User *findUserByNickname(const std::string &nickname);
+    void sendKickNeedMoreParams(User &sender);
+    void sendKickNoSuchChannel(User &sender, const std::string &channelName);
+    void sendKickNotOnChannel(User &sender, const std::string &channelName);
+    void sendKickNotOperator(User &sender, const std::string &channelName);
+    void sendKickNoSuchNick(User &sender, const std::string &nickname);
+    void sendKickUserNotInChannel(User &sender,
+                              const std::string &nickname,
+                              const std::string &channelName);
 
 public:
     void sendResponse(int fd, const std::string &message); //Maksa

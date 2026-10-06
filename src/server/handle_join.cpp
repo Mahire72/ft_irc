@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 18:33:21 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 19:39:08 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 19:00:25 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,11 @@ void Server::handleJoin(User &sender, const std::string &arguments)
 	if(args.empty())
 		return(this->sendError("461", "JOIN :Not enough parameters", sender));
 
-	if(args[0][0] != '#' && args[0][0] != '&')
-		return ;
+	// if(args[0][0] != '#' && args[0][0] != '&')
+	// 	return ;
+
+	if (args[0][0] != '#' && args[0][0] != '&')
+    	return (this->sendError("476", args[0] + " :Bad Channel Mask", sender));
 
 	std::map<std::string, Channel>::iterator it = _channels.find(args[0]); //cherche si le canal existe deja
 	if(it == _channels.end())
@@ -181,7 +184,11 @@ void Server::handleJoin(User &sender, const std::string &arguments)
 
 	Channel &channel = it->second;
 
+	if (channel.hasUser(sender.getFD()))
+		return; // pour evite deux channel
+
 	channel.addUser(&sender);
+
 
 	std::string message = ":" + sender.getNickname() + " JOIN " + args[0] + "\r\n";
 	channel.broadcast(*this, message, -1);

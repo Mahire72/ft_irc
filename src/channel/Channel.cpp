@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/04 19:37:01 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 19:02:14 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,4 +271,8 @@ bool Channel::isInvited(int fd) const
 void Channel::removeInvite(int fd)
 {
     _invitedFds.erase(fd);
+}
+bool Channel::hasUser(int userFd) const
+{
+	return (_channelUsers.find(userFd) != _channelUsers.end());
 }

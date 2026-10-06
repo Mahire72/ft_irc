@@ -6,14 +6,14 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/06 18:34:04 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 18:58:21 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef USER_HPP
 #define USER_HPP
 
-#include <string>
+#include <cstring>
 #include <iostream>
 
 

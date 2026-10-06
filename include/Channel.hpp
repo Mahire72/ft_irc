@@ -6,14 +6,14 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/04 19:38:12 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 18:57:51 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHANNEL_HPP
 #define CHANNEL_HPP
 
-#include <string>
+#include <cstring>
 #include <map>
 #include <vector>
 #include <set>
@@ -45,13 +45,16 @@ public:
 	bool 	isUserInChannel(int userFd) const;
 	void 	addOperator(int userFd);
 	void 	removeOperator(int userFd);
+
 	void	addUser(User *user);
 	void	removeUser(int userFd);
+
 	void	broadcast(Server &server, const std::string &message, int senderFd);
 	void 	addInvite(int fd);
     bool 	isInvited(int fd) const;
     void 	removeInvite(int fd);
 
+	bool hasUser(int userFd) const; // prevent joining the same channel twice
 //GETTERS///////////////////////////////////////////////////////////////////////
 	std::string	getChannelName() const;
 	std::string	getChannelKey() const;
