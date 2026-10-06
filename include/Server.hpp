@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 18:56:18 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/05 21:14:10 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,12 @@ private:
 
 
     //password authentication
-    void handlePass(User& user, const std::string& argumments);
+    void handlePass(User& user, const std::string &argumments);
 
     //for NICK
-    void handleNick(User& user, const std::string& arguments);
-
+    void handleNick(User& user, const std::string &arguments);
     void handleUser(User &user, const std::string &arguments);
     void handleTopic(User &sender, const std::string &arguments);
-    
     
     void handleJoin(User &user, const std::string &arguments);
     void handlePrivmsg(User &sender, const std::string &arguments);
@@ -79,16 +77,28 @@ private:
     //for Error messages
     void sendError(const std::string &err_nb, const std::string &err_message, User &sender);
 
-    bool isValidNickname(const std::string& nickname);
-    bool isNicknameTaken(const std::string& nickname);
+    bool isValidNickname(const std::string  &nickname);
+    bool isNicknameTaken(const std::string &nickname);
 
     //421 ERR_UNKNOWNCOMMAND for a command unknown to the server.
     //dispatcher declaration
 
-    void dispatchCommand(User& user,
-                        const std::string& commandName,
-                        const std::string& arguments);
+    void dispatchCommand(User &user,
+                        const std::string &commandName,
+                        const std::string &arguments);
 
+    void handleKick(User &sender, const std::string &arguments);
+    Channel *findChannel(const std::string &ChannelName);
+    User *findUserByNickname(const std::string &nickname);
+    void sendKickNeedMoreParams(User &sender);
+    void sendKickNoSuchChannel(User &sender, const std::string &channelName);
+    void sendKickNotOnChannel(User &sender, const std::string &channelName);
+    void sendKickNotOperator(User &sender, const std::string &channelName);
+    void sendKickNoSuchNick(User &sender, const std::string &nickname);
+    void sendKickUserNotInChannel(User &sender,
+                              const std::string &nickname,
+                              const std::string &channelName);
+    
 public:
     void sendResponse(int fd, const std::string &message); //Maksa
     Server(int port, const std::string& password);
