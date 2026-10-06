@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/06 18:59:55 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 19:04:25 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ private:
     void handleUser(User &user, const std::string &arguments);
     void handleTopic(User &sender, const std::string &arguments);
 
-    void handleJoin(User &user, const std::string &arguments);
     void handlePrivmsg(User &sender, const std::string &arguments);
 
     //for JOIN
