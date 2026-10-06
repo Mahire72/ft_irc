@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 19:40:01 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 16:22:42 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ private:
     std::string applyModeOperator(User &sender, Channel &channel,
     const std::vector<std::string> &args, size_t &paramIndex, bool adding);
 
+    //for INVITE
+    void handleInvite(User &sender, const std::string &arguments);
+
 
     //for Error messages
     void sendError(const std::string &err_nb, const std::string &err_message, User &sender);
@@ -116,6 +119,10 @@ public:
 
     //getter
     std::string getName() const;
+    bool isUserInServer(std::string userNick) const;
+    int getUserFd(std::string userNick) const;
+
+
 
 };
 

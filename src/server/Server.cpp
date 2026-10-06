@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 18:25:22 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 16:22:14 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,25 @@ std::string Server::getName() const
     return("ircserv");
 }
 
+bool Server::isUserInServer(std::string userNick) const
+{
+    for (std::map<int, User>::iterator it = _users.begin(); it != _users.end(); ++it)
+    {
+        if (it->second.getNickname() == userNick)
+            return (true);
+    }
+    return(false);
+}
+
+int Server::getUserFd(std::string userNick) const
+{
+    for (std::map<int, User>::iterator it = _users.begin(); it != _users.end(); ++it)
+    {
+        if (it->second.getNickname() == userNick)
+            return (it->first);
+    }
+    return(0);
+}
 
 void Server::sendError(const std::string &err_nb, const std::string &err_message, User &sender)
 {
@@ -118,6 +137,8 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
         handlePrivmsg(user, arguments);
     else if (commandName == "MODE")
         handleMode(user, arguments);
+    else if (commandName == "INVITE")
+        handleInvite(user, arguments);
     else
     {
         sendResponse(user.getFD(),
