@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/06 18:40:32 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/07 13:55:40 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <cerrno>
-
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 //enregistre un nouveau fd (socket) dans le tableau surveille par poll()
 void Server::addPollFd(int fd)
@@ -36,7 +37,14 @@ void Server::addPollFd(int fd)
 //cette methode traite l'arrivee d'un nv client
 void Server::handleNewConnection()
 {
-    int clientFd = accept(_serverFd, NULL, NULL); //extrait la demande de connexion de la file d'attente du serveur
+    //int clientFd = accept(_serverFd, NULL, NULL); //extrait la demande de connexion de la file d'attente du serveur
+
+    struct sockaddr_in clientAddr;
+    socklen_t clientAddrLen = sizeof(clientAddr);
+
+    int clientFd = accept(_serverFd,
+                         (struct sockaddr *)&clientAddr,
+                         &clientAddrLen);
 
     if (clientFd == -1)
     {
@@ -44,8 +52,18 @@ void Server::handleNewConnection()
         return;
     }
 
+    std::string clientIp = inet_ntoa(clientAddr.sin_addr);
+
     std::cout << "New client connected! fd = "
-              << clientFd << std::endl;
+              << clientFd << std::endl
+              << clientFd
+              << " IP = "
+              << clientIp
+              << std::endl;
+
+
+    /*std::cout << "New client connected! fd = "
+              << clientFd << std::endl;*/
 
     if (fcntl(clientFd, F_SETFL, O_NONBLOCK) == -1) //on passe la socket individuelle du client en non-bloquant
     {
@@ -57,6 +75,7 @@ void Server::handleNewConnection()
     addPollFd(clientFd); //ajoute le client au monitoring de poll()
 
     User newUser(clientFd); //creation de User
+    newUser.setIP(clientIp);
     _users.insert(std::make_pair(clientFd, newUser)); //stockage dans la map (variable _users de Server)
 }
 
