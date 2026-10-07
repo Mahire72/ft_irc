@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 15:03:38 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/28 16:03:50 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/07 19:12:25 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void Server::handleUser(User &user, const std::string &arguments)
         return;
     }
     
+    
     if (user.hasUser())
     {
         sendResponse(user.getFD(),
@@ -35,6 +36,27 @@ void Server::handleUser(User &user, const std::string &arguments)
         return;
     }
     
+    // Accept: USER Bob
+    // if (parameters.size() == 1)
+    // {
+    //     user.setUsername(parameter[0]);
+    //     user.setHasUser(True);
+
+    //     std::cout << "USER accepted: username=["
+    //               << user.getUsername()
+    //               << "]"
+    //               << std::endl;
+    //     return;
+    // }
+
+    //Normal USER syntax:
+    // USER <username> <mode> <unused>  :<realname>
+    // if (parameters.size() < 4)
+    // {
+    //     sendResponse(user.getFD(), 
+    //         ":ircserv 461 * USER :Not enough parameters\r\n");
+    //     return;
+    // }
     user.setUsername(parameters[0]);
     user.setRealName(parameters[3]);
     user.setHasUser(true);

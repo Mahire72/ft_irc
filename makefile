@@ -6,7 +6,7 @@
 #    By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/29 22:03:48 by mamaimai          #+#    #+#              #
-#    Updated: 2026/10/05 18:15:13 by mamaimai         ###   ########.fr        #
+#    Updated: 2026/10/07 22:40:48 by mamaimai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC = src/main.cpp \
 	  src/server/handle_privmsg.cpp\
       src/server/ServerNetwork.cpp \
       src/server/ServerPoll.cpp \
+	  src/server/signal.cpp \
 	  src/user/User.cpp \
 	  src/channel/Channel.cpp \
 	  src/parser/Parser.cpp

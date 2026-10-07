@@ -6,13 +6,15 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/06 21:47:59 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/07 22:41:43 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/Server.hpp"
 #include "../../include/Parser.hpp"
+#include "../../include/Signal.hpp"
+
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -187,7 +189,7 @@ void Server::handleClient(size_t index)
 
 void Server::run()
 {
-    while (true)
+    while (!g_stopServer)
     {
         int ret = poll(&_pollFds[0],
                        _pollFds.size(),
@@ -195,9 +197,12 @@ void Server::run()
 
         if (ret == -1)
         {
-            if (errno == EINTR) //Ctrl+C
+            if (errno == EINTR)
+            {
+                if (g_stopServer)
+                    break;
                 continue;
-
+            }
             std::cerr << "poll() failed" << std::endl;
             return;
         }
