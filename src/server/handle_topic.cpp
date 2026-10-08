@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 18:46:59 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 15:19:30 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 18:41:43 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ void Server::handleTopic(User &sender, const std::string &arguments)
     }
 
     std::string newTopic = args[1];
+    if(channel.get_t())
+    {
+        if(!sender.isOperator())
+            return (this->sendError("482", channel.getChannelName() + " :You're not channel operator", sender));
+    }
+    /*if(!sender.isOperator())
+        return (this->sendError("482", channel.getChannelName() + " :You're not channel operator", sender));*/
     channel.setChannelTopic(newTopic);
 
     std::string message =
