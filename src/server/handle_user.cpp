@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_user.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 15:03:38 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/28 16:03:50 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/08 13:02:48 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,26 @@
 
 void Server::handleUser(User &user, const std::string &arguments)
 {
-    std::vector<std::string> parameters = 
+    std::vector<std::string> parameters =
         Parser::getParameters(arguments);
-    
+
     if (parameters.size() < 4) // parameter user need 4 parameters
     {
         sendResponse(user.getFD(),
             ":ircserv 461 * USER :Not enough parameters\r\n");
         return;
     }
-    
+
     if (user.hasUser())
     {
         sendResponse(user.getFD(),
             ":ircserv 462 * :You may not reregister\r\n");
         return;
     }
-    
     user.setUsername(parameters[0]);
     user.setRealName(parameters[3]);
     user.setHasUser(true);
+    user.setUSER(true);
 
     std::cout << "USER accepted: username=["
               << user.getUsername()

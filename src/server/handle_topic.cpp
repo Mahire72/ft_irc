@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_topic.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 18:46:59 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/04 19:32:14 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/08 13:08:19 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 
 void Server::handleTopic(User &sender, const std::string &arguments)
 {
+     if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+    {
+        sendError("451", " :You have not registered", sender);
+        return;
+    }
+    
     std::vector<std::string> args =
         Parser::getParameters(arguments);
 
@@ -46,7 +52,7 @@ void Server::handleTopic(User &sender, const std::string &arguments)
         sendError("442", channelName + " :You're not on that channel", sender);
         return;
     }
-    
+
     if (args.size() == 1)
     {
         if (channel.getChannelTopic().empty())
@@ -67,7 +73,7 @@ void Server::handleTopic(User &sender, const std::string &arguments)
 
     std::string newTopic = args[1];
     channel.setChannelTopic(newTopic);
-    
+
     std::string message =
     ":" + sender.getNickname() +
     " TOPIC " +

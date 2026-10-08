@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/08 12:22:51 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 13:01:29 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ User::User()
 	_isOperator = false;
 
 	// mahire add for hasPass, hasNick, hasUser
-	_hasPass = false;
-	_hasNick = false;
-	_hasUser = false;
+	_hasPass = 	false;
+	_hasNick = 	false;
+	_hasUser = 	false;
+	_PASS	= 	false;
+	_NICK = 	false;
+	_USER = 	false;
 	/*++++++++++++*/
 	_userFD = -1;   //car fd 0 = stdin, donc impossible de l'utiliser
 	_userIP = "";
@@ -44,6 +47,9 @@ User::User(int user_fd)
 	_hasPass = false;
 	_hasNick = false;
 	_hasUser = false;
+	_PASS	= 	false;
+	_NICK = 	false;
+	_USER = 	false;
 	// quand un nouveau client arrive, il commence donc avec aucune etape de registration completee.
 
 	_userIP = "";
@@ -62,9 +68,12 @@ User::User(const User &other)
 	_isOperator = other._isOperator;
 
 	// also for _hasPass, _hasNick, _hasUser
-	_hasPass = other._hasPass;
-	_hasNick = other._hasNick;
-	_hasUser = other._hasUser;
+	_hasPass = 	other._hasPass;
+	_hasNick = 	other._hasNick;
+	_hasUser =	other._hasUser;
+	_PASS = 	other._PASS;
+	_NICK = 	other._NICK;
+	_USER = 	other._USER;
 
 
 	_userIP = other._userIP;
@@ -85,9 +94,12 @@ User &User::operator=(const User &other)
 		this->_isRegistered = other._isRegistered;
 		this->_isOperator = other._isOperator;
 
-		this->_hasPass = other._hasPass;
-		this->_hasNick = other._hasNick;
-		this->_hasUser = other._hasUser;
+		this->_hasPass 	= other._hasPass;
+		this->_hasNick 	= other._hasNick;
+		this->_hasUser 	= other._hasUser;
+		this->_PASS 	= other._PASS;
+		this->_USER 	= other._USER;
+		this->_NICK 	= other._NICK;
 
 
 		this->_userIP = other._userIP;
@@ -171,10 +183,16 @@ int User::getFD() const
 	return(_userFD);
 }
 
-bool User::isRegistered() const
+bool User::getRegistered() const
 {
 	return(_isRegistered);
 }
+
+bool User::getInServer() const
+{
+	return(_isInServer);
+}
+
 
 bool User::isOperator() const
 {
@@ -193,6 +211,22 @@ bool User::hasUser() const
 {
 	return _hasUser;
 }
+
+bool User::getUSER() const
+{
+	return _USER;
+}
+
+bool User::getPASS() const
+{
+	return _PASS;
+}
+
+bool User::getNICK() const
+{
+	return _NICK;
+}
+
 
 std::string	User::getIP() const
 {
@@ -231,11 +265,30 @@ void User::setRegistered(bool status)
 	_isRegistered = status;
 }
 
+void User::setIsInServer(bool status)
+{
+	_isInServer = status;
+}
+
 void User::setHasPass(bool status)
 {
 	_hasPass = status;
 }
 
+void User::setPASS(bool status)
+{
+	_PASS = status;
+}
+
+void User::setNICK(bool status)
+{
+	_NICK = status;
+}
+
+void User::setUSER(bool status)
+{
+	_USER = status;
+}
 
 void User::setIP(const std::string &ip)
 {

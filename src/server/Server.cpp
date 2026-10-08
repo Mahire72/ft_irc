@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/06 19:01:20 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 13:19:04 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void Server::handlePass(User& user, const std::string& arguments)
         return;
     }
 
-    if (user.isRegistered())
+    if (user.getInServer())
     {
         sendResponse(user.getFD(),
             ":IRCSERV 462 * :You may not register\r\n");
@@ -37,6 +37,7 @@ void Server::handlePass(User& user, const std::string& arguments)
     if (arguments == _password)
     {
         user.setHasPass(true);
+        user.setPASS(true); //TO CHECK
         return;
     }
 
@@ -121,6 +122,7 @@ void Server::sendError(const std::string &err_nb, const std::string &err_message
 		this->sendResponse(sender.getFD(), err);
 		return ;
 }
+
 
 void Server::dispatchCommand(User& user, const std::string& commandName,
                             const std::string &arguments)

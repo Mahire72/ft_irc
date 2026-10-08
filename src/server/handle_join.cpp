@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 18:33:21 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/06 19:00:25 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 13:08:45 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,11 @@ void Server::leaveAllChannels(User &sender)
 
 void Server::handleJoin(User &sender, const std::string &arguments)
 {
+     if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+    {
+        sendError("451", " :You have not registered", sender);
+        return;
+    }
     std::vector<std::string> args = Parser::getParameters(arguments);
 
     if (args.empty())
@@ -158,61 +163,9 @@ void Server::handleJoin(User &sender, const std::string &arguments)
         this->joinSingleChannel(sender, channelList[i], key);
     }
 }
-
-
-
-/*void Server::handleJoin(User &sender, const std::string &arguments)
-{
-    std::vector<std::string> args = Parser::getParameters(arguments);
-
-	if(args.empty())
-		return(this->sendError("461", "JOIN :Not enough parameters", sender));
-
-	// if(args[0][0] != '#' && args[0][0] != '&')
-	// 	return ;
-
-	if (args[0][0] != '#' && args[0][0] != '&')
-    	return (this->sendError("476", args[0] + " :Bad Channel Mask", sender));
-
-	std::map<std::string, Channel>::iterator it = _channels.find(args[0]); //cherche si le canal existe deja
-	if(it == _channels.end())
-	{
-		std::pair<std::map<std::string, Channel>::iterator, bool> ret;
-    	ret = _channels.insert(std::make_pair(args[0], Channel(args[0])));
-    	it = ret.first;
-	}
-
-	Channel &channel = it->second;
-
-	if (channel.hasUser(sender.getFD()))
-		return; // pour evite deux channel
-
-	channel.addUser(&sender);
-
-
-	std::string message = ":" + sender.getNickname() + " JOIN " + args[0] + "\r\n";
-	channel.broadcast(*this, message, -1);
-
-
-	if (!channel.getChannelTopic().empty())
-	{
-    	std::string rpl332 = ":" + this->getName() + " 332 " + sender.getNickname() + " " + args[0] + " :" + channel.getChannelTopic() + "\r\n";
-    	this->sendResponse(sender.getFD(), rpl332);
-	}
-
-	else
-	{
-		std::string rpl331 = ":" + this->getName() + " 331 " + sender.getNickname() + " " + args[0] + " :No topic is set\r\n";
-		this->sendResponse(sender.getFD(), rpl331);
-	}
-
-	// 1. RPL_NAMREPLY (353)
-	std::string namesList = channel.getChannelUsers();
-	std::string rpl353 = ":" + this->getName() + " 353 " + sender.getNickname() + " = " + args[0] + " :" + namesList + "\r\n";
-	this->sendResponse(sender.getFD(), rpl353);
-
-	// 2. RPL_ENDOFNAMES (366)
-	std::string rpl366 = ":" + this->getName() + " 366 " + sender.getNickname() + " " + args[0] + " :End of /NAMES list\r\n";
-	this->sendResponse(sender.getFD(), rpl366);
-}
+ /*if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+    {
+        sendError("451", " :You have not registered", sender);
+        return;
+    }
 */

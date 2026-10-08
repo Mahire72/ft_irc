@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/06 12:43:38 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/06 18:33:05 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 13:19:21 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,15 @@ attendu : :Alice!alice@127.0.0.1 INVITE Charlie :#salon
 */
 
 
+
 void Server::handleInvite(User &sender, const std::string &arguments)
 {
+    if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+    {
+        sendError("451", " :You have not registered", sender);
+        return;
+    }
+
     std::vector<std::string> args = Parser::getParameters(arguments);
 
     if (args.size() < 2)

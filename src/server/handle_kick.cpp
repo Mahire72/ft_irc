@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_kick.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/05 17:49:35 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/06 00:03:22 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/08 13:07:47 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ Channel *Server::findChannel(const std::string &channelName)
         _channels.find(channelName);
     if (it == _channels.end())
         return NULL;
-    
+
     return &it->second;;
 }
 
@@ -83,29 +83,34 @@ User *Server::findUserByNickname(const std::string &nickname)
 
 void Server::handleKick(User &sender, const std::string &arguments)
 {
+     if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+    {
+        sendError("451", " :You have not registered", sender);
+        return;
+    }
     std::cout << ">>> ENTERING handleKick" << std::endl;
-    std::vector<std::string> args = 
+    std::vector<std::string> args =
         Parser::getParameters(arguments);
-    
-        
+
+
     std::cout << ">>> AFTER PARSER" << std::endl;
     if (args.size() < 2)
     {
         sendKickNeedMoreParams(sender);
         return;
     }
-    
+
     std::cout << ">>> PARAMETERS OK" << std::endl;
-    
+
     std::string channelName = args[0];
     std::string targetNickname = args[1];
 
     std::cout << ">>> CHANNEL NAME = " << channelName << std::endl;
-    
+
     Channel *channel = findChannel(channelName);
-    
+
     std::cout << ">>> AFTER findChannel" << std::endl;
-    
+
     if (channel == NULL)
     {
         std::cout << ">>> CHANNEL IS NULL" << std::endl;
@@ -123,7 +128,7 @@ void Server::handleKick(User &sender, const std::string &arguments)
     std::cout << ">>> AFTER GET FD" << std::endl;
     std::cout << ">>> SENDER FD = " << senderFd << std::endl;
     std::cout << ">>> CHECK SENDER IN CHANNEL" << std::endl;
-    
+
     if (!channel->hasUser(senderFd))
     {
         std::cout << ">>> SENDER NOT IN CHANNEL" << std::endl;
@@ -131,10 +136,10 @@ void Server::handleKick(User &sender, const std::string &arguments)
         return;
     }
     std::cout << ">>> SENDER IS IN CHANNEL" << std::endl;
-    
+
 
     std::cout << ">>> CHECK SENDER OPERATOR" << std::endl;
-    
+
     if(!channel->isOperator(sender.getFD()))
     {
         std::cout << ">>> SENDER IS NOT OPERATOR" << std::endl;
@@ -142,7 +147,7 @@ void Server::handleKick(User &sender, const std::string &arguments)
         return;
     }
     std::cout << ">>> SENDER IS OPERATOR" << std::endl;
-    
+
     std::cout << ">>> CHECK TARGET USER" << std::endl;
     User *target = findUserByNickname(targetNickname);
     std::cout << ">>> AFTER findUserByNickname" << std::endl;
@@ -153,7 +158,7 @@ void Server::handleKick(User &sender, const std::string &arguments)
         return;
     }
     std::cout << ">>> TARGET FOUND, FD = " << target->getFD() << std::endl;
-    
+
     if (!channel->hasUser(target->getFD()))
     {
         std::cout << "TARGET NOT IN CHANNEL" << std::endl;
@@ -162,14 +167,14 @@ void Server::handleKick(User &sender, const std::string &arguments)
     }
 
     std::cout << "TARGET IS IN CHANNEL" << std::endl;
-    std::string message = 
-        ":" +  sender.getNickname() + 
+    std::string message =
+        ":" +  sender.getNickname() +
         " KICK " + channelName +
         " " + targetNickname +
         "\r\n";
-        
+
     channel->broadcast(*this, message, -1);
     channel->removeUser(target->getFD());
-        
+
     std::cout << "MESSAGE = ["  << message << "]" << std::endl;
 }
