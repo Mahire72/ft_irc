@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/06 18:58:21 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 11:47:12 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,27 @@ public:
 	std::string getUsername() const;
 	std::string getNickname() const;
 	std::string getRealName() const;
+	bool 		getKicked() const;   //TODO
 
 //SETTERS///////////////////////////////////////////////////////////////////////
 	void setFD(int fd);
 	void setRegistered(bool status);
+	void setKicked(bool status);    //TODO
 
 	//setter for _hasPass
 	void setHasPass(bool status);
-
 	void setHasUser(bool status);
-
-
-
 	void setIP(const std::string &ip);
 	void setBuffer(const std::string &buffer);
 	void setNickname(const std::string &nickname);
 	void setUsername(const std::string &username);
-
 	void setRealName(const std::string& realName);
 
 private:
-	bool			_isRegistered;
-	bool			_isOperator;
+	bool	_isRegistered;
+	bool	_isOperator;
+	bool 	_isKicked;       //TODO
+
 
 	// mahire add : add three booleans is the simple ay to track the registration steps separately.
 	bool _hasPass;

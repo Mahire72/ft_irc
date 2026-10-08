@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_privmsg.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 18:40:08 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/06 00:37:31 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/08 12:17:28 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,60 @@
 #include "../../include/Parser.hpp"
 
 
-//Here is important to understand how the message is filled in args[...]
-// Option 1 : args[1] contains the entire message, for example "args[1] = Hello world!"
-// Option 2 : the message was split into several words and args[1] = "Hello", args[2] = "world!" etc.
-
-//Here I managed it following the option 1, I can adapt it later if needed
-
 void Server::handlePrivmsg(User &sender, const std::string &arguments)
+{
+    std::vector<std::string> args = Parser::getParameters(arguments);
+
+    if (args.empty())
+        return this->sendError("411", " :No recipient given", sender);
+
+    if (args.size() < 2 || args[1].empty())
+        return this->sendError("412", " :No text to send", sender);
+
+    std::string target = args[0];
+    std::string message = args[1];
+
+    // Format standard du message PRIVMSG
+    std::string fullMsg = ":" + sender.getNickname() + "!" + sender.getUsername()
+                        + "@" + sender.getIP() + " PRIVMSG " + target + " :" + message + "\r\n";
+
+    if (target[0] == '#' || target[0] == '&')
+    {
+        std::map<std::string, Channel>::iterator it = _channels.find(target);
+        if (it == _channels.end())
+            return this->sendError("401", target + " :No such nick/channel", sender);
+
+		if(!it->second.isUserInChannel(sender.getFD()))
+			sendError("404", " :Cannot send to channel", sender);
+        it->second.broadcast(*this, fullMsg, sender.getFD());
+    }
+    else
+    {
+        for (std::map<int, User>::iterator it2 = _users.begin(); it2 != _users.end(); ++it2)
+        {
+            if (it2->second.getNickname() == target)
+            {
+                this->sendResponse(it2->second.getFD(), fullMsg);
+                return ;
+            }
+        }
+        this->sendError("401", target + " :No such nick/channel", sender);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*void Server::handlePrivmsg(User &sender, const std::string &arguments)
 {
 	std::vector<std::string> args = Parser::getParameters(arguments);
 
@@ -55,4 +102,4 @@ void Server::handlePrivmsg(User &sender, const std::string &arguments)
 		}
 		return(this->sendError("401", ":No such nick/channel", sender));
 	}
-}
+}*/

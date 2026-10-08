@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/06 19:02:14 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 11:44:25 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,9 @@ void Channel::removeUser(int userFd)
 	if(_channelUsers.find(userFd) == _channelUsers.end()) //n'existe pas dans la liste des users
 		return ;
 
+
 	_channelUsers.erase(userFd);
+	
 	removeOperator(userFd);
 }
 
