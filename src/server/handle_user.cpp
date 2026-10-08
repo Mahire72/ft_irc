@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 15:03:38 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 15:15:03 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 18:24:24 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void Server::handleUser(User &user, const std::string &arguments)
             ":ircserv 461 * USER :Not enough parameters\r\n");
         return;
     }
-
     if (user.hasUser())
     {
         sendResponse(user.getFD(),

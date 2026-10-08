@@ -6,12 +6,12 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 15:47:53 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 18:24:37 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
-
+#include "../../include/Signal.hpp"
 
 Server::Server(int port, const std::string &password)
     : _serverFd(-1), _port(port), _password(password)
@@ -79,10 +79,16 @@ Server::~Server()
 {
     for (size_t i = 0; i < _pollFds.size(); ++i)
         close(_pollFds[i].fd);
+    _pollFds.clear();
+    _users.clear();
+    _channels.clear();
 }
 
 void Server::start()
 {
+    signal(SIGINT, handleSignal);
+    signal(SIGTERM, handleSignal);
+
     setupSocket();
     setupAddress();
     startListening();

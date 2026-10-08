@@ -6,7 +6,7 @@
 #    By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/29 22:03:48 by mamaimai          #+#    #+#              #
-#    Updated: 2026/10/06 19:01:37 by mayoucha         ###   ########.fr        #
+#    Updated: 2026/10/08 18:25:43 by mayoucha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC = src/main.cpp \
 	  src/server/handle_mode.cpp\
       src/server/ServerNetwork.cpp \
       src/server/ServerPoll.cpp \
+	  src/server/signal.cpp \
 	  src/user/User.cpp \
 	  src/channel/Channel.cpp \
 	  src/parser/Parser.cpp

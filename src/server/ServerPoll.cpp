@@ -6,13 +6,15 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 13:05:45 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 18:25:27 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/Server.hpp"
 #include "../../include/Parser.hpp"
+#include "../../include/Signal.hpp"
+
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -20,6 +22,7 @@
 #include <cerrno>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+
 
 //enregistre un nouveau fd (socket) dans le tableau surveille par poll()
 void Server::addPollFd(int fd)
@@ -45,7 +48,7 @@ void Server::handleNewConnection()
     int clientFd = accept(_serverFd,
                          (struct sockaddr *)&clientAddr,
                          &clientAddrLen);
-
+    // IP
     if (clientFd == -1)
     {
         std::cerr << "accept() failed" << std::endl;
@@ -55,15 +58,10 @@ void Server::handleNewConnection()
     std::string clientIp = inet_ntoa(clientAddr.sin_addr);
 
     std::cout << "New client connected! fd = "
-              << clientFd << std::endl
               << clientFd
               << " IP = "
               << clientIp
               << std::endl;
-
-
-    /*std::cout << "New client connected! fd = "
-              << clientFd << std::endl;*/
 
     if (fcntl(clientFd, F_SETFL, O_NONBLOCK) == -1) //on passe la socket individuelle du client en non-bloquant
     {
@@ -189,7 +187,7 @@ void Server::handleClient(size_t index)
 
 void Server::run()
 {
-    while (true)
+    while (!g_stopServer)
     {
         int ret = poll(&_pollFds[0],
                        _pollFds.size(),
@@ -197,9 +195,12 @@ void Server::run()
 
         if (ret == -1)
         {
-            if (errno == EINTR) //Ctrl+C
+            if (errno == EINTR)
+            {
+                if (g_stopServer)
+                    break;
                 continue;
-
+            }
             std::cerr << "poll() failed" << std::endl;
             return;
         }
