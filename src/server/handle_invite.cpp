@@ -6,25 +6,21 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/06 12:43:38 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/08 13:19:21 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 15:13:57 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 #include "../../include/Parser.hpp"
 
-/*
-irc:      :Alice!alice@ INVITE Charlie :#42 (manque IP)
-attendu : :Alice!alice@127.0.0.1 INVITE Charlie :#salon
-*/
-
-
 
 void Server::handleInvite(User &sender, const std::string &arguments)
 {
+
     if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
     {
-        sendError("451", " :You have not registered", sender);
+        std::string nick = sender.getNickname().empty() ? "*" : sender.getNickname();
+        this->sendError("451", nick + " :You have not registered", sender);
         return;
     }
 

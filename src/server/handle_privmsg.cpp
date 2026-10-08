@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 18:40:08 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/08 13:08:10 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 15:14:35 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 
 void Server::handlePrivmsg(User &sender, const std::string &arguments)
 {
-	 if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+	if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
     {
-        sendError("451", " :You have not registered", sender);
+        std::string nick = sender.getNickname().empty() ? "*" : sender.getNickname();
+        this->sendError("451", nick + " :You have not registered", sender);
         return;
     }
-	
+
     std::vector<std::string> args = Parser::getParameters(arguments);
 
     if (args.empty())

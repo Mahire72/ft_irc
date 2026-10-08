@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 13:19:04 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 14:46:22 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void Server::handlePass(User& user, const std::string& arguments)
     {
         user.setHasPass(true);
         user.setPASS(true); //TO CHECK
+        checkRegistration(user); // Vérification à chaque étape
         return;
     }
 
@@ -104,6 +105,23 @@ bool Server::isUserInServer(std::string userNick) const
             return (true);
     }
     return(false);
+}
+
+void Server::checkRegistration(User &user)
+{
+    // On ne ré-enregistre pas un utilisateur déjà validé
+    if (user.getRegistered())
+        return;
+
+    // Condition stricte : Les 3 doivent être VRAIS
+    if (user.getPASS() && user.getNICK() && user.getUSER())
+    {
+        user.setRegistered(true);
+
+        // Envoi du RPL_WELCOME (001) et des messages d'accueil
+        this->sendResponse(user.getFD(), ":" + _name + " 001 " + user.getNickname()
+                           + " :Welcome to the IRC Network " + user.getNickname() + "\r\n");
+    }
 }
 
 int Server::getUserFd(std::string userNick) const

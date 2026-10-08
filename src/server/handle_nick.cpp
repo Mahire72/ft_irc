@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/14 14:15:11 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 13:02:28 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 14:46:40 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void Server::handleNick(User& user, const std::string& arguments)
     }
     user.setNickname(arguments);
     user.setNICK(true); //// TO CHECK ???
+    checkRegistration(user); // Vérification à chaque étape
 
     std::cout <<  ">>> nickname accepted: "
               << arguments << std::endl;

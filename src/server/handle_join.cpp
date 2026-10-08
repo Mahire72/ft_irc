@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 18:33:21 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 13:08:45 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 15:14:11 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void Server::leaveAllChannels(User &sender)
 {
     std::vector<std::string> joinedChannels;
 
-    // 1. Identifier tous les canaux dont l'utilisateur est membre
     for (std::map<std::string, Channel>::iterator it = _channels.begin(); it != _channels.end(); ++it)
     {
         Channel &channel = it->second;
@@ -132,13 +131,14 @@ void Server::leaveAllChannels(User &sender)
 
 void Server::handleJoin(User &sender, const std::string &arguments)
 {
-     if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+    if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
     {
-        sendError("451", " :You have not registered", sender);
+        std::string nick = sender.getNickname().empty() ? "*" : sender.getNickname();
+        this->sendError("451", nick + " :You have not registered", sender);
         return;
     }
-    std::vector<std::string> args = Parser::getParameters(arguments);
 
+    std::vector<std::string> args = Parser::getParameters(arguments);
     if (args.empty())
         return (this->sendError("461", "JOIN :Not enough parameters", sender));
 
@@ -163,9 +163,3 @@ void Server::handleJoin(User &sender, const std::string &arguments)
         this->joinSingleChannel(sender, channelList[i], key);
     }
 }
- /*if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
-    {
-        sendError("451", " :You have not registered", sender);
-        return;
-    }
-*/

@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 13:19:12 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 14:36:29 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ private:
 
 public:
     void sendResponse(int fd, const std::string &message); //Maksa
+    void checkRegistration(User &user);
     Server(int port, const std::string& password);
 
     ~Server();
