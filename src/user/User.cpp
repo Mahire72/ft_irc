@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/08 11:41:29 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 12:22:51 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,10 +188,6 @@ bool User::hasPass() const
 	return _hasPass;
 }
 
-bool User::getKicked() const
-{
-	return _isKicked;
-}
 
 bool User::hasUser() const
 {
@@ -267,11 +263,6 @@ void User::setRealName(const std::string& realName)
 }
 
 void User::setHasUser(bool status)
-{
-	_hasUser = status;
-}
-
-void User::setKicked(bool status)
 {
 	_hasUser = status;
 }
