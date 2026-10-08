@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/05 17:49:35 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 15:14:17 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 15:19:11 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ User *Server::findUserByNickname(const std::string &nickname)
 
 void Server::handleKick(User &sender, const std::string &arguments)
 {
-    if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+    if (!(sender.getRegistered()))
     {
         std::string nick = sender.getNickname().empty() ? "*" : sender.getNickname();
         this->sendError("451", nick + " :You have not registered", sender);

@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 18:46:59 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 15:14:39 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 15:19:30 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void Server::handleTopic(User &sender, const std::string &arguments)
 {
-    if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+    if (!(sender.getRegistered()))
     {
         std::string nick = sender.getNickname().empty() ? "*" : sender.getNickname();
         this->sendError("451", nick + " :You have not registered", sender);

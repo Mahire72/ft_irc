@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 15:29:44 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/08 15:14:26 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 15:19:15 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void Server::displayChannelModes(User &sender, Channel &channel)
 
 void Server::handleMode(User &sender, const std::string &arguments)
 {
-    if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+    if (!(sender.getRegistered()))
     {
         std::string nick = sender.getNickname().empty() ? "*" : sender.getNickname();
         this->sendError("451", nick + " :You have not registered", sender);

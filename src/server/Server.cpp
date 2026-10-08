@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 14:46:22 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 15:47:53 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void Server::checkRegistration(User &user)
         user.setRegistered(true);
 
         // Envoi du RPL_WELCOME (001) et des messages d'accueil
-        this->sendResponse(user.getFD(), ":" + _name + " 001 " + user.getNickname()
+        this->sendResponse(user.getFD(), ":" + this->getName() + " 001 " + user.getNickname()
                            + " :Welcome to the IRC Network " + user.getNickname() + "\r\n");
     }
 }

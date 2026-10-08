@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 18:33:21 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 15:14:11 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 15:17:26 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void Server::leaveAllChannels(User &sender)
 
 void Server::handleJoin(User &sender, const std::string &arguments)
 {
-    if (!(sender.getPASS() && sender.getNICK() && sender.getUSER()))
+    if (!(sender.getRegistered()))
     {
         std::string nick = sender.getNickname().empty() ? "*" : sender.getNickname();
         this->sendError("451", nick + " :You have not registered", sender);
