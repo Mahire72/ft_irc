@@ -14,7 +14,7 @@
                 | Git/team work              | Working like a professional developer   | **Every developer job**      |
 
 ## 🧠 The biggest lesson: abstraction
-    sendMessage(user, "hello"); 
+    essage(user, "hello");
 so some library/frameworl handles everything underneath.
 
 ## with ft_irc, we are forced to understand closer to:
@@ -49,7 +49,7 @@ so some library/frameworl handles everything underneath.
 
 An interviewer might ask:
     "How would you handle 10,000 connected clients?"
-best answer is: 
+best answer is:
     We need a server socket, non-blocking I/O, an     event loop, connection state, and some mechanism such as poll/epoll to monitor many sockets
 
 ## 🔥Skills you'll gain

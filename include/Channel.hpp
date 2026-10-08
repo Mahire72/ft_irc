@@ -6,16 +6,17 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/09/07 15:35:56 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/06 18:57:51 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHANNEL_HPP
 #define CHANNEL_HPP
 
-#include <string>
+#include <cstring>
 #include <map>
 #include <vector>
+#include <set>
 #include <sys/socket.h>
 
 #include "User.hpp"
@@ -41,21 +42,39 @@ public:
 
 //CLASS METHODS/////////////////////////////////////////////////////////////////
 	bool 	isOperator(int userFd) const;
+	bool 	isUserInChannel(int userFd) const;
 	void 	addOperator(int userFd);
 	void 	removeOperator(int userFd);
+
 	void	addUser(User *user);
 	void	removeUser(int userFd);
-	void	broadcast(Server &server, const std::string &message, int senderFd);
 
+	void	broadcast(Server &server, const std::string &message, int senderFd);
+	void 	addInvite(int fd);
+    bool 	isInvited(int fd) const;
+    void 	removeInvite(int fd);
+
+	bool hasUser(int userFd) const; // prevent joining the same channel twice
 //GETTERS///////////////////////////////////////////////////////////////////////
 	std::string	getChannelName() const;
 	std::string	getChannelKey() const;
 	std::string	getChannelTopic() const;
+	std::string getChannelUsers() const;
+	const std::map<int, User*>& getChannelUsersMap() const;
+	bool		get_i() const;
+	bool		get_t() const;
+	std::string	get_k() const;
+	bool		get_usersLimit() const;
 
 //SETTERS///////////////////////////////////////////////////////////////////////
 	void setChannelName(const std::string &name);
 	void setChannelKey(const std::string &key);
 	void setChannelTopic(const std::string &topic);
+	void set_i(const bool &i);
+	void set_t(const bool &t);
+	void set_k(const std::string &k);
+	void set_usersLimit(const bool &limit);
+
 
 private:
 	std::string 			_channelName;
@@ -63,6 +82,12 @@ private:
 	std::string 			_channelTopic;
 	std::map<int, User*> 	_channelUsers;
 	std::vector<int> 		_channelOperators;
+	///For MODE :
+	bool					_i;
+	bool					_t;
+	std::string				_k;
+	size_t					_usersLimit;
+	std::set<int> 			_invitedFds; // Stocke les FD des utilisateurs invités
 };
 
 

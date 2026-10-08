@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/15 20:03:48 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/08 18:24:37 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
-
-#include <unistd.h>
+#include "../../include/Signal.hpp"
 
 Server::Server(int port, const std::string &password)
     : _serverFd(-1), _port(port), _password(password)
 {
-    
+
 }
 
 void Server::handlePass(User& user, const std::string& arguments)
@@ -27,8 +26,8 @@ void Server::handlePass(User& user, const std::string& arguments)
         sendResponse(user.getFD(), ":ircserv 461 * PASS :Not enough parameters\r\n");
         return;
     }
-    
-    if (user.isRegistered())
+
+    if (user.getInServer())
     {
         sendResponse(user.getFD(),
             ":IRCSERV 462 * :You may not register\r\n");
@@ -38,9 +37,11 @@ void Server::handlePass(User& user, const std::string& arguments)
     if (arguments == _password)
     {
         user.setHasPass(true);
+        user.setPASS(true); //TO CHECK
+        checkRegistration(user); // Vérification à chaque étape
         return;
     }
-    
+
     //otherwise
     sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
     // if (arguments == _password)
@@ -78,10 +79,16 @@ Server::~Server()
 {
     for (size_t i = 0; i < _pollFds.size(); ++i)
         close(_pollFds[i].fd);
+    _pollFds.clear();
+    _users.clear();
+    _channels.clear();
 }
 
 void Server::start()
 {
+    signal(SIGINT, handleSignal);
+    signal(SIGTERM, handleSignal);
+
     setupSocket();
     setupAddress();
     startListening();
@@ -91,6 +98,56 @@ void Server::start()
     run();
 }
 
+std::string Server::getName() const
+{
+    return("ircserv");
+}
+
+bool Server::isUserInServer(std::string userNick) const
+{
+    for (std::map<int, User>::const_iterator it = _users.begin(); it != _users.end(); ++it)
+    {
+        if (it->second.getNickname() == userNick)
+            return (true);
+    }
+    return(false);
+}
+
+void Server::checkRegistration(User &user)
+{
+    // On ne ré-enregistre pas un utilisateur déjà validé
+    if (user.getRegistered())
+        return;
+
+    // Condition stricte : Les 3 doivent être VRAIS
+    if (user.getPASS() && user.getNICK() && user.getUSER())
+    {
+        user.setRegistered(true);
+
+        // Envoi du RPL_WELCOME (001) et des messages d'accueil
+        this->sendResponse(user.getFD(), ":" + this->getName() + " 001 " + user.getNickname()
+                           + " :Welcome to the IRC Network " + user.getNickname() + "\r\n");
+    }
+}
+
+int Server::getUserFd(std::string userNick) const
+{
+    for (std::map<int, User>::const_iterator it = _users.begin(); it != _users.end(); ++it)
+    {
+        if (it->second.getNickname() == userNick)
+            return (it->first);
+    }
+    return(0);
+}
+
+void Server::sendError(const std::string &err_nb, const std::string &err_message, User &sender)
+{
+        std::string err = ":" + this->getName() + " " + err_nb + " " + sender.getNickname() + " " + err_message + "\r\n";
+		this->sendResponse(sender.getFD(), err);
+		return ;
+}
+
+
 void Server::dispatchCommand(User& user, const std::string& commandName,
                             const std::string &arguments)
 {
@@ -98,6 +155,20 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
         handlePass(user, arguments);
     else if (commandName == "NICK")
         handleNick(user, arguments);
+    else if (commandName == "USER")
+        handleUser(user, arguments);
+    else if (commandName == "JOIN")
+        handleJoin(user, arguments);
+    else if (commandName == "PRIVMSG")
+        handlePrivmsg(user, arguments);
+    else if (commandName == "MODE")
+        handleMode(user, arguments);
+    else if (commandName == "INVITE")
+        handleInvite(user, arguments);
+    else if (commandName == "TOPIC")
+        handleTopic(user, arguments);
+    else if (commandName == "KICK")
+        handleKick(user, arguments);
     else
     {
         sendResponse(user.getFD(),
