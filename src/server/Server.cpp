@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 18:24:37 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 19:30:21 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,23 @@ void Server::checkRegistration(User &user)
     {
         user.setRegistered(true);
 
+        /*
         // Envoi du RPL_WELCOME (001) et des messages d'accueil
         this->sendResponse(user.getFD(), ":" + this->getName() + " 001 " + user.getNickname()
                            + " :Welcome to the IRC Network " + user.getNickname() + "\r\n");
-    }
+        this->sendResponse(user.getFD(), ":" + this->getName() + " 002 " + user.getNickname()
+                           + " :Your host is " + this->getName() + "\r\n");
+        this->sendResponse(user.getFD(), ":" + this->getName() + " 003 " + user.getNickname()
+                           + " :This server was created on October 2026" + "\r\n"); */
+
+        std::string nick = user.getNickname();
+        std::string host = this->getName();
+
+        sendResponse(user.getFD(), ":" + host + " 001 " + nick + " :Welcome to the IRC Network " + nick + "\r\n");
+        sendResponse(user.getFD(), ":" + host + " 002 " + nick + " :Your host is " + host + ", running version 1.0\r\n");
+        sendResponse(user.getFD(), ":" + host + " 003 " + nick + " :This server was created October 2026\r\n"); // mettre le temps exacte avec la focntion
+        sendResponse(user.getFD(), ":" + host + " 004 " + nick + " " + host + " 1.0 itkol\r\n");
+        }
 }
 
 int Server::getUserFd(std::string userNick) const

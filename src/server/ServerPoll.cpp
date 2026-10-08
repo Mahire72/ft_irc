@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 18:25:27 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/08 19:12:04 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void Server::removeClient(size_t index)
 //cette methode gere la lecture du reseau, la deconnexion propre et les erreurs
 void Server::handleClient(size_t index)
 {
-    char buffer[1024];
+    char buffer[1024 * 1024];
     int clientFd = _pollFds[index].fd;
 
     int bytes = recv(clientFd,
