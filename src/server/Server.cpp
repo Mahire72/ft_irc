@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 13:49:06 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/09 17:05:13 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,14 @@ Server::~Server()
 {
     for (size_t i = 0; i < _pollFds.size(); ++i)
     {
+        int fd = _pollFds[i].fd;
+
+        if (fd != _serverFd)
+        {
+            std::string message = "ERROR :Server shutting down\r\n";
+            send(fd, message.c_str(), message.size(), 0);
+        }
+        
         std::cout << "Closing fd " << _pollFds[i].fd << std::endl;
         close(_pollFds[i].fd);
     }
