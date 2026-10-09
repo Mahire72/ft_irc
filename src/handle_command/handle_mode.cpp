@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   handle_mode.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 15:29:44 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/08 15:19:15 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/09 12:37:14 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 #include "../../include/Parser.hpp"
+//#include "Server.hpp"
+//include "Parser.hpp"
 
 /*
 MODE - Change the channel’s mode:
