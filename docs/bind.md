@@ -9,7 +9,7 @@
 ## sockaddr_in is basically an adress conatiner
     Think of it as a samll box:
                 ┌──────────────────────────────┐
-                │       sockaddr_in             │
+                │       sockaddr_in            │
                 │                              │
                 │  Address family: IPv4        │
                 │  IP address:     127.0.0.1   │
@@ -70,7 +70,7 @@
                 address.sin_addr.s_addr = INADDR_ANY;
     Conceptually:
                 address.sin_addr.s_addr = htonl(INADDR_ANY);
-    
+
 ## Adress structure
                 struct sockaddr_in address;
 
@@ -92,7 +92,7 @@
                 └────────┬────────┘
                         │
                         ▼
-                    0.0.0.0:6667  
+                    0.0.0.0:6667
     The server socket is now bound to the port.
 
 ### bind() need a cast
@@ -100,7 +100,7 @@
                     (struct sockaddr *)&address,
                     sizeof(address));
     bind() expects a generic address type: struct sockaddr *, but we are using IPv4-specific: struct sockaddr_in . so we convert: sockaddr_in to sockaddr.
-    
+
     Cnceptually:
                 struct sockaddr_in
                         │
@@ -126,5 +126,5 @@
                 struct sockaddr_in
                 AF_INET
                 INADDR_ANY
-    
+
 

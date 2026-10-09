@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_join.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 18:33:21 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 12:36:08 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/09 18:26:20 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,9 @@ void Server::handleJoin(User &sender, const std::string &arguments)
 {
     if (!(sender.getRegistered()))
     {
-        std::string nick = sender.getNickname().empty() ? "*" : sender.getNickname();
-        this->sendError("451", nick + " :You have not registered", sender);
+        //std::string nick = sender.getNickname();
+        this->sendError("451", ":You have not registered", sender);
+        //this->sendError("451", " :You have not registered", sender);
         return;
     }
 

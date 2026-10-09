@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 17:05:13 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/09 18:05:32 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void Server::handlePass(User& user, const std::string& arguments)
         return;
     }
 
-    if (user.getInServer())
+    if (user.getRegistered())
     {
         sendResponse(user.getFD(),
-            ":IRCSERV 462 * :You may not register\r\n");
+            "462 :Unauthorized command (already registered)\r\n");
         return;
     }
 
@@ -88,7 +88,7 @@ Server::~Server()
             std::string message = "ERROR :Server shutting down\r\n";
             send(fd, message.c_str(), message.size(), 0);
         }
-        
+
         std::cout << "Closing fd " << _pollFds[i].fd << std::endl;
         close(_pollFds[i].fd);
     }
@@ -147,21 +147,16 @@ void Server::checkRegistration(User &user)
 {
     // On ne ré-enregistre pas un utilisateur déjà validé
     if (user.getRegistered())
-        return;
+    {
+        sendResponse(user.getFD(),
+            "462 :Unauthorized command (already registered)\r\n");
+        return  ;
+    }
 
     // Condition stricte : Les 3 doivent être VRAIS
     if (user.getPASS() && user.getNICK() && user.getUSER())
     {
         user.setRegistered(true);
-
-        /*
-        // Envoi du RPL_WELCOME (001) et des messages d'accueil
-        this->sendResponse(user.getFD(), ":" + this->getName() + " 001 " + user.getNickname()
-                           + " :Welcome to the IRC Network " + user.getNickname() + "\r\n");
-        this->sendResponse(user.getFD(), ":" + this->getName() + " 002 " + user.getNickname()
-                           + " :Your host is " + this->getName() + "\r\n");
-        this->sendResponse(user.getFD(), ":" + this->getName() + " 003 " + user.getNickname()
-                           + " :This server was created on October 2026" + "\r\n"); */
 
         std::string nick = user.getNickname();
         std::string host = this->getName();

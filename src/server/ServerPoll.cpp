@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerPoll.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 13:51:45 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/09 18:00:36 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void Server::handleClient(size_t index)
         }
 
         User &user = _users[clientFd];  //recuperer le User associe a ce Fd
+        //user.setIsInServer(true);
         user.addTextToBuffer(buffer);  //ajouter le texte brut au buffer de User
 
         // extrait et traite TOUTES les commandes completes disponibles (\r\n)
