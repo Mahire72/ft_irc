@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/08 19:30:21 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/09 13:49:06 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 #include "../../include/Signal.hpp"
+
+#include <ctime>
 
 Server::Server(int port, const std::string &password)
     : _serverFd(-1), _port(port), _password(password)
@@ -78,7 +80,10 @@ void Server::handlePass(User& user, const std::string& arguments)
 Server::~Server()
 {
     for (size_t i = 0; i < _pollFds.size(); ++i)
+    {
+        std::cout << "Closing fd " << _pollFds[i].fd << std::endl;
         close(_pollFds[i].fd);
+    }
     _pollFds.clear();
     _users.clear();
     _channels.clear();
@@ -113,6 +118,23 @@ bool Server::isUserInServer(std::string userNick) const
     return(false);
 }
 
+std::string Server::getCurrentTime()
+{
+    std::time_t now = std::time(NULL);
+    std::tm *timeInfo = std::localtime(&now);
+
+    char buffer[80];
+    std::strftime(buffer, sizeof(buffer), "%B %d %Y %H:%M:%S", timeInfo);
+
+    return std::string(buffer);
+}
+
+/*
+%B --full month name
+%d --day of the month
+%Y --year
+*/
+
 void Server::checkRegistration(User &user)
 {
     // On ne ré-enregistre pas un utilisateur déjà validé
@@ -138,7 +160,7 @@ void Server::checkRegistration(User &user)
 
         sendResponse(user.getFD(), ":" + host + " 001 " + nick + " :Welcome to the IRC Network " + nick + "\r\n");
         sendResponse(user.getFD(), ":" + host + " 002 " + nick + " :Your host is " + host + ", running version 1.0\r\n");
-        sendResponse(user.getFD(), ":" + host + " 003 " + nick + " :This server was created October 2026\r\n"); // mettre le temps exacte avec la focntion
+        sendResponse(user.getFD(), ":" + host + " 003 " + nick + " :This server is created " +getCurrentTime() + "\r\n");
         sendResponse(user.getFD(), ":" + host + " 004 " + nick + " " + host + " 1.0 itkol\r\n");
         }
 }
