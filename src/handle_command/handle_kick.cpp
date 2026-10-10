@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/05 17:49:35 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/10 15:27:34 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/10 15:40:34 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,13 @@ void Server::handleKick(User &sender, const std::string &arguments)
     std::string targetNickname = args[1];
     std::string comment;
 
-    if (args.size() > 3)
-        comment = args[2];
+    for (size_t i = 2; i < args.size(); ++i)
+    {
+        if (i > 2)
+            comment = comment + " ";
+        comment += args[i];
 
+    }
     std::cout << ">>> CHANNEL NAME = " << channelName << std::endl;
 
     Channel *channel = findChannel(channelName);
@@ -180,9 +184,12 @@ void Server::handleKick(User &sender, const std::string &arguments)
         ":" +  sender.getNickname() +
         " KICK " + channelName +
         " " + targetNickname;
+        
     if (!comment.empty())
         message = message + " :" + comment;
+    
     message = message + "\r\n";
+    
     channel->broadcast(*this, message, -1);
     channel->removeUser(target->getFD());
 
