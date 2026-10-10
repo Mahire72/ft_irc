@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_kick.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/05 17:49:35 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 12:36:54 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/10 15:52:35 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void Server::handleKick(User &sender, const std::string &arguments)
     std::cout << ">>> SENDER FD = " << senderFd << std::endl;
     std::cout << ">>> CHECK SENDER IN CHANNEL" << std::endl;
 
-    if (!channel->hasUser(senderFd))
+    if (!channel->isUserInChannel(senderFd))
     {
         std::cout << ">>> SENDER NOT IN CHANNEL" << std::endl;
         sendKickNotOnChannel(sender, channelName);
@@ -164,7 +164,7 @@ void Server::handleKick(User &sender, const std::string &arguments)
     }
     std::cout << ">>> TARGET FOUND, FD = " << target->getFD() << std::endl;
 
-    if (!channel->hasUser(target->getFD()))
+    if (!channel->isUserInChannel(target->getFD()))
     {
         std::cout << "TARGET NOT IN CHANNEL" << std::endl;
         sendKickUserNotInChannel(sender, targetNickname, channelName);

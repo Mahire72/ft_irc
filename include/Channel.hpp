@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/06 18:57:51 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/10 15:53:41 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@
 
 class Server; //Forward declaration
 
-//Cette classe represente un canal de discussion (par exemple #music)
-//Elle doit garder en memoire les elements suivants :
-// * qui est dans le canal
-// * qui est operateur
-// * quel est le sujet (topic)
-
-
 class Channel
 {
 public:
@@ -41,54 +34,51 @@ public:
 	~Channel();
 
 //CLASS METHODS/////////////////////////////////////////////////////////////////
-	bool 	isOperator(int userFd) const;
-	bool 	isUserInChannel(int userFd) const;
 	void 	addOperator(int userFd);
-	void 	removeOperator(int userFd);
-
 	void	addUser(User *user);
-	void	removeUser(int userFd);
-
-	void	broadcast(Server &server, const std::string &message, int senderFd);
 	void 	addInvite(int fd);
-    bool 	isInvited(int fd) const;
     void 	removeInvite(int fd);
+	void 	removeOperator(int userFd);
+	void	removeUser(int userFd);
+	void	broadcast(Server &server, const std::string &message, int senderFd);
 
-	bool hasUser(int userFd) const; // prevent joining the same channel twice
 //GETTERS///////////////////////////////////////////////////////////////////////
+	const std::map<int, User*>& getChannelUsersMap() const;
 	std::string	getChannelName() const;
 	std::string	getChannelKey() const;
 	std::string	getChannelTopic() const;
 	std::string getChannelUsers() const;
-	const std::map<int, User*>& getChannelUsersMap() const;
+	std::string	get_k() const;
+	bool 		isOperator(int userFd) const;
+	bool 		isUserInChannel(int userFd) const;
+	bool 		isInvited(int fd) const;
+	//bool 		hasUser(int userFd) const;
 	bool		get_i() const;
 	bool		get_t() const;
-	std::string	get_k() const;
 	bool		get_usersLimit() const;
 
 //SETTERS///////////////////////////////////////////////////////////////////////
 	void setChannelName(const std::string &name);
 	void setChannelKey(const std::string &key);
 	void setChannelTopic(const std::string &topic);
+	void set_usersLimit(const bool &limit);
 	void set_i(const bool &i);
 	void set_t(const bool &t);
 	void set_k(const std::string &k);
-	void set_usersLimit(const bool &limit);
 
 
 private:
-	std::string 			_channelName;
-	std::string				_channelKey;
-	std::string 			_channelTopic;
-	std::map<int, User*> 	_channelUsers;
-	std::vector<int> 		_channelOperators;
+	std::string 		_channelName;
+	std::string			_channelKey;
+	std::string			_channelTopic;
+	std::map<int, User*> _channelUsers;
+	std::vector<int> 	_channelOperators;
 	///For MODE :
-	bool					_i;
-	bool					_t;
-	std::string				_k;
-	size_t					_usersLimit;
-	std::set<int> 			_invitedFds; // Stocke les FD des utilisateurs invités
+	bool				_i;
+	bool				_t;
+	std::string			_k;
+	size_t				_usersLimit;
+	std::set<int> 		_invitedFds;
 };
-
 
 #endif

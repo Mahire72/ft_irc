@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 18:33:21 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 18:26:20 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/10 16:17:48 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,3 +166,36 @@ void Server::handleJoin(User &sender, const std::string &arguments)
         this->joinSingleChannel(sender, channelList[i], key);
     }
 }
+
+
+/*
+            JOIN
+              │
+              ↓
+       Does it have argument?
+          /          \
+        NO            YES
+        ↓              ↓
+ ERR_NEEDMORE     Channel name(s) valid?
+                     /       \
+                   NO         YES
+                   ↓           ↓
+             ERR_NOSUCH     Channel has a key (+k)?
+             CHANNEL          /          \
+                            NO           YES
+                            ↓             ↓
+                   Channel full (+l)?    Key matches?
+                      /        \           /       \
+                    NO         YES        NO       YES
+                    ↓           ↓         ↓         ↓
+                Invite-only?  ERR_FULL  ERR_BADKEY  Add user to channel
+                  /      \                           & broadcast JOIN
+                NO       YES                         to all members
+                ↓         ↓
+          Add user  Is user invited?
+                            /       \
+                          NO        YES
+                          ↓          ↓
+                    ERR_INVITE     Add user
+
+                    */

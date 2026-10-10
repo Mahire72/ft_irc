@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_topic.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 18:46:59 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 12:39:21 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/10 15:52:45 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void Server::handleTopic(User &sender, const std::string &arguments)
 
     Channel &channel = it->second;
 
-    if (!channel.hasUser(sender.getFD()))
+    if (!channel.isUserInChannel(sender.getFD()))
     {
         sendError("442", channelName + " :You're not on that channel", sender);
         return;

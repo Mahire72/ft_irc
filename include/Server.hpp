@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 12:53:54 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/10 15:45:03 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 #include "User.hpp"
 #include "Channel.hpp"
-
 #include <vector>
 #include <poll.h>
 #include <map>
@@ -24,13 +23,6 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <sstream>
-
-
-///MAKSA modifs :
-// * added "std::map<int, User> _users;"  in class Server
-// * modified handleNewConnection : added 2 lines to add User and to stock it in map
-// * modified removeClient : added 2 libes to remove User from map
-// * modified handleClient : voir fonction
 
 
 
@@ -140,7 +132,7 @@ public:
     bool isUserInServer(std::string userNick) const;
     int getUserFd(std::string userNick) const;
 
-    std::string getCurrentTime(); // getting time 
+    std::string getCurrentTime(); // getting time
 
 
 

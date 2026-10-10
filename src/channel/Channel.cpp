@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/08 11:44:25 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/10 15:53:53 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,15 +129,37 @@ bool	Channel::get_t() const
 	return(_t);
 }
 
+bool	Channel::get_usersLimit() const
+{
+	return(_usersLimit);
+}
+
 std::string	Channel::get_k() const
 {
 	return(_k);
 }
 
-bool	Channel::get_usersLimit() const
+bool Channel::isUserInChannel(int fd) const
 {
-	return(_usersLimit);
+    return (this->_channelUsers.find(fd) != this->_channelUsers.end());
 }
+
+
+bool Channel::isOperator(int userFd) const
+{
+	for (size_t i = 0; i < _channelOperators.size(); i++)
+	{
+		if(_channelOperators[i] == userFd)
+			return (true);
+	}
+	return(false);
+	//return (this->_channelOperators.find(userFd) != this->_channelOperators.end());
+}
+
+/*bool Channel::hasUser(int userFd) const
+{
+	return (_channelUsers.find(userFd) != _channelUsers.end());
+}*/
 
 
 //SETTERS //////////////////////////////////////////////////////////////////////
@@ -199,7 +221,7 @@ void Channel::removeUser(int userFd)
 
 
 	_channelUsers.erase(userFd);
-	
+
 	removeOperator(userFd);
 }
 
@@ -219,22 +241,6 @@ void Channel::broadcast(Server &server, const std::string &message, int senderFd
 	}
 }
 
-bool Channel::isUserInChannel(int fd) const
-{
-    return (this->_channelUsers.find(fd) != this->_channelUsers.end());
-}
-
-
-bool Channel::isOperator(int userFd) const
-{
-	for (size_t i = 0; i < _channelOperators.size(); i++)
-	{
-		if(_channelOperators[i] == userFd)
-			return (true);
-	}
-	return(false);
-	//return (this->_channelOperators.find(userFd) != this->_channelOperators.end());
-}
 
 
 void Channel::addOperator(int userFd)
@@ -273,8 +279,4 @@ bool Channel::isInvited(int fd) const
 void Channel::removeInvite(int fd)
 {
     _invitedFds.erase(fd);
-}
-bool Channel::hasUser(int userFd) const
-{
-	return (_channelUsers.find(userFd) != _channelUsers.end());
 }
