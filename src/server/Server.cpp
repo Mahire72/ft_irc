@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/10 14:36:40 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/10 15:45:51 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void Server::handlePass(User& user, const std::string& arguments)
     if (user.getRegistered() || user.hasPass())
     {
         sendResponse(user.getFD(),
-            "462 :Unauthorized command (already registered)\r\n");
+            ": IRCSERV 462 * :Unauthorized command (already registered)\r\n");
         return;
     }
 
