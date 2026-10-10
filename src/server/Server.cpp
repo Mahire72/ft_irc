@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 18:05:32 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/10 14:36:40 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void Server::handlePass(User& user, const std::string& arguments)
         return;
     }
 
-    if (user.getRegistered())
+    if (user.getRegistered() || user.hasPass())
     {
         sendResponse(user.getFD(),
             "462 :Unauthorized command (already registered)\r\n");
