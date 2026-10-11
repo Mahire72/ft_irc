@@ -149,6 +149,55 @@ For example:
 
 **Note:** The available commands and modes depend on the features implemented by the server. Check the project implementation for the exact supported behavior.
 
+## Supported IRC Commands
+
+### 1. User Registration
+
+| Command | Description | Example |
+|---|---|---|
+| `PASS` | Provides the password required to register with the server. | `PASS secret` |
+| `NICK` | Sets or changes the user's nickname. | `NICK alice` |
+| `USER` | Provides the username and real name for registration. | `USER alice 0 * :Alice Smith` |
+
+### 2. Channel Management
+
+| Command | Description | Example |
+|---|---|---|
+| `JOIN` | Joins a channel or creates it if permitted by the server. | `JOIN #42` |
+| `TOPIC` | Displays or changes a channel's topic, subject to permissions. | `TOPIC #42 :Welcome everyone!` |
+| `KICK` | Removes a user from a channel. Requires channel operator privileges. | `KICK #42 bob :Rule violation` |
+| `INVITE` | Invites a user to join a channel. | `INVITE bob #42` |
+| `MODE` | Displays or modifies user or channel modes. | `MODE #42 +t` |
+
+### 3. Messaging
+
+| Command | Description | Example |
+|---|---|---|
+| `PRIVMSG` | Sends a private message to another user. | `PRIVMSG bob :Hello!` |
+| `PRIVMSG` | Sends a message to a channel's eligible members. | `PRIVMSG #42 :Hello everyone!` |
+
+### 4. Channel Operator Permissions
+
+Channel operators can perform privileged actions depending on the channel's modes and the permissions implemented by the server.
+
+Examples:
+
+```irc
+MODE #42 +o alice
+MODE #42 +t
+KICK #42 bob :Rule violation
+TOPIC #42 :Welcome everyone!
+```
+
+- `+o` — Grants channel operator status to a user.
+- `+t` — Restricts who can change the channel topic, typically to channel operators.
+
+### 5. Notes
+
+- Commands and their parameters must follow the IRC protocol syntax.
+- Some commands require channel membership or operator privileges.
+- Available commands and modes depend on the features implemented by the server.
+
 ### Stopping the server
 
 Press `Ctrl+C` in the server terminal to stop the server. The server should exit its event loop and close its listening socket and connected client sockets.
