@@ -7,23 +7,33 @@ This project has been created as part of the 42 curriculum by mamaimai, mayoucha
 The server uses **non-blocking I/O and a single `poll()` event loop** to monitor the listening socket and all connected client sockets. This architecture allows it to handle multiple clients simultaneously without blocking while waiting for a particular client.
 
 ## Key Features
-    **TCP networking:** Create a server, listen on a specified port, and accept incoming client connections.
 
-    **Non-blocking I/O:** Use non-blocking sockets and `poll()` to monitor multiple connections through a single event loop.
+`TCP networking`
+    Create a server, listen on a specified port, and accept incoming client connections.
+
+`Non-blocking I/O`
+    Use non-blocking sockets and `poll()` to monitor multiple connections through a single event loop.
     
-    **User registration:** Authenticate clients using a server password and manage nicknames and usernames through `PASS`, `USER`, `NICK`.
+`User registration`
+    Authenticate clients using a server password and manage nicknames and usernames through `PASS`, `USER`, `NICK`.
 
-    **Channel management:** Allow users to join channels, manage topics, and handle channel membership and permissions.
+`Channel management`
+    Allow users to join channels, manage topics, and handle channel membership and permissions.
 
-    **Messaging:** Support private messages between users and messages sent to channels using `PRIVMSG`.
+`Messaging`
+    Support private messages between users and messages sent to channels using `PRIVMSG`.
 
-    **IRC commands:** Implement commands such as `JOIN`, `KICK`, `INVITE`, `TOPIC`, and `MODE`.
+`IRC commands`
+    Implement commands such as `JOIN`, `KICK`, `INVITE`, `TOPIC`, and `MODE`.
 
-    **Channel and user modes:** Manage channel permissions and restrictions, including supported modes such as `+i`, `+t`, `+k`, `+o`, and `+l`.
+`Channel and user modes`
+    Manage channel permissions and restrictions, including supported modes such as `+i`, `+t`, `+k`, `+o`, and `+l`.
 
-    **Protocol compliance and error handling:** Parse IRC messages, return appropriate numeric replies, and handle invalid commands and client disconnections.
+`Protocol compliance and error handling`
+    Parse IRC messages, return appropriate numeric replies, and handle invalid commands and client disconnections.
 
-    **Connection lifecycle:** Manage client connections and ensure proper cleanup during disconnections and server shutdown.
+`Connection lifecycle`
+    Manage client connections and ensure proper cleanup during disconnections and server shutdown.
 
 ## Learning Objectives
 
@@ -32,14 +42,12 @@ The server uses **non-blocking I/O and a single `poll()` event loop** to monitor
 # Instructions
 
 ## Prerequisites
-
 A C++ compiler compatible with **C++98** (such as `c++`).
 
 `make` to compile the project.
  An IRC client such as `Irssi`, `Netcat`(`nc`)**, or another compatible IRC client for testing(`WEECHAT, Hexchat).
 
 ## Compilation
-
 Clone the repository and navigate to the project directory:
 
                 Open the terminal.
