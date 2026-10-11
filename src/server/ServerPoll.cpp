@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 20:05:40 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/11 23:42:06 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void Server::addPollFd(int fd)
 
     _pollFds.push_back(pfd);
 }
-
+ 
 void Server::handleNewConnection()
 {
     struct sockaddr_in clientAddr;
@@ -78,6 +78,8 @@ void Server::removeClient(size_t index)
     _pollFds.erase(_pollFds.begin() + index);
 
     _users.erase(fd);
+    _outputBuffers.erase(fd);
+    
     std::cout << "User with fd " << fd << " removed." << std::endl;
 }
 
@@ -132,11 +134,8 @@ void Server::handleClient(size_t index)
     }
     else
     {
-        if (errno != EAGAIN && errno != EWOULDBLOCK)
-        {
-            std::cerr << "recv() failed" << std::endl;
-            removeClient(index);
-        }
+        std::cerr << "recv() failed" << std::endl;
+        removeClient(index);
     }
 }
 
@@ -177,10 +176,6 @@ void Server::run()
             if (events & POLLOUT)
                 handleClientWrite(i);
             
-            // client socket: receive data
-            if (events & POLLOUT)
-                handleClient(i);
-            
             //client socket: receive data
             if (events & POLLIN)
             {
@@ -194,6 +189,7 @@ void Server::run()
                     continue;
                 }
             }
+                 
             
             //handle disconnecte or invalid sockets
             if (events & (POLLHUP | POLLERR | POLLNVAL))
