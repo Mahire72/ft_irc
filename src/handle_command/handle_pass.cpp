@@ -6,12 +6,12 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/11 00:14:00 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 00:17:07 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/11 15:49:04 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
-
+#include <ctime>
 
 void Server::handlePass(User& user, const std::string& arguments)
 {
@@ -76,15 +76,12 @@ std::string Server::getCurrentTime()
 
 void Server::checkRegistration(User &user)
 {
-    // On ne ré-enregistre pas un utilisateur déjà validé
     if (user.getRegistered())
     {
         sendResponse(user.getFD(),
             "462 :Unauthorized command (already registered)\r\n");
         return  ;
     }
-
-    // Condition stricte : Les 3 doivent être VRAIS
     if (user.getPASS() && user.getNICK() && user.getUSER())
     {
         user.setRegistered(true);

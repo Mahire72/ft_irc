@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/29 22:02:53 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/11 10:34:19 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/10 18:42:52 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@
 
 int main(int argc, char **argv)
 {
+    //std::cout <<"Hello from  my server!" << std::endl;
     if (argc != 3)
         return 1;
     
