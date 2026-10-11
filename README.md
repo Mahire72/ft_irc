@@ -8,7 +8,7 @@ The server uses **non-blocking I/O and a single `poll()` event loop** to monitor
 
 ## Key Features
 
-`TCP networking`
+TCP networking
                 Create a server, listen on a specified port, and accept incoming client connections.
 
 `Non-blocking I/O`
