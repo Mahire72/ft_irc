@@ -99,58 +99,6 @@ To test communication between multiple clients, open another terminal and connec
 
 ## Supported IRC Commands
 
-The server implements IRC commands for user registration, channel management, messaging, and operator permissions.
-
-### User Registration
-
-Command         Description                                                          Example
-
-`PASS`          Provides the password required to register with the server.         `PASS secret`
-`NICK`          Sets or changes the user's nickname.                                `NICK alice`
-`USER`          Provides the username and real name for registration.               `USER alice 0 * :Alice Smith`
-
-### Channel Management
-
-Command         Description                                                           Example
-
-`JOIN`          Joins an existing channel or creates it if permitted by              `JOIN #42`
-                the server. 
-`TOPIC`         Displays or changes the topic of a channel, subject to               `TOPIC #42 :Welcome everyone!`
-                channel permissions.
-
-`KICK`          Removes a user from a channel. Requires channel operator             `KICK #42 bob :Rule violation`
-                privileges. 
-
-`INVITE`        Invites a user to join a channel.                                    `INVITE bob #42`
-
-`MODE`          Displays or modifies user or channel modes, depending                `MODE #42 +t`
-                on the supported implementation. 
-
-### Messaging
-Command         Description                                                           Example
-
-`PRIVMSG`       Sends a private message to a user or a message to a channel.         `PRIVMSG bob :Hello!`
-
-`PRIVMSG`       Sends a message to all eligible members of a channel.                `PRIVMSG #42 :Hello everyone!`
-
-### Channel Operator Permissions
-
-A channel operator can perform privileged actions, such as kicking users and modifying restricted channel settings, according to the supported modes and permissions.
-
-For example:
-
-                MODE #42 +o alice   
-                MODE #42 +t
-                KICK #42 bob :Goodbye!
-                TOPIC #42 :New channel topic
-
-- `+o` grants channel operator status to a user.
-- `+t` restricts who can change the channel topic, typically to channel operators.
-
-**Note:** The available commands and modes depend on the features implemented by the server. Check the project implementation for the exact supported behavior.
-
-## Supported IRC Commands
-
 ### 1. User Registration
 
 | Command | Description | Example |
