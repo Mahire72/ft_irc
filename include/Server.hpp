@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/10 15:45:03 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/11 19:46:29 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <poll.h>
 #include <map>
 #include <cstddef>
-#include <string>
+#include <cstring>
 #include <cstdlib>
 #include <unistd.h>
 #include <sstream>
@@ -40,7 +40,8 @@ private:
     std::vector<struct pollfd> _pollFds;
     std::map<int, User> _users; // Associe chaque FD de client à son instance de User
     std::map<std::string, Channel> _channels; //Maksa - liste de tous les canaux du serveur
-
+    
+    std::map<int, std::string> _outputBuffers; // conservera les messages en attente pour chaque client
 
     // Network setup
     void setupSocket();
@@ -53,7 +54,7 @@ private:
     void handleNewConnection();
     void handleClient(size_t index);
     void removeClient(size_t index);
-
+    void handleClientWrite(size_t index); // effectue reellementn l'envoi
 
 
     //password authentication

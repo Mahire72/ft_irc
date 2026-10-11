@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 00:34:17 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/11 20:05:40 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,6 @@ void Server::handleNewConnection()
     _users.insert(std::make_pair(clientFd, newUser));
 }
 
-/*
-the connection produces two things:
-    accept()
-    │
-    ├── clientFd → poll list
-    │
-    └── clientFd → User
-*/
-
-
-
 void Server::removeClient(size_t index)
 {
     int fd = _pollFds[index].fd;
@@ -105,14 +94,6 @@ void Server::handleClient(size_t index)
     if (bytes > 0)
     {
         buffer[bytes] = '\0';
-
-        std::cout << "DEBUG received: [" << buffer << "]" << std::endl;
-
-        for (int i = 0; i < bytes; ++i)
-        {
-            std::cout << "byte " << i
-                      << " = " << (int)buffer[i] << std::endl;
-        }
 
         User &user = _users[clientFd];
         user.addTextToBuffer(buffer);
@@ -181,31 +162,76 @@ void Server::run()
 
         for (size_t i = 0; i < _pollFds.size(); ++i)
         {
-            if (_pollFds[i].revents & POLLIN)
+            int fd = _pollFds[i].fd;
+            short events = _pollFds[i].revents;
+            
+            //server socket : accept new conncetions
+            if (fd == _serverFd)
             {
-                if (i == 0)
-                {
+                if (events & POLLIN)
                     handleNewConnection();
-                }
-                else
-                {
-                    size_t oldSize = _pollFds.size();
-
-                    handleClient(i);
-
-                    if (_pollFds.size() < oldSize)
-                        --i;
+                
+                continue;
+            }
+            // CLIENT SOCKET: SEND PENDING DATA
+            if (events & POLLOUT)
+                handleClientWrite(i);
+            
+            // client socket: receive data
+            if (events & POLLOUT)
+                handleClient(i);
+            
+            //client socket: receive data
+            if (events & POLLIN)
+            {
+                size_t oldSize = _pollFds.size();
+                handleClient(i);
+                
+                // THe client may have been removed
+                if (_pollFds.size() < oldSize)
+                {   
+                    --i;
+                    continue;
                 }
             }
-            else if (_pollFds[i].revents & (POLLHUP | POLLERR))
+            
+            //handle disconnecte or invalid sockets
+            if (events & (POLLHUP | POLLERR | POLLNVAL))
             {
-                if (i != 0)
-                {
-                    removeClient(i);
-                    --i;
-                }
+                removeClient(i);
+                   --i;
             }
         }
     }
     std::cout << "Server poll loop stopped." << std::endl;
+}
+
+
+void Server::handleClientWrite(size_t index)
+{
+    int fd = _pollFds[index].fd;
+    std::string &output = _outputBuffers[fd];
+
+    if (output.empty())
+    {
+        _pollFds[index].events &= ~POLLOUT;
+        return;
+    }
+
+    ssize_t bytesSent = send(fd, output.c_str(), output.size(), 0);
+
+    if (bytesSent > 0)
+        output.erase(0, bytesSent);
+    
+    else if (bytesSent == 0)
+        return;
+    
+    else
+        return;
+
+    if (output.empty())
+    {
+        _pollFds[index].events &= ~POLLOUT;
+        _outputBuffers.erase(fd);
+    }
 }

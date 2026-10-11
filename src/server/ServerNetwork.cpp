@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:58 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 00:11:46 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/11 20:04:30 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <fcntl.h>
+
 
 void Server::setupSocket()
 {
@@ -86,10 +87,25 @@ void Server::sendResponse(int destFd, const std::string &message)
     std::string message_copy = message;
 
     size_t len = message_copy.length();
+    
     if ((len < 2) || (message_copy[len - 2] != '\r' || message_copy[len - 1] != '\n'))
         message_copy += "\r\n";
-    if(send(destFd, message_copy.c_str(), message_copy.length(), 0) == -1)
+    
+    _outputBuffers[destFd] += message_copy;
+    
+    size_t i = 0;
+
+    while (i < _pollFds.size())
     {
-        std::cerr << "send() failed" << std::endl;
+        if (_pollFds[i].fd == destFd)
+        {
+            _pollFds[i].events = _pollFds[i].events | POLLOUT;
+            break;
+        }
+        i++;
     }
+    // if(send(destFd, message_copy.c_str(), message_copy.length(), 0) == -1)
+    // {
+    //     std::cerr << "send() failed" << std::endl;
+    // }
 }
