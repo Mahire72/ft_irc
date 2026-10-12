@@ -150,6 +150,22 @@ TOPIC #42 :Welcome everyone!
 
 Press `Ctrl+C` in the server terminal to stop the server. The server should exit its event loop and close its listening socket and connected client sockets.
 
+## Bonus: IRC Bot
+
+As part of the bonus features, a dedicated IRC bot is included in this project. 
+
+In this project, the bot is simply a user (a client). We didn't hardcode it into the server's source code to preserve the logic, because an IRC server's only job is to manage network connections and route messages."
+
+### How to use the bot
+1. Compile the bot using the bonus rule: 
+   `make bonus`
+2. Start the server in your first terminal: 
+   `./ircserv 6667 secret`
+3. Start the bot in a second terminal: 
+   `./bot 127.0.0.1 6667 secret`
+4. Connect as a normal user (via Irssi or nc) in a third terminal and send a private message to the bot:
+   `PRIVMSG ft_bot :!ping`
+   *(The bot will instantly intercept the message and reply with a `pong!`)*
 
 # Resources
 
