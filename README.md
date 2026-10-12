@@ -115,7 +115,6 @@ To test communication between multiple clients, open another terminal and connec
 | `TOPIC` | Displays or changes a channel's topic, subject to permissions. | `TOPIC #42 :Welcome everyone!` |
 | `KICK` | Removes a user from a channel. Requires channel operator privileges. | `KICK #42 bob :Rule violation` |
 | `INVITE` | Invites a user to join a channel. Invites a user to join a channel. If the channel is in invite-only mode (+i), this command allows the specified user to bypass the restriction and join successfully. | `INVITE bob #42` |
-Invites a user to join a channel. If the channel is in invite-only mode (+i), this command allows the specified user to bypass the restriction and join successfully.
 | `MODE` | Displays or modifies user or channel modes. Changes or views the modes of a channel. It supports flags such as invite-only (i), topic restrictions (t), key/password (k), user limit (l), and channel operator privileges (o).| `MODE #42 +t` |
 
 
@@ -156,7 +155,7 @@ Press `Ctrl+C` in the server terminal to stop the server. The server should exit
 
 1. File Transfer
 
-The server supports file transfers between users using the Direct Client-to-Client (DCC) protocol. You can test this feature directly with IRC-compatible clients or Netcat (nc) by sending a file with /dcc send <nickname> <filename> and accepting incoming files with /dcc get <nickname>.
+The server supports file transfers between users using the Direct Client-to-Client (DCC) protocol. You can test this feature directly with IRC-compatible clients or Netcat (nc) by sending a file with '/dcc send <nickname> <filename>' and accepting incoming files with '/dcc get <nickname>'.
 
 2. IRC Bot
 
