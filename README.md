@@ -13,7 +13,7 @@ The server uses **non-blocking I/O and a single `poll()` event loop** to monitor
 
 `Non-blocking I/O`
     Use non-blocking sockets and `poll()` to monitor multiple connections through a single event loop.
-    
+
 `User registration`
     Authenticate clients using a server password and manage nicknames and usernames through `PASS`, `USER`, `NICK`.
 
@@ -112,10 +112,13 @@ To test communication between multiple clients, open another terminal and connec
 | Command | Description | Example |
 |---|---|---|
 | `JOIN` | Joins a channel or creates it if permitted by the server. | `JOIN #42` |
+Allows a user to join one or multiple channels. It supports passwords (+k), multi-channel joins using commas, and leaving all channels using JOIN 0.
 | `TOPIC` | Displays or changes a channel's topic, subject to permissions. | `TOPIC #42 :Welcome everyone!` |
 | `KICK` | Removes a user from a channel. Requires channel operator privileges. | `KICK #42 bob :Rule violation` |
 | `INVITE` | Invites a user to join a channel. | `INVITE bob #42` |
+Invites a user to join a channel. If the channel is in invite-only mode (+i), this command allows the specified user to bypass the restriction and join successfully.
 | `MODE` | Displays or modifies user or channel modes. | `MODE #42 +t` |
+Changes or views the modes of a channel. It supports flags such as invite-only (i), topic restrictions (t), key/password (k), user limit (l), and channel operator privileges (o).
 
 ### 3. Messaging
 
@@ -150,21 +153,26 @@ TOPIC #42 :Welcome everyone!
 
 Press `Ctrl+C` in the server terminal to stop the server. The server should exit its event loop and close its listening socket and connected client sockets.
 
-## Bonus: IRC Bot
+## Bonus: File Transfer and IRC Bot
 
-As part of the bonus features, a dedicated IRC bot is included in this project. 
+1. File Transfer
 
-In this project, the bot is simply a user (a client). We didn't hardcode it into the server's source code to preserve the logic, because an IRC server's only job is to manage network connections and route messages."
+The server supports file transfers between users using the Direct Client-to-Client (DCC) protocol. You can test this feature directly with IRC-compatible clients or Netcat (nc) by sending a file with /dcc send <nickname> <filename> and accepting incoming files with /dcc get <nickname>.
+
+2. IRC Bot
+
+As part of the bonus features, a dedicated IRC bot is included in this project.
+The bot is simply a user (a client). We didn't hardcode it into the server's source code to preserve the logic, because an IRC server's only job is to manage network connections and route messages."
 
 ### How to use the bot
-1. Compile the bot using the bonus rule: 
-   `make bonus`
-2. Start the server in your first terminal: 
-   `./ircserv 6667 secret`
-3. Start the bot in a second terminal: 
-   `./bot 127.0.0.1 6667 secret`
+1. Compile the bot using the bonus rule:
+                make bonus
+2. Start the server in your first terminal:
+                ./ircserv 6667 secret
+3. Start the bot in a second terminal:
+                ./bot 127.0.0.1 6667 secret
 4. Connect as a normal user (via Irssi or nc) in a third terminal and send a private message to the bot:
-   `PRIVMSG ft_bot :!ping`
+                PRIVMSG ft_bot :!ping
    *(The bot will instantly intercept the message and reply with a `pong!`)*
 
 # Resources
@@ -178,3 +186,16 @@ https://www.ibm.com/docs/en/i/7.4.0?topic=programming-how-sockets-work
 https://www.ibm.com/docs/fr/i/7.6.0?topic=designs-using-poll-instead-select
 
 https://www.ibm.com/docs/fr/i/7.6.0?topic=p-wait-events-multiple-descriptors-poll
+
+https://www.mirc.com/help/html/index.html?basic_irc_commands.html
+
+https://dd.ircdocs.horse/refs/commands/nick
+
+https://dd.ircdocs.horse/refs/commands/join
+
+https://youtu.be/6UbKenFipjo?si=MUrXCzxaucvA2Ao9
+
+https://fr.wikipedia.org/wiki/IRC
+
+https://www.ibm.com/docs/fr/i/7.6.0?topic=designs-using-poll-instead-select
+
