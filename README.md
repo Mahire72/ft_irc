@@ -111,14 +111,13 @@ To test communication between multiple clients, open another terminal and connec
 
 | Command | Description | Example |
 |---|---|---|
-| `JOIN` | Joins a channel or creates it if permitted by the server. | `JOIN #42` |
-Allows a user to join one or multiple channels. It supports passwords (+k), multi-channel joins using commas, and leaving all channels using JOIN 0.
+| `JOIN` | Joins a channel or creates it if permitted by the server. It allows a user to join one or multiple channels. It supports passwords (+k), multi-channel joins using commas, and leaving all channels using JOIN 0. | `JOIN #42` |
 | `TOPIC` | Displays or changes a channel's topic, subject to permissions. | `TOPIC #42 :Welcome everyone!` |
 | `KICK` | Removes a user from a channel. Requires channel operator privileges. | `KICK #42 bob :Rule violation` |
-| `INVITE` | Invites a user to join a channel. | `INVITE bob #42` |
+| `INVITE` | Invites a user to join a channel. Invites a user to join a channel. If the channel is in invite-only mode (+i), this command allows the specified user to bypass the restriction and join successfully. | `INVITE bob #42` |
 Invites a user to join a channel. If the channel is in invite-only mode (+i), this command allows the specified user to bypass the restriction and join successfully.
-| `MODE` | Displays or modifies user or channel modes. | `MODE #42 +t` |
-Changes or views the modes of a channel. It supports flags such as invite-only (i), topic restrictions (t), key/password (k), user limit (l), and channel operator privileges (o).
+| `MODE` | Displays or modifies user or channel modes. Changes or views the modes of a channel. It supports flags such as invite-only (i), topic restrictions (t), key/password (k), user limit (l), and channel operator privileges (o).| `MODE #42 +t` |
+
 
 ### 3. Messaging
 
