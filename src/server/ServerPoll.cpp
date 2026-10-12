@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 23:42:06 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/12 12:09:17 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,12 @@ void Server::handleNewConnection()
     int clientFd = accept(_serverFd,
                          (struct sockaddr *)&clientAddr,
                          &clientAddrLen);
-    if (clientFd == -1)
+    if (clientFd < 0)
     {
         std::cerr << "accept() failed" << std::endl;
         return;
     }
-
-    std::string clientIp = inet_ntoa(clientAddr.sin_addr);
-
-    std::cout << "New client connected! fd = "
-              << clientFd
-              << " IP = "
-              << clientIp
-              << std::endl;
+    
 
     if (fcntl(clientFd, F_SETFL, O_NONBLOCK) == -1)
     {
@@ -63,11 +56,19 @@ void Server::handleNewConnection()
         return;
     }
 
+    std::string clientIp = inet_ntoa(clientAddr.sin_addr);
+
     addPollFd(clientFd);
 
     User newUser(clientFd);
     newUser.setIP(clientIp);
     _users.insert(std::make_pair(clientFd, newUser));
+    
+    std::cout << "New client connected! fd = "
+              << clientFd
+              << " IP = "
+              << clientIp
+              << std::endl; 
 }
 
 void Server::removeClient(size_t index)
@@ -134,7 +135,7 @@ void Server::handleClient(size_t index)
     }
     else
     {
-        std::cerr << "recv() failed" << std::endl;
+        std::cerr << "recv() failed for fd " << clientFd << std::endl;
         removeClient(index);
     }
 }
@@ -143,9 +144,14 @@ void Server::run()
 {
     while (!g_stopServer)
     {
-        int resultat_retourne = poll(&_pollFds[0],
-                       _pollFds.size(),
-                       -1);
+        if (_pollFds.empty())
+            break;
+
+        int resultat_retourne = poll(
+            &_pollFds[0],
+            _pollFds.size(),
+            -1
+        );
 
         if (resultat_retourne == -1)
         {
@@ -155,50 +161,75 @@ void Server::run()
                     break;
                 continue;
             }
-            std::cerr << "poll() failed " << std::strerror(errno) << std::endl;
-            return;
+
+            std::cerr << "poll() failed: "
+                      << strerror(errno) << std::endl;
+            break;
         }
 
-        for (size_t i = 0; i < _pollFds.size(); ++i)
+        for (size_t i = 0; i < _pollFds.size(); )
         {
             int fd = _pollFds[i].fd;
             short events = _pollFds[i].revents;
-            
-            //server socket : accept new conncetions
+
+            if (events == 0)
+            {
+                ++i;
+                continue;
+            }
+
             if (fd == _serverFd)
             {
                 if (events & POLLIN)
                     handleNewConnection();
-                
+
+                if (events & (POLLERR | POLLHUP | POLLNVAL))
+                {
+                    std::cerr << "Server socket error" << std::endl;
+                    g_stopServer = true;
+                    break;
+                }
+
+                ++i;
                 continue;
             }
-            // CLIENT SOCKET: SEND PENDING DATA
+
+            if (events & (POLLERR | POLLHUP | POLLNVAL))
+            {
+                removeClient(i);
+                continue;
+            }
+
             if (events & POLLOUT)
+            {
+                size_t oldSize = _pollFds.size();
+
                 handleClientWrite(i);
-            
-            //client socket: receive data
+
+                if (_pollFds.size() < oldSize)
+                    continue;
+            }
+
+            if (i >= _pollFds.size())
+                break;
+
+            if (_pollFds[i].fd != fd)
+                continue;
+
             if (events & POLLIN)
             {
                 size_t oldSize = _pollFds.size();
+
                 handleClient(i);
-                
-                // THe client may have been removed
+
                 if (_pollFds.size() < oldSize)
-                {   
-                    --i;
                     continue;
-                }
             }
-                 
-            
-            //handle disconnecte or invalid sockets
-            if (events & (POLLHUP | POLLERR | POLLNVAL))
-            {
-                removeClient(i);
-                   --i;
-            }
+
+            ++i;
         }
     }
+
     std::cout << "Server poll loop stopped." << std::endl;
 }
 
@@ -206,25 +237,31 @@ void Server::run()
 void Server::handleClientWrite(size_t index)
 {
     int fd = _pollFds[index].fd;
-    std::string &output = _outputBuffers[fd];
-
-    if (output.empty())
+    
+    std::map<int, std::string>::iterator it = _outputBuffers.find(fd);
+    
+    //std::string &output = _outputBuffers[fd];
+    
+    if (it == _outputBuffers.end() || it->second.empty())
     {
         _pollFds[index].events &= ~POLLOUT;
+        if (it != _outputBuffers.end())
+            _outputBuffers.erase(it);
         return;
     }
 
+    std::string &output = it->second;
     ssize_t bytesSent = send(fd, output.c_str(), output.size(), 0);
 
     if (bytesSent > 0)
-        output.erase(0, bytesSent);
-    
-    else if (bytesSent == 0)
-        return;
+        output.erase(0, static_cast<size_t>(bytesSent));
     
     else
+    {
+        std::cerr << "send() failed for fd " << fd << std::endl;
+        removeClient(index);
         return;
-
+    }
     if (output.empty())
     {
         _pollFds[index].events &= ~POLLOUT;

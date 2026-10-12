@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:58 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 20:04:30 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/12 11:46:46 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,20 @@ void Server::startListening()
 
 void Server::sendResponse(int destFd, const std::string &message)
 {
+    bool found = false;
+
+    for (size_t i = 0; i < _pollFds.size(); ++i)
+    {
+        if (_pollFds[i].fd == destFd)
+        {
+            found = true;
+            break;
+        }
+    }
+    
+    if (!found)
+        return;
+    
     std::string message_copy = message;
 
     size_t len = message_copy.length();
@@ -104,8 +118,4 @@ void Server::sendResponse(int destFd, const std::string &message)
         }
         i++;
     }
-    // if(send(destFd, message_copy.c_str(), message_copy.length(), 0) == -1)
-    // {
-    //     std::cerr << "send() failed" << std::endl;
-    // }
 }
