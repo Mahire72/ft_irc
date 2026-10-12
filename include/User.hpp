@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/10 15:48:12 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/10 16:43:14 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,14 @@ public:
 	~User();
 
 //MEMBER FUNCTIONS//////////////////////////////////////////////////////////////
-	std::string	extractCommand(); //cherche \r\n ou \n dans _userBuffer et renvoie la commande
 	void		addTextToBuffer(const std::string &message);
-
+	std::string	extractCommand(); //cherche \r\n ou \n dans _userBuffer et renvoie la commande
 
 //GETTERS///////////////////////////////////////////////////////////////////////
 	int 		getFD() const;
 	bool 		getRegistered() const;
 	bool 		getInServer() const;
 	bool 		isOperator() const;
-	//for hasPass
 	bool 		hasPass() const;
 	bool 		hasUser() const;
 	bool 		getPASS() const;
@@ -49,32 +47,30 @@ public:
 	std::string getRealName() const;
 
 //SETTERS///////////////////////////////////////////////////////////////////////
-	void setFD(int fd);
-	void setRegistered(bool status);
-	void setIsInServer(bool status);
-	void setHasPass(bool status);
-	void setHasUser(bool status);
-	void setPASS(bool status);
-	void setNICK(bool status);
-	void setUSER(bool status);
-	void setIP(const std::string &ip);
-	void setBuffer(const std::string &buffer);
-	void setNickname(const std::string &nickname);
-	void setUsername(const std::string &username);
-	void setRealName(const std::string& realName);
+	void 		setFD(int fd);
+	void 		setRegistered(bool status);
+	void 		setIsInServer(bool status);
+	void 		setHasPass(bool status);
+	void 		setHasUser(bool status);
+	void 		setPASS(bool status);
+	void 		setNICK(bool status);
+	void 		setUSER(bool status);
+	void 		setIP(const std::string &ip);
+	void 		setBuffer(const std::string &buffer);
+	void 		setNickname(const std::string &nickname);
+	void 		setUsername(const std::string &username);
+	void 		setRealName(const std::string& realName);
+
 
 private:
 	bool		_isRegistered;
 	bool		_isInServer;
 	bool		_isOperator;
-	//COMMANDES check
 	bool		_PASS;
 	bool		_NICK;
 	bool		_USER;
 	bool 		_hasPass;
 	bool 		_hasNick;
-	bool 		_hasUser;
-
 	int			_userFD;
 	std::string	_userIP;
 	std::string _userBuffer;

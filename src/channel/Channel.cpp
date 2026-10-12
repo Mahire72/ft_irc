@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/10 15:53:53 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/10 16:40:33 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,11 +155,6 @@ bool Channel::isOperator(int userFd) const
 	return(false);
 	//return (this->_channelOperators.find(userFd) != this->_channelOperators.end());
 }
-
-/*bool Channel::hasUser(int userFd) const
-{
-	return (_channelUsers.find(userFd) != _channelUsers.end());
-}*/
 
 
 //SETTERS //////////////////////////////////////////////////////////////////////

@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/10 15:53:41 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/10 16:34:34 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <vector>
 #include <set>
 #include <sys/socket.h>
-
 #include "User.hpp"
 
 class Server; //Forward declaration
