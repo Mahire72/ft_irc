@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/12 14:54:07 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/12 15:42:58 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ private:
     int         _port;
     std::string _name;
     std::string _password;
-        // Server
-        // ├── port = 6667
-        // └── password = "secret123"
-
+    
     std::vector<struct pollfd>      _pollFds;
     std::map<int, User>             _users;
     std::map<std::string, Channel>  _channels;

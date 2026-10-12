@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/10 16:43:14 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/12 16:16:19 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ private:
 	bool		_NICK;
 	bool		_USER;
 	bool 		_hasPass;
+	bool		_hasUser;
 	bool 		_hasNick;
 	int			_userFD;
 	std::string	_userIP;

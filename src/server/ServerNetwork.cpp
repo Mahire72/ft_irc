@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerNetwork.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:58 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/12 11:46:46 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/12 15:40:34 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void Server::setupSocket()
     int opt = 1;
 
     if (setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR,
-                   &opt, sizeof(opt)) == -1) 
+                   &opt, sizeof(opt)) == -1)
     {
         std::cerr << "setsockopt() failed" << std::endl;
         return;
@@ -58,10 +58,10 @@ void Server::setupAddress()
     address.sin_family = AF_INET;
     address.sin_port = htons(_port);
     address.sin_addr.s_addr = htonl(INADDR_ANY);
-    
+
     if (bind(_serverFd,
              (struct sockaddr *)&address,
-             sizeof(address)) == -1) 
+             sizeof(address)) == -1)
     {
         std::cerr << "bind() failed" << std::endl;
         return;
@@ -72,7 +72,7 @@ void Server::setupAddress()
 
 void Server::startListening()
 {
-    if (listen(_serverFd, 10) == -1)
+    if (listen(_serverFd, 42) == -1)
     {
         std::cerr << "listen() failed" << std::endl;
         return;
@@ -94,19 +94,19 @@ void Server::sendResponse(int destFd, const std::string &message)
             break;
         }
     }
-    
+
     if (!found)
         return;
-    
+
     std::string message_copy = message;
 
     size_t len = message_copy.length();
-    
+
     if ((len < 2) || (message_copy[len - 2] != '\r' || message_copy[len - 1] != '\n'))
         message_copy += "\r\n";
-    
+
     _outputBuffers[destFd] += message_copy;
-    
+
     size_t i = 0;
 
     while (i < _pollFds.size())

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerPoll.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/12 12:09:17 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/12 15:56:15 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void Server::addPollFd(int fd)
 
     _pollFds.push_back(pfd);
 }
- 
+
 void Server::handleNewConnection()
 {
     struct sockaddr_in clientAddr;
@@ -47,7 +47,7 @@ void Server::handleNewConnection()
         std::cerr << "accept() failed" << std::endl;
         return;
     }
-    
+
 
     if (fcntl(clientFd, F_SETFL, O_NONBLOCK) == -1)
     {
@@ -63,12 +63,12 @@ void Server::handleNewConnection()
     User newUser(clientFd);
     newUser.setIP(clientIp);
     _users.insert(std::make_pair(clientFd, newUser));
-    
+
     std::cout << "New client connected! fd = "
               << clientFd
               << " IP = "
               << clientIp
-              << std::endl; 
+              << std::endl;
 }
 
 void Server::removeClient(size_t index)
@@ -80,7 +80,7 @@ void Server::removeClient(size_t index)
 
     _users.erase(fd);
     _outputBuffers.erase(fd);
-    
+
     std::cout << "User with fd " << fd << " removed." << std::endl;
 }
 
@@ -100,14 +100,14 @@ void Server::handleClient(size_t index)
 
         User &user = _users[clientFd];
         user.addTextToBuffer(buffer);
-        
+
         std::string command;
         while(!(command = user.extractCommand()).empty())
         {
             std::cout << "[Client " << clientFd
                       << " Command]: "
                       << command << std::endl;
-                      
+
             std::string commandName = Parser::getCommand(command);
             std::string arguments = Parser::getArguments(command);
 
@@ -230,18 +230,16 @@ void Server::run()
         }
     }
 
-    std::cout << "Server poll loop stopped." << std::endl;
+    std::cout << " Server poll loop stopped." << std::endl;
 }
 
 
 void Server::handleClientWrite(size_t index)
 {
     int fd = _pollFds[index].fd;
-    
+
     std::map<int, std::string>::iterator it = _outputBuffers.find(fd);
-    
-    //std::string &output = _outputBuffers[fd];
-    
+
     if (it == _outputBuffers.end() || it->second.empty())
     {
         _pollFds[index].events &= ~POLLOUT;
@@ -255,7 +253,7 @@ void Server::handleClientWrite(size_t index)
 
     if (bytesSent > 0)
         output.erase(0, static_cast<size_t>(bytesSent));
-    
+
     else
     {
         std::cerr << "send() failed for fd " << fd << std::endl;
