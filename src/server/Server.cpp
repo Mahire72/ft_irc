@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/10 15:45:51 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/11 19:51:00 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,76 +21,14 @@ Server::Server(int port, const std::string &password)
 
 }
 
-void Server::handlePass(User& user, const std::string& arguments)
-{
-    if (arguments.empty())
-    {
-        sendResponse(user.getFD(), ":ircserv 461 * PASS :Not enough parameters\r\n");
-        return;
-    }
-
-    if (user.getRegistered() || user.hasPass())
-    {
-        sendResponse(user.getFD(),
-            ": IRCSERV 462 * :Unauthorized command (already registered)\r\n");
-        return;
-    }
-
-    if (arguments == _password)
-    {
-        user.setHasPass(true);
-        user.setPASS(true); //TO CHECK
-        checkRegistration(user); // Vérification à chaque étape
-        return;
-    }
-
-    //otherwise
-    sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
-    // if (arguments == _password)
-    // {
-    //     user.setHasPass(true);
-    //     std::cout << "PASS correct! hasPass = "
-    //               << user.hasPass() << std::endl;
-    // }
-    // else
-    //     sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
-}
-/*
-
-             PASS
-              │
-              ↓
-       Does it have argument?
-          /          \
-        NO            YES
-        ↓              ↓
- ERR_NEEDMORE     Already registered?
-                     /       \
-                   YES         NO
-                   ↓            ↓
-          ERR_ALREADY     Compare password
-          REGISTERED          /      \
-                             OK       WRONG
-                             ↓          ↓
-                      hasPass=true   error
-*/
-
-
-
 Server::~Server()
 {
     for (size_t i = 0; i < _pollFds.size(); ++i)
     {
         int fd = _pollFds[i].fd;
-
-        if (fd != _serverFd)
-        {
-            std::string message = "ERROR :Server shutting down\r\n";
-            send(fd, message.c_str(), message.size(), 0);
-        }
-
-        std::cout << "Closing fd " << _pollFds[i].fd << std::endl;
-        close(_pollFds[i].fd);
+        
+        std::cout << "Closing fd " << fd << std::endl;
+        close(fd);
     }
     _pollFds.clear();
     _users.clear();
@@ -126,48 +64,6 @@ bool Server::isUserInServer(std::string userNick) const
     return(false);
 }
 
-std::string Server::getCurrentTime()
-{
-    std::time_t now = std::time(NULL);
-    std::tm *timeInfo = std::localtime(&now);
-
-    char buffer[80];
-    std::strftime(buffer, sizeof(buffer), "%B %d %Y %H:%M:%S", timeInfo);
-
-    return std::string(buffer);
-}
-
-/*
-%B --full month name
-%d --day of the month
-%Y --year
-*/
-
-void Server::checkRegistration(User &user)
-{
-    // On ne ré-enregistre pas un utilisateur déjà validé
-    if (user.getRegistered())
-    {
-        sendResponse(user.getFD(),
-            "462 :Unauthorized command (already registered)\r\n");
-        return  ;
-    }
-
-    // Condition stricte : Les 3 doivent être VRAIS
-    if (user.getPASS() && user.getNICK() && user.getUSER())
-    {
-        user.setRegistered(true);
-
-        std::string nick = user.getNickname();
-        std::string host = this->getName();
-
-        sendResponse(user.getFD(), ":" + host + " 001 " + nick + " :Welcome to the IRC Network " + nick + "\r\n");
-        sendResponse(user.getFD(), ":" + host + " 002 " + nick + " :Your host is " + host + ", running version 1.0\r\n");
-        sendResponse(user.getFD(), ":" + host + " 003 " + nick + " :This server is created " +getCurrentTime() + "\r\n");
-        sendResponse(user.getFD(), ":" + host + " 004 " + nick + " " + host + " 1.0 itkol\r\n");
-        }
-}
-
 int Server::getUserFd(std::string userNick) const
 {
     for (std::map<int, User>::const_iterator it = _users.begin(); it != _users.end(); ++it)
@@ -184,7 +80,6 @@ void Server::sendError(const std::string &err_nb, const std::string &err_message
 		this->sendResponse(sender.getFD(), err);
 		return ;
 }
-
 
 void Server::dispatchCommand(User& user, const std::string& commandName,
                             const std::string &arguments)

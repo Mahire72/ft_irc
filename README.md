@@ -1,168 +1,180 @@
-# ft_irc
+# Contributors
+This project has been created as part of the 42 curriculum by mamaimai, mayoucha, omawele.
 
-                | ft_irc concept             | What you're actually learning           | Useful in jobs               |
-                | -------------------------- | --------------------------------------- | ---------------------------- |
-                | TCP sockets                | How computers communicate over networks | Backend, DevOps, networking  |
-                | `poll()`                   | Handling many connections efficiently   | Backend, distributed systems |
-                | Client/server architecture | How services communicate                | Backend, cloud               |
-                | IRC protocol               | Implementing a real specification       | API/protocol development     |
-                | Parsing commands           | Turning raw input into structured data  | Backend, compilers, APIs     |
-                | Multiple clients           | Concurrency and state management        | Backend, distributed systems |
-                | Error handling             | Designing robust software               | **Every software job**       |
-                | C++ classes                | Object-oriented design                  | C++/backend jobs             |
-                | Debugging                  | Finding problems in complex systems     | **Every developer job**      |
-                | Git/team work              | Working like a professional developer   | **Every developer job**      |
+# Description
+**ft_irc** is a 42 School project focused on implementing an IRC (Internet Relay Chat) server in C++98. The goal is to build a functional TCP server that follows the core IRC protocol and allows multiple clients to connect, register, communicate privately, and exchange messages through channels.
 
-## 🧠 The biggest lesson: abstraction
-    essage(user, "hello");
-so some library/frameworl handles everything underneath.
+The server uses **non-blocking I/O and a single `poll()` event loop** to monitor the listening socket and all connected client sockets. This architecture allows it to handle multiple clients simultaneously without blocking while waiting for a particular client.
 
-## with ft_irc, we are forced to understand closer to:
-                Application
-                    ↓
-                IRC protocol
-                    ↓
-                Your server
-                    ↓
-                poll()
-                    ↓
-                socket
-                    ↓
-                TCP
-                    ↓
-                Operating system
-                    ↓
-                Network
+## Key Features
 
-    so later when we use things like :
-                HTTP
-                REST APIs
-                WebSockets
-                databases
-                microservices
-                Docker
-                Kubernetes
-                cloud infrastructure
-    we will have much better mental model of what is actually happening underneath.
+`TCP networking`
+    Create a server, listen on a specified port, and accept incoming client connections.
 
-## 💼 How does this help your career?
+`Non-blocking I/O`
+    Use non-blocking sockets and `poll()` to monitor multiple connections through a single event loop.
+    
+`User registration`
+    Authenticate clients using a server password and manage nicknames and usernames through `PASS`, `USER`, `NICK`.
 
-An interviewer might ask:
-    "How would you handle 10,000 connected clients?"
-best answer is:
-    We need a server socket, non-blocking I/O, an     event loop, connection state, and some mechanism such as poll/epoll to monitor many sockets
+`Channel management`
+    Allow users to join channels, manage topics, and handle channel membership and permissions.
 
-## 🔥Skills you'll gain
-### 1. Networking
-    Client->TCP connection->Server->messages->response
-    we will learn concepts like this
-    IP adresses, ports, TCP connections. sockets, bind(), listen(), accept(), send(), recv() and connection lifecycle.
-This is verfy udeful for backend, networking, DevOps, security, distributed systems, etc.
+`Messaging`
+    Support private messages between users and messages sent to channels using `PRIVMSG`.
 
-### 2. Concurrency/event-driven programming
-    imagine we have:
-                Client A ─┐
-                Client B ─┤
-                Client C ─┼──> Your server
-                Client D ─┤
-                Client E ─┘
-    Our server can't simply do:
-                handle A
-                wait
-                handle B
-                wait
-                handle C
-so we need to efficently manage many connections. so we use poll().
-also understanding this will make concepts such as: event loops, asynchronous programming, WebSockets, epoll, kqueue and asynchronous servers musch easier later.
+`IRC commands`
+    Implement commands such as `JOIN`, `KICK`, `INVITE`, `TOPIC`, and `MODE`.
 
-### 3. software architecture
-    we will learn start separating responsibilities:
-    Server
-                ├── Client
-                ├── Channel
-                ├── Command
-                ├── JOIN
-                │    ├── PRIVMSG
-                │    ├── MODE
-                │    └── ...
-                └── Parser
-    this will teach use :"How to structure a real program."
+`Channel and user modes`
+    Manage channel permissions and restrictions, including supported modes such as `+i`, `+t`, `+k`, `+o`, and `+l`.
 
- ### 4. protocol implementation
-    IRC is a protocol, we are not inventing arbitrary behavior, We're implementing rules defined by a specification.
-This is very similar to professional work involving:
-                HTTP
-                SMTP
-                FTP
-                WebSocket
-                MQTT
-                custom APIs
-We will learn to ask:"What does the specification say?"
+`Protocol compliance and error handling`
+    Parse IRC messages, return appropriate numeric replies, and handle invalid commands and client disconnections.
 
-### 5. Debugging
-                Client connects
-                    ↓
-                JOIN works
-                    ↓
-                PRIVMSG works
-                    ↓
-                Client disconnects
-                    ↓
-                💥 server crashes
-So we have to figure out why.
-also we learn tools and techniques such as:
-                gdb
-                logs
-                assertions
-                sanitizers
-                memory debugging
-                network inspection
-                systematic reproduction of bugs
-So being good at debugging is one of the most valuable skills a developer can have.
+`Connection lifecycle`
+    Manage client connections and ensure proper cleanup during disconnections and server shutdown.
 
+## Learning Objectives
 
-## understand the base and logical behind every fuction.
-ex:
-                Without poll:
+    This project provides hands-on experience with TCP/IP networking, socket programming, non-blocking I/O, event-driven architecture, protocol implementation, and multi-client connection management. It also develops a deeper understanding of how network applications communicate with the operating system and manage data over TCP connections.
 
-                    Client A
-                    ↓
-                    wait...
-                    ↓
-                    Client B
-                    ↓
-                    wait...
-                    ↓
-                    Client C
-with poll():
-                                ┌─ Client A
-                                ├─ Client B
-                    poll() ───────┼─ Client C
-                                ├─ Client D
-                                └─ Client E
+# Instructions
 
-## 🌍 Where these skills transfer
-After ft_irc, you can connect the knowledge to:
+## Prerequisites
+A C++ compiler compatible with **C++98** (such as `c++`).
 
-                                ft_irc
-                                │
-                    ┌────────────┼────────────┐
-                    ↓            ↓            ↓
-                Networking     Backend      Systems
-                    │            │            │
-                TCP/IP       REST APIs     Linux
-                sockets      WebSockets    processes
-                poll         databases     I/O
-                    │            │            │
-                    └────────────┼────────────┘
-                                ↓
-                            Cloud / DevOps
-                                ↓
-                        Distributed Systems
-### advice of chatpapa:
-    For every major part, ask yourself:
-    What problem does this solve?
-    Why does the operating system work this way?
-    What happens underneath?
-    How would this behave with 1,000 clients?
-    How would I explain this to an interviewer?
+`make` to compile the project.
+ An IRC client such as `Irssi`, `Netcat`(`nc`)**, or another compatible IRC client for testing(`WEECHAT, Hexchat).
+
+## Compilation
+Clone the repository and navigate to the project directory:
+
+                Open the terminal.
+                git clone <repository-url>
+                cd ft_irc
+Compile the project using the Makefile:
+                make
+
+Additional Makefile commands:
+
+                make clean   # Remove object files
+                make fclean  # Remove object files and the executable
+                make re      # Recompile the project from scratch
+
+## Execution
+
+Run the IRC server with a port number and a connection password:
+                ./ircserv <port> <password>
+For example:
+                ./ircserv 6667 secret
+
+- `<port>`: The TCP port on which the server listens for incoming connections.
+- `<password>`: The password clients must provide to register with the server.
+
+Make sure the selected port is available and not already in use.
+
+## Connecting to the server
+
+You can connect using Netcat:open second Terminal.
+
+                nc 127.0.0.1 6667 (linux)
+                nc -c 127.0.0.1 6667 (for mac)
+Once connected, send the IRC registration commands:
+
+                PASS secret
+                NICK alice
+                USER alice 0 * :Alice
+
+After successful registration, the server should send the IRC welcome replies.
+
+You can then join a channel:
+                JOIN #42
+
+And send a message to the channel:
+
+                PRIVMSG #42 :Hello everyone!
+
+To test communication between multiple clients, open another terminal and connect to the same server using the same port and password, but choose a different nickname.
+
+## Supported IRC Commands
+
+### 1. User Registration
+
+| Command | Description | Example |
+|---|---|---|
+| `PASS` | Provides the password required to register with the server. | `PASS secret` |
+| `NICK` | Sets or changes the user's nickname. | `NICK alice` |
+| `USER` | Provides the username and real name for registration. | `USER alice 0 * :Alice Smith` |
+
+### 2. Channel Management
+
+| Command | Description | Example |
+|---|---|---|
+| `JOIN` | Joins a channel or creates it if permitted by the server. | `JOIN #42` |
+| `TOPIC` | Displays or changes a channel's topic, subject to permissions. | `TOPIC #42 :Welcome everyone!` |
+| `KICK` | Removes a user from a channel. Requires channel operator privileges. | `KICK #42 bob :Rule violation` |
+| `INVITE` | Invites a user to join a channel. | `INVITE bob #42` |
+| `MODE` | Displays or modifies user or channel modes. | `MODE #42 +t` |
+
+### 3. Messaging
+
+| Command | Description | Example |
+|---|---|---|
+| `PRIVMSG` | Sends a private message to another user. | `PRIVMSG bob :Hello!` |
+| `PRIVMSG` | Sends a message to a channel's eligible members. | `PRIVMSG #42 :Hello everyone!` |
+
+### 4. Channel Operator Permissions
+
+Channel operators can perform privileged actions depending on the channel's modes and the permissions implemented by the server.
+
+Examples:
+
+```irc
+MODE #42 +o alice
+MODE #42 +t
+KICK #42 bob :Rule violation
+TOPIC #42 :Welcome everyone!
+```
+
+- `+o` — Grants channel operator status to a user.
+- `+t` — Restricts who can change the channel topic, typically to channel operators.
+
+### 5. Notes
+
+- Commands and their parameters must follow the IRC protocol syntax.
+- Some commands require channel membership or operator privileges.
+- Available commands and modes depend on the features implemented by the server.
+
+### Stopping the server
+
+Press `Ctrl+C` in the server terminal to stop the server. The server should exit its event loop and close its listening socket and connected client sockets.
+
+## Bonus: IRC Bot
+
+As part of the bonus features, a dedicated IRC bot is included in this project. 
+
+In this project, the bot is simply a user (a client). We didn't hardcode it into the server's source code to preserve the logic, because an IRC server's only job is to manage network connections and route messages."
+
+### How to use the bot
+1. Compile the bot using the bonus rule: 
+   `make bonus`
+2. Start the server in your first terminal: 
+   `./ircserv 6667 secret`
+3. Start the bot in a second terminal: 
+   `./bot 127.0.0.1 6667 secret`
+4. Connect as a normal user (via Irssi or nc) in a third terminal and send a private message to the bot:
+   `PRIVMSG ft_bot :!ping`
+   *(The bot will instantly intercept the message and reply with a `pong!`)*
+
+# Resources
+
+https://www.rfc-editor.org/info/rfc2812/
+
+https://www.geeksforgeeks.org/computer-networks/socket-in-computer-network/
+
+https://www.ibm.com/docs/en/i/7.4.0?topic=programming-how-sockets-work
+
+https://www.ibm.com/docs/fr/i/7.6.0?topic=designs-using-poll-instead-select
+
+https://www.ibm.com/docs/fr/i/7.6.0?topic=p-wait-events-multiple-descriptors-poll

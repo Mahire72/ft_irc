@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:58 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/09/10 14:41:37 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/12 11:46:46 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 #include <netinet/in.h>
 #include <fcntl.h>
 
-// This file's responsibility is: Get the server socket ready to accept connections
 
 void Server::setupSocket()
 {
-    _serverFd = socket(AF_INET, SOCK_STREAM, 0); //demande au SE une socket de type IPv4 (AF_INET) et TCP (SOCK_STREAM)
+    _serverFd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (_serverFd == -1)
     {
@@ -35,7 +34,7 @@ void Server::setupSocket()
     int opt = 1;
 
     if (setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR,
-                   &opt, sizeof(opt)) == -1)            //evite le freez du serveur entre 2 redemarrages
+                   &opt, sizeof(opt)) == -1) 
     {
         std::cerr << "setsockopt() failed" << std::endl;
         return;
@@ -43,7 +42,7 @@ void Server::setupSocket()
 
     std::cout << "SO_REUSEADDR enabled!" << std::endl;
 
-    if (fcntl(_serverFd, F_SETFL, O_NONBLOCK) == -1)  //condition de non-block pour eviter le freeze du serveur qd il n'y a rien a lire (couple avec poll() )
+    if (fcntl(_serverFd, F_SETFL, O_NONBLOCK) == -1)
     {
         std::cerr << "fcntl() failed" << std::endl;
         return;
@@ -52,20 +51,17 @@ void Server::setupSocket()
     std::cout << "Socket is non-blocking!" << std::endl;
 }
 
-
-// cette methode prepare et associe l'adresse reseau / port a notre socket
 void Server::setupAddress()
 {
     struct sockaddr_in address;
 
-    address.sin_family = AF_INET;  //protocole IPv4
-    address.sin_port = htons(_port); //Host to Network Short - convertit le numero de port au format d'octets reseau
-    address.sin_addr.s_addr = htonl(INADDR_ANY);  //Host to Network Long - ndique au serveur d'écouter sur toutes les interfaces réseau disponibles de la machine
-
-    //assigne IP et le port configure au _serverFd
+    address.sin_family = AF_INET;
+    address.sin_port = htons(_port);
+    address.sin_addr.s_addr = htonl(INADDR_ANY);
+    
     if (bind(_serverFd,
              (struct sockaddr *)&address,
-             sizeof(address)) == -1)     //on cast car bind() attend un ptr vers sockaddr
+             sizeof(address)) == -1) 
     {
         std::cerr << "bind() failed" << std::endl;
         return;
@@ -74,16 +70,13 @@ void Server::setupAddress()
     std::cout << "Bind successful!" << std::endl;
 }
 
-
-//met la socket en mode ecoute
 void Server::startListening()
 {
-    if (listen(_serverFd, 10) == -1) //10 represente la taille de la file d'attente des connexions non-traitees
+    if (listen(_serverFd, 10) == -1)
     {
         std::cerr << "listen() failed" << std::endl;
         return;
     }
-
     std::cout << "Server is listening on port "
               << _port << std::endl;
 }
@@ -91,33 +84,38 @@ void Server::startListening()
 
 void Server::sendResponse(int destFd, const std::string &message)
 {
+    bool found = false;
+
+    for (size_t i = 0; i < _pollFds.size(); ++i)
+    {
+        if (_pollFds[i].fd == destFd)
+        {
+            found = true;
+            break;
+        }
+    }
+    
+    if (!found)
+        return;
+    
     std::string message_copy = message;
 
     size_t len = message_copy.length();
+    
     if ((len < 2) || (message_copy[len - 2] != '\r' || message_copy[len - 1] != '\n'))
         message_copy += "\r\n";
-    if(send(destFd, message_copy.c_str(), message_copy.length(), 0) == -1)
+    
+    _outputBuffers[destFd] += message_copy;
+    
+    size_t i = 0;
+
+    while (i < _pollFds.size())
     {
-        std::cerr << "send() failed" << std::endl;
+        if (_pollFds[i].fd == destFd)
+        {
+            _pollFds[i].events = _pollFds[i].events | POLLOUT;
+            break;
+        }
+        i++;
     }
 }
-
-
-//fd = socket du client qui doit recevoir le msg
-// message = le texte a lui envoyer
-
-
-
-
-
-
-
-
-
-//ssize_t send(int s, const void *buf, size_t len, int flags); -- permet de transmettre un message a destination d'une autre socket
-
-//s = fd de la socket emettrice
-//buf = message a trasnmettre
-//len = longueur du msg
-// flags ???
-

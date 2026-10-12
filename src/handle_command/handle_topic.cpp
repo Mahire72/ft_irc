@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_topic.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 18:46:59 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/10 15:52:45 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/11 15:50:28 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,15 @@ void Server::handleTopic(User &sender, const std::string &arguments)
         if(!sender.isOperator())
             return (this->sendError("482", channel.getChannelName() + " :You're not channel operator", sender));
     }
-    /*if(!sender.isOperator())
-        return (this->sendError("482", channel.getChannelName() + " :You're not channel operator", sender));*/
     channel.setChannelTopic(newTopic);
 
     std::string message =
-    ":" + sender.getNickname() +
-    " TOPIC " +
-    channelName +
-    " :" +
-    newTopic +
-    "\r\n";
+              ":" + sender.getNickname() +
+              " TOPIC " +
+              channelName +
+              " :" +
+              newTopic +
+              "\r\n";
 
     channel.broadcast(*this, message, -1);
     std::cout << "User is in channel: " << channelName << std::endl;

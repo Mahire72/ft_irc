@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerPoll.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 18:00:36 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/12 12:09:17 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,85 +23,67 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-
-//enregistre un nouveau fd (socket) dans le tableau surveille par poll()
 void Server::addPollFd(int fd)
 {
-    struct pollfd pfd; //tableau de structures --> chaque element represente un fd a surveiller
+    struct pollfd pfd;
 
     pfd.fd = fd;
-    pfd.events = POLLIN; //masque - previent qd un nouveau client tente de se connecter (_serverFd) ou si un client a envoye un msg
-    pfd.revents = 0; //'returned events' - resultat des evenements lors de l'appel a poll()
+    pfd.events = POLLIN;
+    pfd.revents = 0;
 
     _pollFds.push_back(pfd);
 }
-
-
-//cette methode traite l'arrivee d'un nv client
+ 
 void Server::handleNewConnection()
 {
-    //int clientFd = accept(_serverFd, NULL, NULL); //extrait la demande de connexion de la file d'attente du serveur
-
     struct sockaddr_in clientAddr;
     socklen_t clientAddrLen = sizeof(clientAddr);
 
     int clientFd = accept(_serverFd,
                          (struct sockaddr *)&clientAddr,
                          &clientAddrLen);
-    // IP
-    if (clientFd == -1)
+    if (clientFd < 0)
     {
         std::cerr << "accept() failed" << std::endl;
         return;
     }
+    
 
-    std::string clientIp = inet_ntoa(clientAddr.sin_addr);
-
-    std::cout << "New client connected! fd = "
-              << clientFd
-              << " IP = "
-              << clientIp
-              << std::endl;
-
-    if (fcntl(clientFd, F_SETFL, O_NONBLOCK) == -1) //on passe la socket individuelle du client en non-bloquant
+    if (fcntl(clientFd, F_SETFL, O_NONBLOCK) == -1)
     {
         std::cerr << "fcntl() failed for client" << std::endl;
         close(clientFd);
         return;
     }
 
-    addPollFd(clientFd); //ajoute le client au monitoring de poll()
+    std::string clientIp = inet_ntoa(clientAddr.sin_addr);
 
-    User newUser(clientFd); //creation de User
+    addPollFd(clientFd);
+
+    User newUser(clientFd);
     newUser.setIP(clientIp);
-    _users.insert(std::make_pair(clientFd, newUser)); //stockage dans la map (variable _users de Server)
+    _users.insert(std::make_pair(clientFd, newUser));
+    
+    std::cout << "New client connected! fd = "
+              << clientFd
+              << " IP = "
+              << clientIp
+              << std::endl; 
 }
-
-/*
-the connection produces two things:
-    accept()
-    │
-    ├── clientFd → poll list
-    │
-    └── clientFd → User
-*/
-
-
 
 void Server::removeClient(size_t index)
 {
     int fd = _pollFds[index].fd;
 
-    close(fd);   //fermeture de la socket
-    _pollFds.erase(_pollFds.begin() + index); //retire l'element du vecteur _pollFds a l'index specifie
+    close(fd);
+    _pollFds.erase(_pollFds.begin() + index);
 
-    _users.erase(fd); //on supprime le User de notre map
+    _users.erase(fd);
+    _outputBuffers.erase(fd);
+    
     std::cout << "User with fd " << fd << " removed." << std::endl;
 }
 
-
-
-//cette methode gere la lecture du reseau, la deconnexion propre et les erreurs
 void Server::handleClient(size_t index)
 {
     char buffer[1024 * 1024];
@@ -116,26 +98,16 @@ void Server::handleClient(size_t index)
     {
         buffer[bytes] = '\0';
 
-        std::cout << "DEBUG received: [" << buffer << "]" << std::endl;
-
-        for (int i = 0; i < bytes; ++i)
-        {
-            std::cout << "byte " << i
-                      << " = " << (int)buffer[i] << std::endl;
-        }
-
-        User &user = _users[clientFd];  //recuperer le User associe a ce Fd
-        //user.setIsInServer(true);
-        user.addTextToBuffer(buffer);  //ajouter le texte brut au buffer de User
-
-        // extrait et traite TOUTES les commandes completes disponibles (\r\n)
+        User &user = _users[clientFd];
+        user.addTextToBuffer(buffer);
+        
         std::string command;
         while(!(command = user.extractCommand()).empty())
         {
             std::cout << "[Client " << clientFd
                       << " Command]: "
                       << command << std::endl;
-            // parseAndExecuteCommand(user, command);   /////TO CODE!!!!
+                      
             std::string commandName = Parser::getCommand(command);
             std::string arguments = Parser::getArguments(command);
 
@@ -149,23 +121,8 @@ void Server::handleClient(size_t index)
                           << parameters[i] << "]"
                           << std::endl;
             }
-            // if (commandName == "PASS")
-            //     handlePass(user, arguments);
-            // std::cout << "Command: " << commandName << std::endl;
-            // std::cout << "Arguments: " << arguments << std::endl;
-
-            // if (commandName == "NICK")
-            //     handleNick(user, arguments);
-            // std::cout << "Command: " << commandName << std::endl;
-            // std::cout << "Arguments: " << arguments << std::endl;
             dispatchCommand(user, commandName, arguments);
         }
-
-
-        /*std::cout << "Received from fd "
-                  << clientFd
-                  << ": "
-                  << buffer;*/
     }
     else if (bytes == 0)
     {
@@ -178,11 +135,8 @@ void Server::handleClient(size_t index)
     }
     else
     {
-        if (errno != EAGAIN && errno != EWOULDBLOCK) // car en mode non-bloquant, s'il n'y a rien a lire recv() renvoie -1 et met errno a EAGAIN
-        {
-            std::cerr << "recv() failed" << std::endl;
-            removeClient(index);
-        }
+        std::cerr << "recv() failed for fd " << clientFd << std::endl;
+        removeClient(index);
     }
 }
 
@@ -190,11 +144,16 @@ void Server::run()
 {
     while (!g_stopServer)
     {
-        int ret = poll(&_pollFds[0],
-                       _pollFds.size(),
-                       -1);            //pour eviter une surconsommation de CPU et permettre le blockage de poll() until new event
+        if (_pollFds.empty())
+            break;
 
-        if (ret == -1)
+        int resultat_retourne = poll(
+            &_pollFds[0],
+            _pollFds.size(),
+            -1
+        );
+
+        if (resultat_retourne == -1)
         {
             if (errno == EINTR)
             {
@@ -202,37 +161,110 @@ void Server::run()
                     break;
                 continue;
             }
-            std::cerr << "poll() failed" << std::endl;
-            return;
+
+            std::cerr << "poll() failed: "
+                      << strerror(errno) << std::endl;
+            break;
         }
 
-        for (size_t i = 0; i < _pollFds.size(); ++i)
+        for (size_t i = 0; i < _pollFds.size(); )
         {
-            if (_pollFds[i].revents & POLLIN)
+            int fd = _pollFds[i].fd;
+            short events = _pollFds[i].revents;
+
+            if (events == 0)
             {
-                if (i == 0)  //serveur principal _serverFd
-                {
+                ++i;
+                continue;
+            }
+
+            if (fd == _serverFd)
+            {
+                if (events & POLLIN)
                     handleNewConnection();
-                }
-                else //cas d'un client deja connecte et qui envoie un texte
+
+                if (events & (POLLERR | POLLHUP | POLLNVAL))
                 {
-                    size_t oldSize = _pollFds.size();
-
-                    handleClient(i);
-
-                    if (_pollFds.size() < oldSize) //pour eviter de sauter un client si removeClient a ete appele dans handleClient
-                        --i;
+                    std::cerr << "Server socket error" << std::endl;
+                    g_stopServer = true;
+                    break;
                 }
+
+                ++i;
+                continue;
             }
-            else if (_pollFds[i].revents & (POLLHUP | POLLERR)) //gestion de la fermeture soudaine / ou erreur reseau sur le socket
+
+            if (events & (POLLERR | POLLHUP | POLLNVAL))
             {
-                if (i != 0)
-                {
-                    removeClient(i); //on nettoie proprement le client et on ajuste l'index i
-                    --i;
-                }
+                removeClient(i);
+                continue;
             }
+
+            if (events & POLLOUT)
+            {
+                size_t oldSize = _pollFds.size();
+
+                handleClientWrite(i);
+
+                if (_pollFds.size() < oldSize)
+                    continue;
+            }
+
+            if (i >= _pollFds.size())
+                break;
+
+            if (_pollFds[i].fd != fd)
+                continue;
+
+            if (events & POLLIN)
+            {
+                size_t oldSize = _pollFds.size();
+
+                handleClient(i);
+
+                if (_pollFds.size() < oldSize)
+                    continue;
+            }
+
+            ++i;
         }
     }
+
     std::cout << "Server poll loop stopped." << std::endl;
+}
+
+
+void Server::handleClientWrite(size_t index)
+{
+    int fd = _pollFds[index].fd;
+    
+    std::map<int, std::string>::iterator it = _outputBuffers.find(fd);
+    
+    //std::string &output = _outputBuffers[fd];
+    
+    if (it == _outputBuffers.end() || it->second.empty())
+    {
+        _pollFds[index].events &= ~POLLOUT;
+        if (it != _outputBuffers.end())
+            _outputBuffers.erase(it);
+        return;
+    }
+
+    std::string &output = it->second;
+    ssize_t bytesSent = send(fd, output.c_str(), output.size(), 0);
+
+    if (bytesSent > 0)
+        output.erase(0, static_cast<size_t>(bytesSent));
+    
+    else
+    {
+        std::cerr << "send() failed for fd " << fd << std::endl;
+        removeClient(index);
+        return;
+    }
+    if (output.empty())
+    {
+        _pollFds[index].events &= ~POLLOUT;
+        _outputBuffers.erase(fd);
+    }
 }

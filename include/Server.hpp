@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/10 16:39:52 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/12 14:54:07 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <poll.h>
 #include <map>
 #include <cstddef>
-#include <string>
+#include <cstring>
 #include <cstdlib>
 #include <unistd.h>
 #include <sstream>
@@ -40,6 +40,7 @@ private:
     std::vector<struct pollfd>      _pollFds;
     std::map<int, User>             _users;
     std::map<std::string, Channel>  _channels;
+    std::map<int, std::string>      _outputBuffers; // conservera les messages en attente pour chaque client
 
     // Network setup
     void setupSocket();
@@ -52,8 +53,10 @@ private:
     void handleNewConnection();
     void handleClient(size_t index);
     void removeClient(size_t index);
+    void handleClientWrite(size_t index); // effectue reellementn l'envoi
 
-    //Handle commands
+
+    //password authentication
     void handlePass(User& user, const std::string &argumments);
     void handleNick(User& user, const std::string &arguments);
     void handleUser(User &user, const std::string &arguments);
