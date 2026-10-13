@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerPoll.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/12 18:01:14 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/13 18:47:14 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,23 +106,23 @@ void Server::handleClient(size_t index)
         {
             if (command.empty())
                 continue;
-            std::cout << "[Client " << clientFd
-                      << " Command]: "
-                      << command << std::endl;
+            // std::cout << "[Client " << clientFd
+            //           << " Command]: "
+            //           << command << std::endl;
 
             std::string commandName = Parser::getCommand(command);
             std::string arguments = Parser::getArguments(command);
 
-            std::cout << "COMMAND = [" << commandName << "]" << std::endl;
-            std::cout <<"ARGUMENTS [" << arguments << "]" << std::endl;
+            //std::cout << "COMMAND = [" << commandName << "]" << std::endl;
+            //std::cout <<"ARGUMENTS [" << arguments << "]" << std::endl;
 
-            std::vector<std::string> parameters = Parser::getParameters(arguments);
-            for (std::size_t i = 0; i < parameters.size(); ++i)
-            {
-                std::cout << "PARAM[" << i << "] = ["
-                          << parameters[i] << "]"
-                          << std::endl;
-            }
+            //std::vector<std::string> parameters = Parser::getParameters(arguments);
+            // for (std::size_t i = 0; i < parameters.size(); ++i)
+            // {
+            //     std::cout << "PARAM[" << i << "] = ["
+            //               << parameters[i] << "]"
+            //               << std::endl;
+            // }
             dispatchCommand(user, commandName, arguments);
         }
     }
