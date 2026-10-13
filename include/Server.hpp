@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/13 17:24:44 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/13 19:50:32 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <sstream>
-
+#include <iostream>
 
 
 class Server
@@ -90,6 +90,8 @@ private:
     //CAP
     void handleCap(User &sender, const std::string &arguments);
 
+    //WHO
+    void handleWho(User &sender, const std::vector<std::string> &arguments);
 
     //KICK
     Channel *findChannel(const std::string &ChannelName);

@@ -6,7 +6,7 @@
 #    By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/29 22:03:48 by mamaimai          #+#    #+#              #
-#    Updated: 2026/10/13 17:25:10 by mayoucha         ###   ########.fr        #
+#    Updated: 2026/10/13 19:51:46 by mayoucha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC = src/main.cpp \
       src/handle_command/handle_mode.cpp \
       src/handle_command/handle_ping.cpp \
       src/handle_command/handle_pong.cpp \
+      src/handle_command/handle_who.cpp \
       src/handle_command/handle_cap.cpp \
       src/server/ServerNetwork.cpp \
       src/server/ServerPoll.cpp \

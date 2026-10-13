@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerPoll.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/13 18:47:14 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/13 19:30:05 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,10 @@ void Server::handleClient(size_t index)
             std::string commandName = Parser::getCommand(command);
             std::string arguments = Parser::getArguments(command);
 
-            //std::cout << "COMMAND = [" << commandName << "]" << std::endl;
-            //std::cout <<"ARGUMENTS [" << arguments << "]" << std::endl;
+            // std::cout << "COMMAND = [" << commandName << "]" << std::endl;
+            // std::cout <<"ARGUMENTS [" << arguments << "]" << std::endl;
 
-            //std::vector<std::string> parameters = Parser::getParameters(arguments);
+            // std::vector<std::string> parameters = Parser::getParameters(arguments);
             // for (std::size_t i = 0; i < parameters.size(); ++i)
             // {
             //     std::cout << "PARAM[" << i << "] = ["

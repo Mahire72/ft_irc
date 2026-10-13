@@ -141,7 +141,22 @@ TOPIC #42 :Welcome everyone!
 - `+o` — Grants channel operator status to a user.
 - `+t` — Restricts who can change the channel topic, typically to channel operators.
 
-### 5. Notes
+
+
+### 5. Partial commands tests
+
+
+`PASS`  *(with whitespace at the end)* then **`Ctrl+D`**
+`sec` then **`Ctrl+D`**
+`ret` then **Enter**
+
+**It should be:**
+`[Client 4 Command]: PASS secret`
+`COMMAND = [PASS]`
+`ARGUMENTS = [secret]`
+
+
+### 6. Notes
 
 - Commands and their parameters must follow the IRC protocol syntax.
 - Some commands require channel membership or operator privileges.
@@ -174,12 +189,46 @@ The bot is simply a user (a client). We didn't hardcode it into the server's sou
    *(The bot will instantly intercept the message and reply with a `pong!`)*
 
 
-### Commandes utiles
+### Helpful commands for IRSSI
 
-`bash-5.3$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes nc chat.freenode.net 6667` --> pour tester le comportement classique de nc
+`bash-5.3$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes nc chat.freenode.net 6667` : to test nc in local
 
-`/names` --> pour lister les users presents dans un channel
+ `/connect localhost <port> <password>` : to connect to the server
+ `/quit` : to disconnect from the server
+ `/set nick <nickname>` : new nickname
+ `/window close` : to close a private message or a channel window
+ `/query <username> or <channel>` : to open a new private message with a user/channel
+ `/names` : users present in a channel
 
+
+### Nickname & User Management
+ `/nick <new_nick>` - Instantly change your nickname.
+ `/set nick <new_nick>` - Set the default nickname.
+ `/set user_name <username>` - Set the username (takes effect upon reconnecting).
+ `/set real_name <realname>` - Set the real name / description.
+ `/save` - Save settings to the Irssi configuration file.
+
+
+## Channel & User Modes
+
+The `/mode` command sets or unsets channel and user permissions (`+` enables, `-` disables).
+
+### Common Channel Modes (ITKOL Mnemonic)
+ `/mode #channel +i` - **Invite-only**: Users can only join if invited via `/invite`.
+ `/mode #channel +t` - **Topic protection**: Only channel operators can change `/topic`.
+ `/mode #channel +k <password>` - **Key**: Protects the channel with a password.
+ `/mode #channel +o <nick>` - **Operator**: Grants channel operator privileges to a user.
+ `/mode #channel +l <limit>` - **Limit**: Sets the maximum number of users allowed in the channel.
+
+### Irssi Command Cheat Sheet
+ `/mode <#channel|nick> <flags>` - Modify channel or user modes.
+ `/join <#channel> [key]` - Join a channel.
+ `/invite <nick>` - Invite a user to the current channel.
+ `/topic <new topic>` - Set channel topic.
+ `/kick <nick> [reason]` - Kick a user from the channel.
+ `/msg <target> <message>` - Send a direct message (PRIVMSG).
+ `/nick <new_nick>` - Change nickname.
+ `/quote PASS <password>` - Send connection password to the IRC server.
 
 # Resources
 

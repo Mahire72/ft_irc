@@ -6,17 +6,13 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 18:33:21 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/13 17:08:51 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/13 19:47:25 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 #include "../../include/Parser.hpp"
 
-//#include "Parser.hpp"
-#include <vector>
-#include <iostream>
-//#include "Server.hpp"
 
 void Server::joinSingleChannel(User &sender,
 const std::string &channelName, const std::string &key)
