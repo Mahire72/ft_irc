@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/13 17:28:56 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/13 18:12:00 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
     else
     {
         sendResponse(user.getFD(),
-            ":ircserv 421 " + commandName +
-            " :Unknown command\r\n");
+            ":ircserv 421 " + commandName + " "
+            + commandName + " :Unknown command\r\n");
     }
 }

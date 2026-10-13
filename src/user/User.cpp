@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/13 13:53:25 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/13 18:22:25 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ User::User(int user_fd)
 	_PASS	= 	false;
 	_NICK = 	false;
 	_USER = 	false;
+
+	_isInServer = false;
 	// quand un nouveau client arrive, il commence donc avec aucune etape de registration completee.
 
 	_userIP = "";
@@ -82,6 +84,11 @@ User::User(const User &other)
 	_userNickname = other._userNickname;
 
 	_realName = other._realName;
+	
+	_userPingId = other._userPingId;
+	_isInServer = other._isInServer;
+
+	
 
 	// std::cout << "Copy constructor called for User!" << std::endl;
 }
@@ -108,6 +115,10 @@ User &User::operator=(const User &other)
 		this->_userNickname = other._userNickname;
 
 		this->_realName = other._realName;
+
+		this->_userPingId = other._userPingId;
+
+		this->_isInServer = other._isInServer;
 	}
 	// std::cout << "Copy assignment operator called for User!" << std::endl;
 	return (*this);
