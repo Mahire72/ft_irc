@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:16:51 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/12 15:56:15 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/12 18:01:14 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void Server::handleClient(size_t index)
         std::string command;
         while(!(command = user.extractCommand()).empty())
         {
+            if (command.empty())
+                continue;
             std::cout << "[Client " << clientFd
                       << " Command]: "
                       << command << std::endl;

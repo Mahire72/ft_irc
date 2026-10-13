@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/12 16:16:19 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/13 13:54:25 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ public:
 	bool 		getPASS() const;
 	bool 		getNICK() const;
 	bool 		getUSER() const;
+	std::string getPingId() const;
 	std::string	getIP() const;
 	std::string getBuffer() const;
 	std::string getUsername() const;
@@ -48,6 +49,7 @@ public:
 
 //SETTERS///////////////////////////////////////////////////////////////////////
 	void 		setFD(int fd);
+	void 		setPingId(std::string pingId);   				///?
 	void 		setRegistered(bool status);
 	void 		setIsInServer(bool status);
 	void 		setHasPass(bool status);
@@ -73,6 +75,7 @@ private:
 	bool		_hasUser;
 	bool 		_hasNick;
 	int			_userFD;
+	std::string	_userPingId; //?
 	std::string	_userIP;
 	std::string _userBuffer;
 	std::string	_userName;

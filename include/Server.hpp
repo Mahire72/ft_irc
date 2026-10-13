@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/31 12:07:48 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/12 15:42:58 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/13 17:24:44 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ private:
     int         _port;
     std::string _name;
     std::string _password;
-    
+
     std::vector<struct pollfd>      _pollFds;
     std::map<int, User>             _users;
     std::map<std::string, Channel>  _channels;
@@ -83,6 +83,14 @@ private:
     //INVITE
     void handleInvite(User &sender, const std::string &arguments);
 
+    //PING
+    void handlePing(User &sender, const std::string &arguments);
+    void handlePong(User &sender, const std::string &arguments);
+
+    //CAP
+    void handleCap(User &sender, const std::string &arguments);
+
+
     //KICK
     Channel *findChannel(const std::string &ChannelName);
     User *findUserByNickname(const std::string &nickname);
@@ -119,6 +127,7 @@ public:
     std::string getCurrentTime(); // getting time
     bool isUserInServer(std::string userNick) const;
     int getUserFd(std::string userNick) const;
+    int getPort() const;
 
 };
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 19:51:00 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/13 17:28:56 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,17 @@ Server::Server(int port, const std::string &password)
 
 }
 
+int Server::getPort() const
+{
+    return _port;
+}
+
 Server::~Server()
 {
     for (size_t i = 0; i < _pollFds.size(); ++i)
     {
         int fd = _pollFds[i].fd;
-        
+
         std::cout << "Closing fd " << fd << std::endl;
         close(fd);
     }
@@ -76,7 +81,8 @@ int Server::getUserFd(std::string userNick) const
 
 void Server::sendError(const std::string &err_nb, const std::string &err_message, User &sender)
 {
-        std::string err = ":" + this->getName() + " " + err_nb + " " + sender.getNickname() + " " + err_message + "\r\n";
+        std::string err = ":" + this->getName() + " " + err_nb + " " +
+        sender.getNickname() + " " + err_message + "\r\n";
 		this->sendResponse(sender.getFD(), err);
 		return ;
 }
@@ -102,6 +108,13 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
         handleTopic(user, arguments);
     else if (commandName == "KICK")
         handleKick(user, arguments);
+    else if (commandName == "PING")
+        handlePing(user, arguments);
+    else if (commandName.size() >= 3 && commandName.compare(0, 3, "CAP") == 0)
+        handleCap(user, arguments);
+    else if (commandName == "PONG")
+        handlePong(user, arguments);
+
     else
     {
         sendResponse(user.getFD(),

@@ -173,6 +173,14 @@ The bot is simply a user (a client). We didn't hardcode it into the server's sou
                 PRIVMSG ft_bot :!ping
    *(The bot will instantly intercept the message and reply with a `pong!`)*
 
+
+### Commandes utiles
+
+`bash-5.3$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes nc chat.freenode.net 6667` --> pour tester le comportement classique de nc
+
+`/names` --> pour lister les users presents dans un channel
+
+
 # Resources
 
 https://www.rfc-editor.org/info/rfc2812/

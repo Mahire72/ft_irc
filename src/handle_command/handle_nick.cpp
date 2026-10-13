@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_nick.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/14 14:15:11 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/09 12:37:24 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/13 17:36:01 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ bool Server::isNicknameTaken(const std::string& nickname)
             return true;
         }
     }
-    std::cout << ">>> nickname not found" << std::endl;
+    // std::cout << ">>> nickname not found" << std::endl;
 
     return false;
 }
@@ -100,8 +100,8 @@ void Server::handleNick(User& user, const std::string& arguments)
         return;
     }
 
-    std::cout  << ">>> checking if nickname is taken:  "
-               << arguments << std::endl;
+    // std::cout  << ">>> checking if nickname is taken:  "
+    //            << arguments << std::endl;
 
     if (isNicknameTaken(arguments))
     {
@@ -110,11 +110,11 @@ void Server::handleNick(User& user, const std::string& arguments)
         return;
     }
     user.setNickname(arguments);
-    user.setNICK(true); //// TO CHECK ???
-    checkRegistration(user); // Vérification à chaque étape
+    user.setNICK(true);
+    checkRegistration(user);
 
-    std::cout <<  ">>> nickname accepted: "
-              << arguments << std::endl;
+    // std::cout <<  ">>> nickname accepted: "
+    //           << arguments << std::endl;
 }
 
 /*

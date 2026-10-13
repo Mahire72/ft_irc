@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/08 13:01:29 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/13 13:53:25 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,9 @@ std::string User::extractCommand()
     std::string command = _userBuffer.substr(0, found);
     _userBuffer.erase(0, found + separatorLength);
 
+	if (!command.empty() && command[command.length() - 1] == '\r')
+    	command.erase(command.length() - 1);
+
     return command;
 }
 
@@ -182,6 +185,12 @@ int User::getFD() const
 {
 	return(_userFD);
 }
+
+std::string User::getPingId() const           //////?
+{
+	return(_userPingId);
+}
+
 
 bool User::getRegistered() const
 {
@@ -258,6 +267,11 @@ std::string User::getRealName() const
 void User::setFD(int fd)
 {
 	_userFD = fd;
+}
+
+void User::setPingId(std::string pingId)
+{
+	_userPingId = pingId;
 }
 
 void User::setRegistered(bool status)

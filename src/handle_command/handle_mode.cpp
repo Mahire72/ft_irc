@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 15:29:44 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/10 15:39:43 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/12 20:06:41 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ std::string Server::applyModeLimit(User &sender, Channel &channel, const std::ve
             }
             return ""; // Limite invalide (<= 0), rien n'est appliqué
         }
+        std::cout << "DEBUG: Not enough parameters sent" << std::endl;
         this->sendError("461", "MODE :Not enough parameters", sender);
         return "";
     }

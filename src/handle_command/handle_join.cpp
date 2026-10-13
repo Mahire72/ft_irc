@@ -6,7 +6,7 @@
 /*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/03 18:33:21 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/10 16:17:48 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/13 17:08:51 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ const std::string &channelName, const std::string &key)
         channel.addOperator(sender.getFD());
 
     // Broadcast JOIN à tous les membres
-    std::string message = ":" + sender.getNickname() + " JOIN " + channelName + "\r\n";
+    //std::string message = ":" + sender.getNickname() + " JOIN " + channelName + "\r\n";
+    std::string message = ":" + sender.getNickname() + "!" + sender.getUsername() + "@" + sender.getIP() + " JOIN " + channelName + "\r\n";
     channel.broadcast(*this, message, -1);
 
     // Topic RPL (332 ou 331)
