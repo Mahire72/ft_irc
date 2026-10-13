@@ -78,6 +78,10 @@ int main(int argc, char **argv)
     pfd.events = POLLIN;
 
     char buffer[1024];
+
+    std::string user_input[3] = {"!ping", "!hello", "!bye"};
+    std::string bot_output[3] = {"Pong", "Welcome", "See u"};
+
     while (true) 
     {
         int poll_count = poll(&pfd, 1, -1);
@@ -112,14 +116,17 @@ int main(int argc, char **argv)
             }
 
             size_t privmsg_pos = data.find("PRIVMSG");
-            if (privmsg_pos != std::string::npos && data.find("!ping") != std::string::npos) 
+            for (size_t i = 0; i < 3; i++)
             {
-                size_t exclamation_pos = data.find('!');
-                if (exclamation_pos != std::string::npos && data[0] == ':') 
+                if (privmsg_pos != std::string::npos && data.find(user_input[i]) != std::string::npos) 
                 {
-                    std::string sender = data.substr(1, exclamation_pos - 1);
-                    std::string response = "PRIVMSG " + sender + " :pong!\r\n";
-                    sendData(sock, response);
+                    size_t exclamation_pos = data.find('!');
+                    if (exclamation_pos != std::string::npos && data[0] == ':') 
+                    {
+                        std::string sender = data.substr(1, exclamation_pos - 1);
+                        std::string response = "PRIVMSG " + sender + " : " + bot_output[i] + "\r\n";
+                        sendData(sock, response);
+                    }
                 }
             }
         }
