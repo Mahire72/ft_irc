@@ -7,21 +7,11 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <poll.h>
-#include <csignal>
 
-volatile sig_atomic_t g_stopServer = 0;
-
-
-void sendData(int sock, const std::string& message)
+void sendData(int sock, const std::string& message) 
 {
     send(sock, message.c_str(), message.length(), 0);
     std::cout << "-> " << message;
-}
-
-void handleSignalBot(int signal)
-{
-    if (signal == SIGINT || signal == SIGTERM)
-        g_stopServer = 1;
 }
 
 int createBotSocket()
@@ -37,7 +27,7 @@ int createBotSocket()
 
 bool setBotAddress(struct sockaddr_in *serv_addr, int sock, int port, std::string const &ip)
 {
-    serv_addr->sin_family = AF_INET; // Définit le protocole a use donc IPv4
+    serv_addr->sin_family = AF_INET; // Définit le protocole a use donc IPv4 
     serv_addr->sin_port = htons(port); // Assigne et convertit le int port en value exigé par les normes réseaux
     serv_addr->sin_addr.s_addr = inet_addr(ip.c_str()); // Convertit l'ip en forme binaire compris par la machine
     if (serv_addr->sin_addr.s_addr == INADDR_NONE) // si jamais la conversion échoue
@@ -49,10 +39,10 @@ bool setBotAddress(struct sockaddr_in *serv_addr, int sock, int port, std::strin
     return true;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv) 
 
 {
-    if (argc != 4)
+    if (argc != 4) 
     {
         std::cerr << "Usage: ./bot <IP> <Port> <Password>\n";
         return -1;
@@ -88,29 +78,29 @@ int main(int argc, char **argv)
     pfd.events = POLLIN;
 
     char buffer[1024];
-    while (!g_stopServer)
+
+    std::string user_input[3] = {"!ping", "!hello", "!bye"};
+    std::string bot_output[3] = {"Pong", "Welcome", "See u"};
+
+    while (true) 
     {
         int poll_count = poll(&pfd, 1, -1);
-
-        if (poll_count == -1)
+        
+        if (poll_count == -1) 
         {
             if (errno == EINTR)
-            {
-                if (g_stopServer)
-                    break;
                 continue;
-            }
             std::cerr << "Error: poll() failed.\n";
             break;
         }
 
-        if (pfd.revents & POLLIN) // Confirme que la socket a recu des infos à lire
+        if (pfd.revents & POLLIN) // Confirme que la socket a recu des infos à lire 
         {
             std::memset(buffer, 0, sizeof(buffer));
-
+            
             int bytes_received = recv(sock, buffer, sizeof(buffer) - 1, 0); // assigne au buffer le msg
-
-            if (bytes_received <= 0) // check si il y a une issue
+            
+            if (bytes_received <= 0) // check si il y a une issue 
             {
                 std::cout << "Deconnected from server.\n";
                 break;
@@ -119,21 +109,24 @@ int main(int argc, char **argv)
             std::string data(buffer);
             std::cout << "<- " << data;
 
-            if (data.find("PING") == 0)
+            if (data.find("PING") == 0) 
             {
                 std::string pong = "PONG " + data.substr(5);
                 sendData(sock, pong);
             }
 
             size_t privmsg_pos = data.find("PRIVMSG");
-            if (privmsg_pos != std::string::npos && data.find("!ping") != std::string::npos)
+            for (size_t i = 0; i < 3; i++)
             {
-                size_t exclamation_pos = data.find('!');
-                if (exclamation_pos != std::string::npos && data[0] == ':')
+                if (privmsg_pos != std::string::npos && data.find(user_input[i]) != std::string::npos) 
                 {
-                    std::string sender = data.substr(1, exclamation_pos - 1);
-                    std::string response = "PRIVMSG " + sender + " :pong!\r\n";
-                    sendData(sock, response);
+                    size_t exclamation_pos = data.find('!');
+                    if (exclamation_pos != std::string::npos && data[0] == ':') 
+                    {
+                        std::string sender = data.substr(1, exclamation_pos - 1);
+                        std::string response = "PRIVMSG " + sender + " : " + bot_output[i] + "\r\n";
+                        sendData(sock, response);
+                    }
                 }
             }
         }
