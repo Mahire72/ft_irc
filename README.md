@@ -1,5 +1,5 @@
 # Contributors
-This project has been created as part of the 42 curriculum by mamaimai, mayoucha, omawele.
+*This project has been created as part of the 42 curriculum by mamaimai, mayoucha, omawele.*
 
 # Description
 **ft_irc** is a 42 School project focused on implementing an IRC (Internet Relay Chat) server in C++98. The goal is to build a functional TCP server that follows the core IRC protocol and allows multiple clients to connect, register, communicate privately, and exchange messages through channels.
@@ -199,6 +199,9 @@ The bot is simply a user (a client). We didn't hardcode it into the server's sou
  `/window close` : to close a private message or a channel window
  `/query <username> or <channel>` : to open a new private message with a user/channel
  `/names` : users present in a channel
+ `/window list` : windows list
+ `/window <window number>` : to navigate through windows
+
 
 
 ### Nickname & User Management
@@ -253,4 +256,3 @@ https://youtu.be/6UbKenFipjo?si=MUrXCzxaucvA2Ao9
 https://fr.wikipedia.org/wiki/IRC
 
 https://www.ibm.com/docs/fr/i/7.6.0?topic=designs-using-poll-instead-select
-

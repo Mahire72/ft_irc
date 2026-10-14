@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:24 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/13 18:22:25 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:33:37 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ User::User(const User &other)
 	_userNickname = other._userNickname;
 
 	_realName = other._realName;
-	
+
 	_userPingId = other._userPingId;
 	_isInServer = other._isInServer;
 
-	
+
 
 	// std::cout << "Copy constructor called for User!" << std::endl;
 }
@@ -197,7 +197,7 @@ int User::getFD() const
 	return(_userFD);
 }
 
-std::string User::getPingId() const           //////?
+std::string User::getPingId() const           
 {
 	return(_userPingId);
 }
