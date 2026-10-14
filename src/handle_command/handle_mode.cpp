@@ -6,22 +6,12 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 15:29:44 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/13 18:58:34 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:27:55 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 #include "../../include/Parser.hpp"
-
-/*
-MODE - Change the channel’s mode:
-· i: Set/remove Invite-only channel
-· t: Set/remove the restrictions of the TOPIC command to channel operators
-· k: Set/remove the channel key (password)
-· l: Set/remove the user limit to channel
-· o: Give/take channel operator privilege
-*/
-
 
 std::string Server::applyModeKey(User &sender, Channel &channel, const std::vector<std::string> &args, size_t &paramIndex, bool adding)
 {
@@ -52,7 +42,7 @@ std::string Server::applyModeLimit(User &sender, Channel &channel, const std::ve
                 channel.set_usersLimit(userMax);
                 return "+l " + args[paramIndex - 1];
             }
-            return ""; // Limite invalide (<= 0), rien n'est appliqué
+            return ""; 
         }
         std::cout << "DEBUG: Not enough parameters sent" << std::endl;
         this->sendError("461", "MODE :Not enough parameters", sender);
@@ -192,29 +182,4 @@ void Server::handleMode(User &sender, const std::string &arguments)
     }
 }
 
-/*
 
-            MODE
-              │
-              ↓
-       Target specified?
-          /              \
-        USER            CHANNEL
-        ↓                  ↓
- Target matches client?  Channel exists?
-      /         \          /       \
-    NO          YES       NO       YES
-    ↓            ↓        ↓         ↓
- ERR_USERS     Update   ERR_NOSUCH  Are modes/flags provided?
-   MATCH       user     CHANNEL        /          \
-               mode                  NO           YES
-                                     ↓             ↓
-                                 Return        Is sender operator?
-                                 current          /       \
-                                 modes          NO        YES
-                                                ↓          ↓
-                                            ERR_CHANOP   Parse flags (+o/-t/+k/+l)
-                                                         & apply changes
-
-
-*/

@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   handle_user.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 15:03:38 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/13 17:34:27 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:42:07 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 #include "../../include/Parser.hpp"
-
-#include <vector>
-#include <iostream>
 
 void Server::handleUser(User &user, const std::string &arguments)
 {
@@ -38,11 +35,4 @@ void Server::handleUser(User &user, const std::string &arguments)
     user.setHasUser(true);
     user.setUSER(true);
     checkRegistration(user);
-
-//     std::cout << "USER accepted: username=["
-//               << user.getUsername()
-//               << "] realname=["
-//               << user.getRealName()
-//               << "]"
-//               << std::endl;
  }

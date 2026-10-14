@@ -6,13 +6,11 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 22:02:52 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 17:39:16 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:33:54 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Signal.hpp"
-
-#include <csignal>
 
 volatile sig_atomic_t g_stopServer = 0;
 

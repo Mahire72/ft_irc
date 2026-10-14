@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   handle_topic.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 18:46:59 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 15:50:28 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/14 13:39:26 by mayoucha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 #include "../../include/Parser.hpp"
-#include <vector>
-#include <iostream>
 
 void Server::handleTopic(User &sender, const std::string &arguments)
 {
@@ -44,8 +42,6 @@ void Server::handleTopic(User &sender, const std::string &arguments)
         return;
     }
 
-    std::cout << "Channel exists: " << channelName << std::endl;
-
     Channel &channel = it->second;
 
     if (!channel.isUserInChannel(sender.getFD()))
@@ -75,8 +71,11 @@ void Server::handleTopic(User &sender, const std::string &arguments)
     std::string newTopic = args[1];
     if(channel.get_t())
     {
-        if(!sender.isOperator())
+        if(!channel.isOperator(sender.getFD()))
+        {
+            std::cout << "operateur est : " + sender.getNickname()  << std::endl;
             return (this->sendError("482", channel.getChannelName() + " :You're not channel operator", sender));
+        }
     }
     channel.setChannelTopic(newTopic);
 
@@ -89,5 +88,4 @@ void Server::handleTopic(User &sender, const std::string &arguments)
               "\r\n";
 
     channel.broadcast(*this, message, -1);
-    std::cout << "User is in channel: " << channelName << std::endl;
 }

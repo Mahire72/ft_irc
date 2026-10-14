@@ -16,21 +16,21 @@ void sendData(int sock, const std::string& message)
 
 int createBotSocket()
 {
-    int sock = socket(AF_INET, SOCK_STREAM, 0); // Je cree la socket qui permet le transport d'info
-    if (sock == -1) // si ça rate
+    int sock = socket(AF_INET, SOCK_STREAM, 0); 
+    if (sock == -1) 
     {
         std::cerr << "bot socket failed\n";
         return -1;
     }
-    return sock; // je renvoie la socket qui est comme un fd
+    return sock; 
 }
 
 bool setBotAddress(struct sockaddr_in *serv_addr, int sock, int port, std::string const &ip)
 {
-    serv_addr->sin_family = AF_INET; // Définit le protocole a use donc IPv4 
-    serv_addr->sin_port = htons(port); // Assigne et convertit le int port en value exigé par les normes réseaux
-    serv_addr->sin_addr.s_addr = inet_addr(ip.c_str()); // Convertit l'ip en forme binaire compris par la machine
-    if (serv_addr->sin_addr.s_addr == INADDR_NONE) // si jamais la conversion échoue
+    serv_addr->sin_family = AF_INET; 
+    serv_addr->sin_port = htons(port); 
+    serv_addr->sin_addr.s_addr = inet_addr(ip.c_str());
+    if (serv_addr->sin_addr.s_addr == INADDR_NONE) 
     {
         std::cerr << "Error: IP invalid.\n";
         close(sock);
@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     if (setBotAddress(&serv_addr, sock, port, ip) == false)
         return -1;
 
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) == -1) // tente de se connecter au serveur
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) == -1) 
     {
         std::cerr << "Error: Connexion to server failed.\n";
         close(sock);
@@ -94,13 +94,13 @@ int main(int argc, char **argv)
             break;
         }
 
-        if (pfd.revents & POLLIN) // Confirme que la socket a recu des infos à lire 
+        if (pfd.revents & POLLIN)
         {
             std::memset(buffer, 0, sizeof(buffer));
             
-            int bytes_received = recv(sock, buffer, sizeof(buffer) - 1, 0); // assigne au buffer le msg
+            int bytes_received = recv(sock, buffer, sizeof(buffer) - 1, 0);
             
-            if (bytes_received <= 0) // check si il y a une issue 
+            if (bytes_received <= 0)
             {
                 std::cout << "Deconnected from server.\n";
                 break;

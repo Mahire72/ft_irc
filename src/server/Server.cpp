@@ -6,20 +6,15 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 15:15:28 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/13 18:12:00 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:46:20 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 #include "../../include/Signal.hpp"
 
-#include <ctime>
-
 Server::Server(int port, const std::string &password)
-    : _serverFd(-1), _port(port), _password(password)
-{
-
-}
+    : _serverFd(-1), _port(port), _password(password) {}
 
 int Server::getPort() const
 {
@@ -114,7 +109,6 @@ void Server::dispatchCommand(User& user, const std::string& commandName,
         handleCap(user, arguments);
     else if (commandName == "PONG")
         handlePong(user, arguments);
-
     else
     {
         sendResponse(user.getFD(),
