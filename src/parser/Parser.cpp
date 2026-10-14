@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 13:22:12 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/13 17:33:39 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:31:01 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ std::string Parser::getCommand(const std::string& line)
     else
         command = line;
 
-    /* IRC command keywords are case-insensitive. The RFC defines command as a sequence of letters and the protocol uses commands such as NICK, PASS, and USER; IRC command handling should not depend on the capitalization the client used. so when we use command nick it should take this nick command and show in server NICK */
     for (std::size_t i = 0; i < command.size(); ++i)
     {
         if (command[i] >= 'a' && command[i] <= 'z')

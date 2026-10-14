@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_privmsg.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 18:40:08 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/10 16:19:46 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:45:30 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void Server::handlePrivmsg(User &sender, const std::string &arguments)
         return;
     }
 
-    // Extraction brute :args[0] = destinataire, args[1] = message complet
     std::vector<std::string> args = Parser::getParameters(arguments);
 
     if (args.empty())
@@ -33,7 +32,7 @@ void Server::handlePrivmsg(User &sender, const std::string &arguments)
         return this->sendError("412", " :No text to send", sender);
 
     std::string target = args[0];
-    std::string message = args[1]; // Doit contenir le texte complet apres le ':'
+    std::string message = args[1]; 
 
     std::string host = sender.getIP().empty() ? "127.0.0.1" : sender.getIP();
     std::string fullMsg = ":" + sender.getNickname() + "!" + sender.getUsername()
@@ -63,31 +62,4 @@ void Server::handlePrivmsg(User &sender, const std::string &arguments)
         this->sendError("401", target + " :No such nick/channel", sender);
     }
 }
-
-
-/*
-            PRIVMSG
-              │
-              ↓
-       Recipient given?
-          /          \
-        NO            YES
-        ↓              ↓
- ERR_NORECIPIENT   Text to send given?
-                     /       \
-                   NO         YES
-                   ↓           ↓
-             ERR_NOTEXT    Is target a Channel (# / &) or User?
-                             /            \
-                       CHANNEL            USER
-                          ↓                ↓
-                 Is user in channel?   Does user exist?
-                    /         \           /       \
-                  NO          YES        NO       YES
-                  ↓            ↓         ↓         ↓
-            ERR_CANNOT     Broadcast   ERR_NOSUCH  Forward direct
-               SEND        to channel     NICK     message to user
-               TOCHAN      (excl. sender)
-
-*/
 

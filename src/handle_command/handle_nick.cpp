@@ -6,22 +6,11 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/14 14:15:11 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/13 18:50:38 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:45:12 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
-//#include "Server.hpp"
-
-
-// for nick
-
-// valid nickname: "nickname = ( letter / special ) *8( letter / digit / special / "-" )"
-
-// special    =  %x5B-60 / %x7B-7D
-//                 ; "[", "]", "\", "`", "_", "^", "{", "|", "}"
-
-// step 1 check letter
 
 bool isLetter(char c)
 {
@@ -56,36 +45,23 @@ bool Server::isValidNickname(const std::string& nickname)
     }
 
     return true;
-
 }
 
 bool Server::isNicknameTaken(const std::string& nickname)
 {
-    //std::cout << ">>> isNickname Taken() called" << std::endl;
     for (std::map<int, User>::iterator it = _users.begin();
         it != _users.end(); ++it)
     {
-        // std::cout << ">>> fd " << it->first
-        //           << " has nickname: ["
-        //           << it->second.getNickname()
-        //           << "]" << std::endl;
-
         if (it->second.getNickname() == nickname)
         {
-           // std::cout << ">>> NICKNAME FOUND!" << std::endl;
             return true;
         }
     }
-    // std::cout << ">>> nickname not found" << std::endl;
-
     return false;
 }
 
 void Server::handleNick(User& user, const std::string& arguments)
 {
-    // std::cout << ">>> handleNick called for fd "
-    //           << user.getFD() << std::endl;
-
     if (arguments.empty())
     {
         sendResponse(user.getFD(),
@@ -100,9 +76,6 @@ void Server::handleNick(User& user, const std::string& arguments)
         return;
     }
 
-    // std::cout  << ">>> checking if nickname is taken:  "
-    //            << arguments << std::endl;
-
     if (isNicknameTaken(arguments))
     {
         sendResponse(user.getFD(),
@@ -112,29 +85,4 @@ void Server::handleNick(User& user, const std::string& arguments)
     user.setNickname(arguments);
     user.setNICK(true);
     checkRegistration(user);
-
-    // std::cout <<  ">>> nickname accepted: "
-    //           << arguments << std::endl;
 }
-
-/*
-             NICK
-               │
-       ┌───────┴────────┐
-       │                │
-   no argument      argument
-       │                │
-      431        isValidNickname()
-                       │
-                 ┌─────┴─────┐
-                 │           │
-              invalid       valid
-                 │           │
-                432     isNicknameTaken()
-                               │
-                         ┌─────┴─────┐
-                         │           │
-                       taken       free
-                         │           │
-                        433     setNickname()
-*/

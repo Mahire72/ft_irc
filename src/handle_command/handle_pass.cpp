@@ -6,7 +6,7 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/11 00:14:00 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 15:49:04 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:28:49 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,6 @@ void Server::handlePass(User& user, const std::string& arguments)
     }
     sendResponse(user.getFD(), ":ircserv 464 * :Password incorrect\r\n");
 }
-/*
-
-             PASS
-              │
-              ↓
-       Does it have argument?
-          /          \
-        NO            YES
-        ↓              ↓
- ERR_NEEDMORE     Already registered?
-                     /       \
-                   YES         NO
-                   ↓            ↓
-          ERR_ALREADY     Compare password
-          REGISTERED          /      \
-                             OK       WRONG
-                             ↓          ↓
-                      hasPass=true   error
-*/
 
 std::string Server::getCurrentTime()
 {
@@ -67,12 +48,6 @@ std::string Server::getCurrentTime()
 
     return std::string(buffer);
 }
-
-/*
-%B --full month name
-%d --day of the month
-%Y --year
-*/
 
 void Server::checkRegistration(User &user)
 {

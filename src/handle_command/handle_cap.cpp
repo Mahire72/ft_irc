@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cap.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 15:44:26 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/13 15:46:17 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:26:22 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 void Server::handleCap(User &sender, const std::string &arguments)
 {
-    // La commande CAP est envoyée avant l'enregistrement,
-    // on ne vérifie donc pas getRegistered() ici.
-
     std::vector<std::string> args = Parser::getParameters(arguments);
     std::string response;
 

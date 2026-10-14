@@ -6,14 +6,12 @@
 /*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 18:46:59 by mamaimai          #+#    #+#             */
-/*   Updated: 2026/10/11 15:50:28 by mamaimai         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:42:02 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Server.hpp"
 #include "../../include/Parser.hpp"
-#include <vector>
-#include <iostream>
 
 void Server::handleTopic(User &sender, const std::string &arguments)
 {

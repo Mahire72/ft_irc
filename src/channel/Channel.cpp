@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:15:13 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/13 18:16:16 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:43:54 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "../../include/Channel.hpp"
 
 
-//ORTHODOX CANONICAL FORM //////////////////////////////////////////////////////
 Channel::Channel()
 {
 	_channelName = "";
@@ -24,8 +23,6 @@ Channel::Channel()
 	_t = false;
 	_k = "";
 	_usersLimit = 0;
-
-	// std::cout << "Default constructor called for Channel!" << std::endl;
 }
 
 Channel::Channel(const std::string &name)
@@ -37,8 +34,6 @@ Channel::Channel(const std::string &name)
 	_t = false;
 	_k = "";
 	_usersLimit = 0;
-
-	// std::cout << "Constructor with parameter called for Channel!" << std::endl;
 }
 
 Channel::Channel(const Channel &other)
@@ -52,8 +47,6 @@ Channel::Channel(const Channel &other)
 	_t = 				other._t;
 	_k = 				other._k;
 	_usersLimit = 		other._usersLimit;
-
-	// std::cout << "Copy constructor called for Channel!" << std::endl;
 }
 
 Channel &Channel::operator=(const Channel &other)
@@ -70,17 +63,12 @@ Channel &Channel::operator=(const Channel &other)
 		this->_k = 					other._k;
 		this->_usersLimit = 		other._usersLimit;
 	}
-	// std::cout << "Copy assignment operator called for Channel!" << std::endl;
 	return (*this);
 }
 
-Channel::~Channel()
-{
-	// std::cout << "Destructor called for Channel!" << std::endl;
-}
+Channel::~Channel() {}
 
 
-//GETTERS //////////////////////////////////////////////////////////////////////
 std::string	Channel::getChannelName() const
 {
 	return(_channelName);
@@ -109,7 +97,7 @@ std::string Channel::getChannelUsers() const
 			users += it->second->getNickname() + " ";
 	}
 	if (!users.empty())
-    	users.erase(users.size() - 1); //pour effacer le dernier " "
+    	users.erase(users.size() - 1); 
 
 	return(users);
 }
@@ -153,11 +141,9 @@ bool Channel::isOperator(int userFd) const
 			return (true);
 	}
 	return(false);
-	//return (this->_channelOperators.find(userFd) != this->_channelOperators.end());
 }
 
 
-//SETTERS //////////////////////////////////////////////////////////////////////
 void Channel::setChannelName(const std::string &name)
 {
 	_channelName = name;
@@ -192,7 +178,6 @@ void Channel::set_usersLimit(const bool &limit)
 	_usersLimit = limit;
 }
 
-//CLASS METHODS/////////////////////////////////////////////////////////////////
 void Channel::addUser(User *user)
 {
 	if (user == NULL)
@@ -200,21 +185,20 @@ void Channel::addUser(User *user)
 
 	int userFd = user->getFD();
 
-	if(_channelUsers.find(userFd) != _channelUsers.end()) //existe deja dans la liste des users
+	if(_channelUsers.find(userFd) != _channelUsers.end()) 
 		return ;
-
+	
 	_channelUsers[userFd] = user;
-
-	if(_channelUsers.size() == 1) //si un seul user il devient operateur
+	
+	if(_channelUsers.size() == 1) 
 		addOperator(userFd);
 }
 
 void Channel::removeUser(int userFd)
 {
-	if(_channelUsers.find(userFd) == _channelUsers.end()) //n'existe pas dans la liste des users
+	if(_channelUsers.find(userFd) == _channelUsers.end())
 		return ;
-
-
+	
 	_channelUsers.erase(userFd);
 
 	removeOperator(userFd);
@@ -226,7 +210,7 @@ void Channel::broadcast(Server &server, const std::string &message, int senderFd
 	if(message == "")
 		return ;
 
-	if (senderFd != -1 && _channelUsers.find(senderFd) == _channelUsers.end()) //autorise si c'est le serveur (-1) ou si l'emetteur fait partir du canal
+	if (senderFd != -1 && _channelUsers.find(senderFd) == _channelUsers.end()) 
     	return;
 
 	for(std::map<int, User*>::iterator it = _channelUsers.begin(); it != _channelUsers.end(); ++it)

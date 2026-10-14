@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 19:28:20 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/13 13:54:25 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:40:31 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,15 @@
 class User
 {
 public:
-//ORTODOX CANONICAL FORM////////////////////////////////////////////////////////
 	User();
 	User(int user_fd);
 	User(const User &other);
 	User &operator=(const User &other);
 	~User();
 
-//MEMBER FUNCTIONS//////////////////////////////////////////////////////////////
 	void		addTextToBuffer(const std::string &message);
-	std::string	extractCommand(); //cherche \r\n ou \n dans _userBuffer et renvoie la commande
+	std::string	extractCommand();
 
-//GETTERS///////////////////////////////////////////////////////////////////////
 	int 		getFD() const;
 	bool 		getRegistered() const;
 	bool 		getInServer() const;
@@ -47,9 +44,8 @@ public:
 	std::string getNickname() const;
 	std::string getRealName() const;
 
-//SETTERS///////////////////////////////////////////////////////////////////////
 	void 		setFD(int fd);
-	void 		setPingId(std::string pingId);   				///?
+	void 		setPingId(std::string pingId);   			
 	void 		setRegistered(bool status);
 	void 		setIsInServer(bool status);
 	void 		setHasPass(bool status);
@@ -75,7 +71,7 @@ private:
 	bool		_hasUser;
 	bool 		_hasNick;
 	int			_userFD;
-	std::string	_userPingId; //?
+	std::string	_userPingId; 
 	std::string	_userIP;
 	std::string _userBuffer;
 	std::string	_userName;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 14:12:57 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/10 16:34:34 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:35:54 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,17 @@
 #include <sys/socket.h>
 #include "User.hpp"
 
-class Server; //Forward declaration
+class Server;
 
 class Channel
 {
 public:
-//ORTODOX CANONICAL FORM////////////////////////////////////////////////////////
 	Channel();
 	Channel(const std::string &name);
 	Channel(const Channel &other);
 	Channel &operator=(const Channel &other);
 	~Channel();
 
-//CLASS METHODS/////////////////////////////////////////////////////////////////
 	void 	addOperator(int userFd);
 	void	addUser(User *user);
 	void 	addInvite(int fd);
@@ -41,7 +39,6 @@ public:
 	void	removeUser(int userFd);
 	void	broadcast(Server &server, const std::string &message, int senderFd);
 
-//GETTERS///////////////////////////////////////////////////////////////////////
 	const std::map<int, User*>& getChannelUsersMap() const;
 	std::string	getChannelName() const;
 	std::string	getChannelKey() const;
@@ -56,7 +53,6 @@ public:
 	bool		get_t() const;
 	bool		get_usersLimit() const;
 
-//SETTERS///////////////////////////////////////////////////////////////////////
 	void setChannelName(const std::string &name);
 	void setChannelKey(const std::string &key);
 	void setChannelTopic(const std::string &topic);
@@ -72,7 +68,6 @@ private:
 	std::string			_channelTopic;
 	std::map<int, User*> _channelUsers;
 	std::vector<int> 	_channelOperators;
-	///For MODE :
 	bool				_i;
 	bool				_t;
 	std::string			_k;

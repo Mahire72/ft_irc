@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_invite.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayoucha <mayoucha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaimai <mamaimai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/06 12:43:38 by mayoucha          #+#    #+#             */
-/*   Updated: 2026/10/13 19:47:58 by mayoucha         ###   ########.fr       */
+/*   Updated: 2026/10/14 12:44:09 by mamaimai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 void Server::handleInvite(User &sender, const std::string &arguments)
 {
-
     if (!(sender.getRegistered()))
     {
         std::string nick = sender.getNickname().empty() ? "*" : sender.getNickname();
@@ -61,38 +60,3 @@ void Server::handleInvite(User &sender, const std::string &arguments)
       sender.getUsername() + "@" + sender.getIP() + " INVITE " + args[0] + " :" + args[1]);
     }
 }
-
-
-
-/*
-            INVITE
-              │
-              ↓
-    Target & Channel given?
-          /          \
-        NO            YES
-        ↓              ↓
- ERR_NEEDMORE     Sender on the channel?
-                     /       \
-                   NO         YES
-                   ↓           ↓
-             ERR_NOTON     Does target user exist?
-             CHANNEL          /       \
-                            NO        YES
-                            ↓          ↓
-                       ERR_NOSUCH   Target already in channel?
-                          NICK        /       \
-                                    YES       NO
-                                     ↓         ↓
-                                ERR_USERON   Is channel +i (invite-only)?
-                                 CHANNEL       /       \
-                                             NO        YES
-                                             ↓          ↓
-                                       Send invite   Is sender operator?
-                                       to target       /       \
-                                                     NO        YES
-                                                     ↓          ↓
-                                                 ERR_CHANOP   Send invite
-                                                              & save to invite list
-
-*/
