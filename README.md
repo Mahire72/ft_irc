@@ -183,13 +183,13 @@ As part of the bonus features, a dedicated IRC bot is included in this project.
 The bot is simply a user (a client). We didn't hardcode it into the server's source code to preserve the logic, because an IRC server's only job is to manage network connections and route messages."
 
 ### How to use the bot
-1. Compile the bot using the bonus rule:
+Compile the bot using the bonus rule:
                 make bonus
-2. Start the server in your first terminal:
+Start the server in your first terminal:
                 ./ircserv 6667 secret
-3. Start the bot in a second terminal:
+Start the bot in a second terminal:
                 ./bot 127.0.0.1 6667 secret
-4. Connect as a normal user (via Irssi or nc) in a third terminal and send a private message to the bot:
+Connect as a normal user (via Irssi or nc) in a third terminal and send a private message to the bot:
                 PRIVMSG ft_bot :!ping
    *(The bot will instantly intercept the message and reply with a `pong!`)*
 
@@ -198,23 +198,23 @@ The bot is simply a user (a client). We didn't hardcode it into the server's sou
 
 `bash-5.3$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes nc chat.freenode.net 6667` : to test nc in local
 
-/connect localhost <port> <password> : to connect to the server
-/quit : to disconnect from the client server
-`/set nick <nickname>` : new nickname
-`/window close` : to close a private message or a channel window
-`/query <username> or <channel>` : to open a new private message with a user/channel
-`/names` : users present in a channel
-`/window list` : windows list
-`/window <window number>` : to navigate through windows
+                /connect localhost <port> <password> : to connect to the server
+                /quit : to disconnect from the client server
+                /set nick <nickname> : new nickname
+                /window close : to close a private message or a channel window
+                /query <username> or <channel> : to open a new private message with a user/channel
+                /names : users present in a channel
+                /window list : windows list
+                /window <window number> : to navigate through windows
 
 
 
 ### Nickname & User Management
-`/nick <new_nick>` - Instantly change your nickname.
-`/set nick <new_nick>` - Set the default nickname.
-`/set user_name <username>` - Set the username (takes effect upon reconnecting).
-`/set real_name <realname>` - Set the real name / description.
-`/save` - Save settings to the Irssi configuration file.
+                /nick <new_nick> - Instantly change your nickname.
+                /set nick <new_nick> - Set the default nickname.
+                /set user_name <username> - Set the username (takes effect upon reconnecting).
+                /set real_name <realname> - Set the real name / description.
+                /save - Save settings to the Irssi configuration file.
 
 
 ## Channel & User Modes
@@ -222,21 +222,21 @@ The bot is simply a user (a client). We didn't hardcode it into the server's sou
 The `/mode` command sets or unsets channel and user permissions (`+` enables, `-` disables).
 
 ### Common Channel Modes (ITKOL Mnemonic)
-`/mode #channel +i` - **Invite-only**: Users can only join if invited via `/invite`.
-`/mode #channel +t` - **Topic protection**: Only channel operators can change `/topic`.
-`/mode #channel +k <password>` - **Key**: Protects the channel with a password.
-`/mode #channel +o <nick>` - **Operator**: Grants channel operator privileges to a user.
-`/mode #channel +l <limit>` - **Limit**: Sets the maximum number of users allowed in the channel.
+                /mode #channel +i  **Invite-only**: Users can only join if invited via `/invite`.
+                /mode #channel +t  **Topic protection**: Only channel operators can change `/topic`.
+                /mode #channel +k <password> -**Key**: Protects the channel with a password.
+                /mode #channel +o <nick>  **Operator**: Grants channel operator privileges to a user.
+                /mode #channel +l <limit>  **Limit**: Sets the maximum number of users allowed in the channel.
 
 ### Irssi Command Cheat Sheet
-`/mode <#channel|nick> <flags>` - Modify channel or user modes.
-`/join <#channel> [key]` - Join a channel.
-`/invite <nick>` - Invite a user to the current channel.
-`/topic <new topic>` - Set channel topic.
-`/kick <nick> [reason]` - Kick a user from the channel.
-`/msg <target> <message>` - Send a direct message (PRIVMSG).
-`/nick <new_nick>` - Change nickname.
-`/quote PASS <password>` - Send connection password to the IRC server.
+                /mode <#channel|nick> <flags> - Modify channel or user modes.
+                /join <#channel> [key] - Join a channel.
+                /invite <nick> - Invite a user to the current channel.
+                /topic <new topic> - Set channel topic.
+                /kick <nick> [reason] - Kick a user from the channel.
+                /msg <target> <message> - Send a direct message (PRIVMSG).
+                /nick <new_nick> - Change nickname.
+                /quote PASS <password> - Send connection password to the IRC server.
 
 # Resources
 
