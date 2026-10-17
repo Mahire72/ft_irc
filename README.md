@@ -143,8 +143,8 @@ KICK #42 bob :Rule violation
 TOPIC #42 :Welcome everyone!
 ```
 
-- `+o` — Grants channel operator status to a user.
-- `+t` — Restricts who can change the channel topic, typically to channel operators.
+`+o` — Grants channel operator status to a user.
+`+t` — Restricts who can change the channel topic, typically to channel operators.
 
 
 
@@ -162,9 +162,9 @@ TOPIC #42 :Welcome everyone!
 
 ### 6. Notes
 
-- Commands and their parameters must follow the IRC protocol syntax.
-- Some commands require channel membership or operator privileges.
-- Available commands and modes depend on the features implemented by the server.
+Commands and their parameters must follow the IRC protocol syntax.
+Some commands require channel membership or operator privileges.
+Available commands and modes depend on the features implemented by the server.
 
 ### Stopping the server
 
@@ -189,9 +189,9 @@ The bot is simply a user (a client). We didn't hardcode it into the server's sou
 Compile the bot using the bonus rule:
                 make bonus
 Start the server in your first terminal:
-                ./ircserv 6667 secret
+                ./ircserv <port> <password>
 Start the bot in a second terminal:
-                ./bot 127.0.0.1 6667 secret
+                ./bot <localhost> <port> <password>
 Connect as a normal user (via Irssi or nc) in a third terminal and send a private message to the bot:
                 PRIVMSG ft_bot :!ping
    *(The bot will instantly intercept the message and reply with a `pong!`)*
@@ -199,7 +199,8 @@ Connect as a normal user (via Irssi or nc) in a third terminal and send a privat
 
 ### Helpful commands for IRSSI
 
-`bash-5.3$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes nc chat.freenode.net 6667` : to test nc in local
+`bash-5.3$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./ircserv <port> <password>  to test leak 
+open second terminal and tape `irssi`, then enter irssi interface
 
                 /connect localhost <port> <password> : to connect to the server
                 /quit : to disconnect from the client server
