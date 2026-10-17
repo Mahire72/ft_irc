@@ -198,8 +198,8 @@ The bot is simply a user (a client). We didn't hardcode it into the server's sou
 
 `bash-5.3$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes nc chat.freenode.net 6667` : to test nc in local
 
-                /connect localhost <port> <password> : to connect to the server
-                /quit : to disconnect from the client server
+/connect localhost <port> <password> : to connect to the server
+/quit : to disconnect from the client server
 `/set nick <nickname>` : new nickname
 `/window close` : to close a private message or a channel window
 `/query <username> or <channel>` : to open a new private message with a user/channel
