@@ -200,7 +200,7 @@ Connect as a normal user (via Irssi or nc) in a third terminal and send a privat
 ### Helpful commands for IRSSI
 
 `bash-5.3$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./ircserv <port> <password>  to test leak 
-open second terminal and tape `irssi` then enter irssi interface
+open second terminal and tape irssi then enter irssi interface
 
                 /connect localhost <port> <password> : to connect to the server
                 /quit : to disconnect from the client server
