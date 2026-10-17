@@ -143,8 +143,8 @@ KICK #42 bob :Rule violation
 TOPIC #42 :Welcome everyone!
 ```
 
-`+o` — Grants channel operator status to a user.
-`+t` — Restricts who can change the channel topic, typically to channel operators.
+- `+o` — Grants channel operator status to a user.
+- `+t` — Restricts who can change the channel topic, typically to channel operators.
 
 
 
@@ -162,9 +162,9 @@ TOPIC #42 :Welcome everyone!
 
 ### 6. Notes
 
-Commands and their parameters must follow the IRC protocol syntax.
-Some commands require channel membership or operator privileges.
-Available commands and modes depend on the features implemented by the server.
+- Commands and their parameters must follow the IRC protocol syntax.
+- Some commands require channel membership or operator privileges.
+- Available commands and modes depend on the features implemented by the server.
 
 ### Stopping the server
 
@@ -200,7 +200,7 @@ Connect as a normal user (via Irssi or nc) in a third terminal and send a privat
 ### Helpful commands for IRSSI
 
 `bash-5.3$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./ircserv <port> <password>  to test leak 
-open second terminal and tape `irssi`, then enter irssi interface
+open second terminal and tape `irssi` then enter irssi interface
 
                 /connect localhost <port> <password> : to connect to the server
                 /quit : to disconnect from the client server
