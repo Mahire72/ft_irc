@@ -60,7 +60,7 @@ Compile the project using the Makefile:
                 make
 
 Additional Makefile commands:
-
+                make         # compile the project
                 make clean   # Remove object files
                 make fclean  # Remove object files and the executable
                 make re      # Recompile the project from scratch
@@ -81,13 +81,15 @@ Make sure the selected port is available and not already in use.
 
 You can connect using Netcat:open second Terminal.
 
-                nc 127.0.0.1 6667 (linux)
-                nc -c 127.0.0.1 6667 (for mac)
+                nc localhost port (linux)
+                nc -c localhost port (for mac)
+ex:
+                nc 127.0.0.1 6667
 Once connected, send the IRC registration commands:
 
                 PASS secret
-                NICK alice
-                USER alice 0 * :Alice
+                NICK nickname
+                USER username 0 * :realname
 
 After successful registration, the server should send the IRC welcome replies.
 
@@ -196,23 +198,23 @@ The bot is simply a user (a client). We didn't hardcode it into the server's sou
 
 `bash-5.3$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes nc chat.freenode.net 6667` : to test nc in local
 
-                /connect localhost <port> <password> : to connect to the server
-                /quit : to disconnect from the server
-                /set nick <nickname> : new nickname
-                /window close : to close a private message or a channel window
-                /query <username> or <channel> : to open a new private message with a user/channel
-                /names : users present in a channel
-                /window list : windows list
-                /window <window number> : to navigate through windows
+`/connect localhost <port> <password>` : to connect to the server
+`/quit` : to disconnect from the client server
+`/set nick <nickname>` : new nickname
+`/window close` : to close a private message or a channel window
+`/query <username> or <channel>` : to open a new private message with a user/channel
+`/names` : users present in a channel
+`/window list` : windows list
+`/window <window number>` : to navigate through windows
 
 
 
 ### Nickname & User Management
- `/nick <new_nick>` - Instantly change your nickname.
- `/set nick <new_nick>` - Set the default nickname.
- `/set user_name <username>` - Set the username (takes effect upon reconnecting).
- `/set real_name <realname>` - Set the real name / description.
- `/save` - Save settings to the Irssi configuration file.
+`/nick <new_nick>` - Instantly change your nickname.
+`/set nick <new_nick>` - Set the default nickname.
+`/set user_name <username>` - Set the username (takes effect upon reconnecting).
+`/set real_name <realname>` - Set the real name / description.
+`/save` - Save settings to the Irssi configuration file.
 
 
 ## Channel & User Modes
@@ -220,21 +222,21 @@ The bot is simply a user (a client). We didn't hardcode it into the server's sou
 The `/mode` command sets or unsets channel and user permissions (`+` enables, `-` disables).
 
 ### Common Channel Modes (ITKOL Mnemonic)
- `/mode #channel +i` - **Invite-only**: Users can only join if invited via `/invite`.
- `/mode #channel +t` - **Topic protection**: Only channel operators can change `/topic`.
- `/mode #channel +k <password>` - **Key**: Protects the channel with a password.
- `/mode #channel +o <nick>` - **Operator**: Grants channel operator privileges to a user.
- `/mode #channel +l <limit>` - **Limit**: Sets the maximum number of users allowed in the channel.
+`/mode #channel +i` - **Invite-only**: Users can only join if invited via `/invite`.
+`/mode #channel +t` - **Topic protection**: Only channel operators can change `/topic`.
+`/mode #channel +k <password>` - **Key**: Protects the channel with a password.
+`/mode #channel +o <nick>` - **Operator**: Grants channel operator privileges to a user.
+`/mode #channel +l <limit>` - **Limit**: Sets the maximum number of users allowed in the channel.
 
 ### Irssi Command Cheat Sheet
- `/mode <#channel|nick> <flags>` - Modify channel or user modes.
- `/join <#channel> [key]` - Join a channel.
- `/invite <nick>` - Invite a user to the current channel.
- `/topic <new topic>` - Set channel topic.
- `/kick <nick> [reason]` - Kick a user from the channel.
- `/msg <target> <message>` - Send a direct message (PRIVMSG).
- `/nick <new_nick>` - Change nickname.
- `/quote PASS <password>` - Send connection password to the IRC server.
+`/mode <#channel|nick> <flags>` - Modify channel or user modes.
+`/join <#channel> [key]` - Join a channel.
+`/invite <nick>` - Invite a user to the current channel.
+`/topic <new topic>` - Set channel topic.
+`/kick <nick> [reason]` - Kick a user from the channel.
+`/msg <target> <message>` - Send a direct message (PRIVMSG).
+`/nick <new_nick>` - Change nickname.
+`/quote PASS <password>` - Send connection password to the IRC server.
 
 # Resources
 
