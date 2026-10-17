@@ -256,3 +256,5 @@ https://youtu.be/6UbKenFipjo?si=MUrXCzxaucvA2Ao9
 https://fr.wikipedia.org/wiki/IRC
 
 https://www.ibm.com/docs/fr/i/7.6.0?topic=designs-using-poll-instead-select
+
+Beej's Guide to Network Programming (https://beej.us/guide/bgnet/)
