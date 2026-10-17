@@ -172,15 +172,15 @@ Press `Ctrl+C` in the server terminal to stop the server. The server should exit
 
 ## Bonus: File Transfer and IRC Bot
 
-1. File Transfer
+### File Transfer
 
-The server supports file transfers between users using the Direct Client-to-Client (DCC) protocol.
-You can test this feature directly with IRC-compatible clients or Netcat (nc) by `sending` a file with 
-                /dcc send <nickname> <filename>
-and `accepting` incoming files with 
-                /dcc get <nickname>
+    The server supports file transfers between users using the Direct Client-to-Client (DCC) protocol.
+    You can test this feature directly with IRC-compatible clients or Netcat (nc) by `sending` a file with 
+                    /dcc send <nickname> <filename>
+    and `accepting` incoming files with 
+                   /dcc get <nickname>
 
-2. IRC Bot
+### IRC Bot
 
 As part of the bonus features, a dedicated IRC bot is included in this project.
 The bot is simply a user (a client). We didn't hardcode it into the server's source code to preserve the logic, because an IRC server's only job is to manage network connections and route messages."
