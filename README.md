@@ -174,11 +174,11 @@ Press `Ctrl+C` in the server terminal to stop the server. The server should exit
 
 ### File Transfer
 
-    The server supports file transfers between users using the Direct Client-to-Client (DCC) protocol.
-    You can test this feature directly with IRC-compatible clients or Netcat (nc) by `sending` a file with 
-                    /dcc send <nickname> <filename>
-    and `accepting` incoming files with 
-                   /dcc get <nickname>
+The server supports file transfers between users using the Direct Client-to-Client (DCC) protocol.
+You can test this feature directly with IRC-compatible clients or Netcat (nc) by `sending` a file with 
+            /dcc send <nickname> <filename>
+and `accepting` incoming files with 
+               /dcc get <nickname>
 
 ### IRC Bot
 
