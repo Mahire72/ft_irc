@@ -37,7 +37,9 @@ The server uses **non-blocking I/O and a single `poll()` event loop** to monitor
 
 ## Learning Objectives
 
-    This project provides hands-on experience with TCP/IP networking, socket programming, non-blocking I/O, event-driven architecture, protocol implementation, and multi-client connection management. It also develops a deeper understanding of how network applications communicate with the operating system and manage data over TCP connections.
+    This project provides hands-on experience with TCP/IP networking, socket programming, non-blocking I/O, event-driven architecture, 
+    protocol implementation, and multi-client connection management. It also develops a deeper understanding of how network applications
+    communicate with the operating system and manage data over TCP connections.
 
 # Instructions
 
